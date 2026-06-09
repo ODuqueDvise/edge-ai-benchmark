@@ -1,0 +1,17 @@
+# Configuración de una corrida de benchmark. Un archivo por condición experimental.
+run:
+  device_tag: jetson-gpu        # etiqueta libre: jetson-gpu | jetson-cpu | rpi-cpu
+  power_mode: MAXN              # solo informativo; se registra en los metadatos
+backend:
+  kind: ort                     # ort | tflite
+  provider: tensorrt            # ort: tensorrt | cuda | cpu   |   tflite: cpu
+  intra_op_threads: 0           # 0 = por defecto del runtime
+model:
+  path: models/cnn_baseline.onnx
+  input_name: input             # nombre del tensor de entrada (None = autodetectar primero)
+  input_shape: [1, 3, 224, 224] # forma para latencia con entrada sintética
+  precision: fp16
+loop:
+  warmup: 50                    # K: inferencias de calentamiento descartadas
+  iters: 1000                   # M: inferencias medidas
+measure_accuracy: false         # true requiere dataset etiquetado (ver datasets.py)

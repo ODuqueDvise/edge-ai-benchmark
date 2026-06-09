@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Resultados crudos: versionar selectivamente. Mantener la estructura, no los binarios pesados.
+results/*.json
+results/*.csv
+!results/.gitkeep
+# Modelos y datasets: no versionar pesos pesados aquí (usar enlaces / DVC / releases).
+models/
+datasets/

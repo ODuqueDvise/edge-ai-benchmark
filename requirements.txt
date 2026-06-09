@@ -1,0 +1,11 @@
+# Núcleo del arnés
+numpy>=1.24
+PyYAML>=6.0
+
+# Runtimes de inferencia (instalar el que corresponda a cada equipo/condición):
+#   Jetson Orin (GPU)  -> onnxruntime-gpu con proveedor TensorRT/CUDA (build para JetPack/L4T)
+#   Jetson Orin (CPU)  -> onnxruntime (CPU)  o  tflite-runtime
+#   Raspberry Pi 5     -> onnxruntime (CPU)  o  tflite-runtime
+# onnxruntime
+# onnxruntime-gpu
+# tflite-runtime
