@@ -65,3 +65,41 @@ ademas del total. Reporta ambas.
 Por cada condicion: energia total (J) y por inferencia (mJ) sobre la ventana,
 potencia media (W), potencia de reposo (W), y temperatura inicio/fin. El medidor
 externo es la fuente primaria; los sensores internos de la Jetson, solo referencia.
+
+## Variante CP2112 (registrar desde Mac o Windows, sin Pi auxiliar)
+
+Si el host de registro es un portatil (Mac o Windows), usa un puente USB-I2C
+**CP2112** en vez del I2C nativo de una Pi. El MISMO script corre en ambos sistemas:
+`scripts/ina226_cp2112_logger.py`.
+
+**Cableado:**
+- El CP2112 entrega el I2C al INA226: SDA, SCL, VCC (3.3 V) y GND del CP2112 -> INA226.
+- El CP2112 se conecta por USB al portatil.
+- El shunt sigue en LADO ALTO sobre la entrada DC del equipo bajo prueba (igual que antes).
+- GND comun entre INA226, equipo bajo prueba y CP2112.
+
+**Instalacion (en el portatil de registro):**
+
+```bash
+pip install hidapi
+# macOS: si pide permisos de HID, autorizar. Windows: funciona sin driver.
+```
+
+**Uso (identico en Mac y Windows):**
+
+```bash
+# 1. Verificar el enlace (lee el ID del INA226; NO registra)
+python scripts/ina226_cp2112_logger.py --selftest
+#    Debe mostrar MFR=0x5449 y DIE=0x2260. Si no coincide: revisa cableado,
+#    direccion I2C y el valor del shunt ANTES de registrar.
+
+# 2. Registrar (ajusta --rshunt al valor real de tu modulo)
+python scripts/ina226_cp2112_logger.py --rshunt 0.002 --addr 0x40 --interval 0.05 --out power_log.csv
+```
+
+Cada integrante mide su propio equipo desde su portatil (Orlando -> Jetson,
+Luis -> RPi) con su propio CP2112+INA226. El calculo de energia
+(`energy_from_window.py`) no cambia: usa el mismo CSV.
+
+> Nota: el logger CP2112 esta basado en una implementacion de referencia + AN496,
+> pero debe validarse con el autotest en cada equipo antes de confiar en los datos.
