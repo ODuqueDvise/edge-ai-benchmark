@@ -9,3 +9,4 @@ PyYAML>=6.0
 # onnxruntime
 # onnxruntime-gpu
 # tflite-runtime
+Pillow>=9.0          # preprocesamiento de imagenes (precision)

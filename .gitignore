@@ -2,10 +2,14 @@ __pycache__/
 *.pyc
 .venv/
 venv/
-# Resultados crudos: versionar selectivamente. Mantener la estructura, no los binarios pesados.
-results/*.json
-results/*.csv
-!results/.gitkeep
-# Modelos y datasets: no versionar pesos pesados aquí (usar enlaces / DVC / releases).
-models/
+
+# Datasets: cada equipo descarga el suyo (se verifica por conteo/variante), no se versiona.
 datasets/
+
+# Modelos: no versionar pesos arbitrarios. El modelo canonico se fuerza con:
+#   git add -f models/cnn_baseline.onnx
+models/*
+!models/.gitkeep
+
+# Los RESULTADOS crudos SI se versionan: son la traza auditable del proyecto (OE3).
+# (results/*.json y results/*.csv quedan trazados a proposito.)
