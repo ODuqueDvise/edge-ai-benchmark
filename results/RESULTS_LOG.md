@@ -1,5 +1,7 @@
 # Registro de resultados
 
+**Constantes congeladas:** warmup 100, iters 2000, R 5, modo MAXN (Jetson) / governor performance (RPi), entrada 1,3,224,224. Precision: set completo 10000.
+
 Una fila por corrida. Los JSON crudos en `results/` son la fuente; esta tabla es el
 resumen legible. Modelo base (V0) SHA-256: `609015cb...0dd`. Dataset: ImageNet-V2
 matched-frequency (10000 img). Latencia: 1000 inf. Precisión: indicar nº de imágenes.

@@ -26,6 +26,19 @@ Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
 - Resultados crudos (`results/*.json`) y el `RESULTS_LOG.md` se versionan en el repo.
 - El medidor de energía debe ser el mismo método/instrumento en ambos equipos.
 
+## Constantes congeladas del protocolo (junio 2026)
+
+Decididas con corrida piloto en la Jetson (CV del p50 entre corridas = 0.56%, equipo
+estable). **No se cambian sin consenso**; si se cambian, las mediciones previas dejan
+de ser comparables.
+
+- Calentamiento (K): **100** inferencias descartadas.
+- Inferencias por serie (M): **2000**.
+- Ejecuciones independientes (R): **5** (idealmente con reinicio entre ellas).
+- Modo de potencia: Jetson **MAXN** (`nvpmodel -m 0` + `jetson_clocks`); RPi gobernador **performance**.
+- Forma de entrada: **1,3,224,224**.
+- Precision: set **completo (10000)**, sin `--limit`, para cifras oficiales.
+
 ## Flujo de trabajo con git (paso a paso)
 
 ### Traer los últimos cambios (antes de trabajar)
