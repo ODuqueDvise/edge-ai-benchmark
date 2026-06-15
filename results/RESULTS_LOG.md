@@ -1,32 +1,34 @@
-# Registro de resultados
+# Registro de resultados (GENERADO)
 
-**Constantes congeladas:** warmup 100, iters 2000, R 5, modo MAXN (Jetson) / governor performance (RPi), entrada 1,3,224,224. Precision: set completo 10000.
+> Generado por `scripts/build_results_log.py` desde `results/*.json`. **No editar a mano.**
+> Re-generar tras nuevas corridas (idealmente despues de `git pull`, para incluir ambos equipos).
+> Constantes congeladas: warmup 100, iters 2000, R 5, MAXN (Jetson) / governor performance (RPi), entrada 1,3,224,224.
 
-Una fila por corrida. Los JSON crudos en `results/` son la fuente; esta tabla es el
-resumen legible. Modelo base (V0) SHA-256: `609015cb...0dd`. Dataset: ImageNet-V2
-matched-frequency (10000 img). Latencia: 1000 inf. Precisión: indicar nº de imágenes.
+## Latencia
 
-## Latencia (línea base V0)
+| Condicion | Modelo | R | p50 media±desv (ms) | p95 media (ms) | p99 media (ms) | thr media (ips) |
+|---|---|---|---|---|---|---|
+| jetson-cpu | 2bf58c6f | 1 | 0.601 ± 0.000 | 0.724 | 0.948 | 1604.5 |
+| jetson-cpu | V0 base (MobileNetV2) | 1 | 12.263 ± 0.000 | 14.250 | 15.523 | 79.6 |
+| jetson-cpu | V0 base (MobileNetV2) | 5 | 12.280 ± 0.035 | 14.270 | 16.285 | 79.3 |
+| jetson-gpu | 2bf58c6f | 1 | 0.470 ± 0.000 | 0.499 | 0.520 | 2113.4 |
+| jetson-gpu | V0 base (MobileNetV2) | 1 | 2.487 ± 0.000 | 2.532 | 2.578 | 401.1 |
+| jetson-gpu | V0 base (MobileNetV2) | 10 | 2.642 ± 0.184 | 3.113 | 3.611 | 372.8 |
 
-| Fecha (UTC) | Condición  | p50 (ms) | p95 (ms) | thr (ips) | Notas |
-|-------------|------------|----------|----------|-----------|-------|
-| 2026-06-15  | jetson-gpu | 2.49     | 2.53     | 401       | validación (no oficial) |
-| 2026-06-15  | jetson-cpu | 12.26    | 14.25    | 80        | validación (no oficial) |
-|             | rpi-cpu    |          |          |           | pendiente (Luis) |
+## Precision (ImageNet-V2)
 
-## Precisión (línea base V0, ImageNet-V2)
+| Condicion | Modelo | n img | top-1 | top-5 |
+|---|---|---|---|---|
+| jetson-cpu | V0 base (MobileNetV2) | 2000 | 0.6070 | 0.8175 |
+| jetson-cpu | V0 base (MobileNetV2) | 2000 | 0.6740 | 0.8640 |
+| jetson-cpu | V0 base (MobileNetV2) | 10000 | 0.5961 | 0.8188 |
+| jetson-gpu | V0 base (MobileNetV2) | 10000 | 0.5959 | 0.8189 |
 
-| Fecha (UTC) | Condición  | top-1  | top-5  | n img | Notas |
-|-------------|------------|--------|--------|-------|-------|
-| 2026-06-15  | jetson-cpu | 0.6070 | 0.8175 | 2000  | subconjunto representativo (verificación); falta set completo |
-|             | jetson-gpu |        |        |       | pendiente (set completo) |
-|             | jetson-cpu |        |        | 10000 | pendiente (set completo, oficial) |
-|             | rpi-cpu    |        |        |       | pendiente (Luis) |
+## Energia (potencia media, referencia interna; medidor externo pendiente)
 
-## Energía (línea base V0)
-
-| Fecha (UTC) | Condición | Energía/inf (mJ) | Pot. media (W) | Pot. reposo (W) | Notas |
-|-------------|-----------|------------------|----------------|-----------------|-------|
-|             | jetson-gpu |                 |                |                 | pendiente (INA226+CP2112) |
-|             | jetson-cpu |                 |                |                 | pendiente |
-|             | rpi-cpu    |                 |                |                 | pendiente (Luis) |
+| Condicion | Modelo | pot. media (W, ref. interna) |
+|---|---|---|
+| jetson-cpu | 2bf58c6f | 7.72 |
+| jetson-cpu | V0 base (MobileNetV2) | 9.03 |
+| jetson-gpu | 2bf58c6f | 7.01 |
+| jetson-gpu | V0 base (MobileNetV2) | 8.98 |
