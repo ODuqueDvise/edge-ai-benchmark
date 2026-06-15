@@ -78,7 +78,10 @@ bench/
   datasets.py           contrato del conjunto de prueba (precisión)
   backends/             ONNX Runtime (CPU/CUDA/TensorRT) y TFLite
   run_benchmark.py      CLI -> results/*.json
-scripts/collect_env.sh  volcado de versiones del equipo
+scripts/
+  collect_env.sh        volcado de versiones del equipo
+  export_model.py       exporta el modelo base a ONNX + checksum SHA-256
+docs/QUICKSTART_JETSON.md  pasos para la Jetson
 config/example.yaml     plantilla de configuración por condición
 ```
 
