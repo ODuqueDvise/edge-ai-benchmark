@@ -65,6 +65,19 @@ git push                              # 5. sube
 > copia al clon antes de confirmar:
 > `rsync -a --exclude='.git' --exclude='.venv' --exclude='__pycache__' --exclude='datasets' "<carpeta_proyecto>/" ./`
 
+### Subir resultados de mediciones (atajo)
+
+Tras medir en la Jetson o la RPi, en vez del ciclo manual usa el script portable:
+
+```bash
+bash scripts/sync_results.sh
+# o con un mensaje propio:
+bash scripts/sync_results.sh "Baseline V0 jetson-gpu R=5"
+```
+
+Hace `pull --rebase` + `add results/` + `commit` + `push`, con aviso si hay conflicto
+(p.ej. RESULTS_LOG.md editado en dos sitios) o si no hay resultados nuevos.
+
 ### Qué se versiona y qué no
 
 - **Sí:** código, guías, `results/*.json`, `RESULTS_LOG.md`, el modelo canónico (forzado).
