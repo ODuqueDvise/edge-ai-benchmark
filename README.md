@@ -120,6 +120,21 @@ python3 scripts/measure_remote.py --host … --device-tag jetson-cpu --provider 
 Sin `--shunt` solo mide latencia (no energía). Con `--accuracy` añade precisión (lenta, sin
 logger). Los comandos manuales de arriba quedan como respaldo.
 
+## Cuantización INT8 (OE1)
+
+Primera técnica del OE1 (orden D10). `scripts/quantize_int8.py` produce una variante INT8
+(PTQ estática, formato QDQ, S8S8, pesos per-canal) de un modelo, reusando el preprocesamiento
+del arnés. Diseño y decisiones en `docs/DISENO_INT8_OE1.md` (D13).
+
+```bash
+# Calibrar con imágenes APARTE del ImageNet-V2 de evaluación (sin fuga); ver el diseño.
+python scripts/quantize_int8.py --model models/cnn_baseline.onnx \
+    --calib-dir datasets/calib_imagenet1k --out models/cnn_baseline_int8.onnx --limit 300
+```
+
+Luego se mide como cualquier variante (archivo distinto → el arnés lo distingue solo).
+**Gate en GPU:** confirmar que TensorRT corre el QDQ en INT8 real antes de medir en serio.
+
 ## Estructura del proyecto
 
 ```
@@ -140,6 +155,7 @@ scripts/
   energy_from_window.py   integra energía sobre la ventana y la guarda en results/energy_*.json
   analyze_runs.py         resume corridas y variabilidad entre ellas (decidir R)
   build_results_log.py    genera results/RESULTS_LOG.md desde los JSON
+  quantize_int8.py        cuantiza un ONNX FP32 a INT8 (PTQ estática QDQ) — OE1
   sync_results.sh         pull + regenerar log + add + commit + push (Jetson/RPi)
   fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al Mac por SSH (respaldo)
   measure_remote.py       orquestador: una condición de punta a punta por SSH (Mac)

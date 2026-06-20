@@ -12,6 +12,9 @@ datasets/
 models/*
 !models/.gitkeep
 !models/cnn_baseline.onnx
+# variantes INT8 (<100MB) y su lista de calibración (evidencia): se versionan
+!models/*_int8.onnx
+!models/*.calib.txt
 
 # Los RESULTADOS crudos SI se versionan: son la traza auditable del proyecto (OE3).
 # (results/*.json y results/*.csv quedan trazados a proposito.)

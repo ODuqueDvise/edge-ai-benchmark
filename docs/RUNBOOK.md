@@ -22,7 +22,8 @@ Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
    validar con `--selftest` antes de confiar).
 6. **Fase 2 / OE1** — aplicar las técnicas en orden **INT8 → poda estructurada → destilación
    (al final, por su costo)**, sobre los dos modelos, y llenar la matriz. En la Orin la poda
-   solo baja latencia si es estructurada (ver `docs/DECISIONS.md` D10).
+   solo baja latencia si es estructurada (ver `docs/DECISIONS.md` D10). El INT8 se hace con
+   `scripts/quantize_int8.py` (diseño en `docs/DISENO_INT8_OE1.md`, D13).
 
 ## Reglas de coherencia (transversales)
 

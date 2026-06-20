@@ -53,3 +53,9 @@ protocolo. Ver el procedimiento en `docs/REGISTRO.md`.
 
 ### D12 — Confirmación de dataset (director, jun 2026)
 - Decisión: ratifica D5 (ImageNet-V2). Reportar siempre como "V2" y usar el mismo conjunto en ambos modelos.
+
+### D13 — Cuantización INT8: PTQ estática QDQ, un artefacto por modelo (jun 2026)
+- Decisión: PTQ estática en formato QDQ (S8S8, pesos per-canal, calibración Entropy/Percentile) sobre MobileNetV2 y ResNet-50; un `*_int8.onnx` por modelo (archivo y checksum distintos → el arnés los distingue sin cambios). CPU EP corre el QDQ directo; en GPU se intenta el mismo QDQ en TensorRT (cuantización explícita).
+- Gate de validación: confirmar que TensorRT corre el QDQ en INT8 real con speedup; si no, plan B = calibración nativa de TensorRT sobre el FP32 + etiqueta `--variant` en el arnés (para no colisionar el checksum con el V0).
+- Calibración sin fuga: conjunto separado del de evaluación; la evaluación oficial sigue siendo el V2 completo (10k). MobileNetV2: per-canal por defecto, QAT solo como último recurso (D9).
+- Consecuencia: los `*_int8.onnx` (<100MB) se versionan en git; primera técnica del OE1 (orden D10). Detalle en `docs/DISENO_INT8_OE1.md`.
