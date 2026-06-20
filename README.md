@@ -30,12 +30,31 @@ Una sola base de código cubre las tres condiciones, eligiendo backend y proveed
 > **`jetson-cpu` no es opcional.** Aísla el aporte de la GPU sobre el mismo SoC y RAM.
 > `jetson-gpu` vs `rpi-cpu` mezcla acelerador con microarquitectura de CPU; es comparación de dispositivo.
 
-## Modelo canónico
+## Modelos canónicos
 
-MobileNetV2 preentrenado, ONNX autocontenido en `models/cnn_baseline.onnx`.
-SHA-256: `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd`.
-Se comparte por archivo y se verifica por checksum; **no se reexporta por equipo**.
-Para regenerarlo: `python scripts/export_model.py --model-name mobilenet_v2 --output models/cnn_baseline.onnx`.
+Dos modelos comprometidos (decisión del director, jun 2026; ver `docs/DECISIONS.md` D9):
+
+| Modelo | Archivo | Rol en el contraste | SHA-256 |
+|---|---|---|---|
+| MobileNetV2 | `models/cnn_baseline.onnx` | modelo ya eficiente (poco margen) | `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd` |
+| ResNet-50 | `models/resnet50_baseline.onnx` | modelo denso con margen | se publica al exportar |
+
+Ambos: ONNX autocontenido (opset 18), entrada `1,3,224,224`, preprocesamiento ImageNet.
+Se comparten por archivo y se verifican por checksum; **no se reexportan por equipo**.
+Para regenerarlos (en el equipo de exportación):
+
+```bash
+python scripts/export_model.py --model-name mobilenet_v2 --output models/cnn_baseline.onnx --opset 18
+python scripts/export_model.py --model-name resnet50     --output models/resnet50_baseline.onnx --opset 18
+```
+
+> **Distribución.** MobileNetV2 (~14 MB) está versionado en el repo. ResNet-50 (~100 MB)
+> **no** se versiona (supera el límite de 100 MB por archivo de GitHub): se comparte por
+> archivo —`scp` en la LAN, o un *release* de GitHub / unidad compartida— y se verifica por checksum.
+
+Los resultados quedan etiquetados por modelo: el nombre del JSON lo incluye
+(`<condición>_<modelo>_<backend>_<proveedor>_<fecha>.json`) y `RESULTS_LOG.md`
+separa las filas por modelo automáticamente.
 
 ## Constantes congeladas del protocolo
 
@@ -105,7 +124,8 @@ docs/
   DECISIONS.md            registro de decisiones (ADR breve)
   BITACORA.md             bitácora cronológica de estado
 config/example.yaml       plantilla de configuración por condición
-models/cnn_baseline.onnx  modelo canónico (MobileNetV2)
+models/cnn_baseline.onnx      baseline canónico 1 (MobileNetV2)
+models/resnet50_baseline.onnx baseline 2 (ResNet-50) — LOCAL, no versionado (>100MB; scp+checksum)
 results/                  resultados crudos (*.json, versionados); RESULTS_LOG.md se genera y NO se versiona
 ```
 
@@ -119,10 +139,12 @@ canónico. Qué **no**: `datasets/` (cada equipo descarga el suyo), `.venv/`,
 
 ## Estado
 
-- Núcleo del arnés probado; validado de punta a punta en la **Jetson** (`jetson-gpu`, `jetson-cpu`)
-  con el modelo canónico. Hallazgo de línea base: la GPU es ~5x más rápida que la CPU sin pérdida de precisión.
-- Pendiente: condición **`rpi-cpu`** (Luis), medición de **energía** con medidor externo,
-  y la **Fase 2 / OE1** (aplicar las técnicas de optimización).
+- Línea base V0 completa en la **Jetson** (`jetson-gpu`, `jetson-cpu`) con MobileNetV2:
+  la GPU es ~5x más rápida que la CPU a igual precisión y ~4.3x menos energía por inferencia.
+- Alcance confirmado por el director (jun 2026): **dos modelos** (MobileNetV2 + ResNet-50) y
+  técnicas en orden **INT8 → poda estructurada → destilación**. Ver `docs/DECISIONS.md` D9–D12.
+- Pendiente: exportar **ResNet-50** y su línea base; condición **`rpi-cpu`** (Luis);
+  **energía** en jetson y rpi; **Fase 2 / OE1** (optimización).
 
 ## Mantenimiento de la documentación
 

@@ -92,7 +92,8 @@ def main():
 
     os.makedirs(a.out_dir, exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
-    fname = "%s_%s_%s_%s.json" % (a.device_tag, a.backend, a.provider, stamp)
+    model_tag = os.path.splitext(os.path.basename(a.model))[0]
+    fname = "%s_%s_%s_%s_%s.json" % (a.device_tag, model_tag, a.backend, a.provider, stamp)
     out = os.path.join(a.out_dir, fname)
     with open(out, "w") as f:
         json.dump(result, f, indent=2)

@@ -10,11 +10,14 @@ from collections import defaultdict
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 RESULTS = os.path.join(ROOT, "results")
 OUT = os.path.join(RESULTS, "RESULTS_LOG.md")
-MODEL_LABELS = {"609015cb": "V0 base (MobileNetV2)"}
+# Etiquetas explicitas por prefijo sha (modelos canonicos medidos sin model.name).
+MODEL_LABELS = {"609015cb": "MobileNetV2 (base)"}
+# sha8 -> nombre de archivo del modelo (metadata.model.name); poblado al cargar.
+NAMES = {}
 
 
 def lab(s):
-    return MODEL_LABELS.get(s, s)
+    return MODEL_LABELS.get(s) or NAMES.get(s) or s
 
 
 def mean(xs):
@@ -37,6 +40,9 @@ def load():
         md = d.get("metadata", {})
         dev = md.get("device_tag", "?")
         sha = (md.get("model", {}).get("sha256") or "????????")[:8]
+        nm = md.get("model", {}).get("name")
+        if nm and sha not in NAMES:
+            NAMES[sha] = nm
         if "latency_summary" in d:
             lat[(dev, sha, md.get("iters", d["latency_summary"].get("n")))].append(d["latency_summary"])
         if "accuracy" in d:

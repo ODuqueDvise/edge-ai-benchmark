@@ -8,15 +8,21 @@ Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
 1. **Configurar el equipo**
    - Jetson Orin Nano → `docs/QUICKSTART_JETSON.md`
    - Raspberry Pi 5 → `docs/QUICKSTART_RPI.md`
-2. **Modelo canónico** — ya viene en el repo (`models/cnn_baseline.onnx`).
-   Verifica el checksum: `sha256sum models/cnn_baseline.onnx`
-   → `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd`
+2. **Modelos canónicos** — dos modelos comprometidos (ver `docs/DECISIONS.md` D9):
+   - MobileNetV2 → `models/cnn_baseline.onnx` (sha `609015cb…56eb0dd`), ya en el repo.
+   - ResNet-50 → `models/resnet50_baseline.onnx`; se exporta una vez, se comparte por archivo
+     + checksum y **NO va al repo** (~100MB supera el límite de 100MB de GitHub):
+     `python scripts/export_model.py --model-name resnet50 --output models/resnet50_baseline.onnx --opset 18`
+   Verifica antes de medir: `sha256sum models/<archivo>.onnx`. El nombre del JSON de cada
+   corrida incluye el modelo, así que ambos coexisten sin pisarse en `results/`.
 3. **Línea base de LATENCIA** (3 condiciones) — comandos en `README.md`.
 4. **Línea base de PRECISIÓN** — `docs/QUICKSTART_ACCURACY.md` (descarga ImageNet-V2,
    verifica preprocesamiento, corre el set completo en las 3 condiciones).
 5. **ENERGÍA** — `docs/POWER_MEASUREMENT.md` (cuando llegue el INA226 + CP2112;
    validar con `--selftest` antes de confiar).
-6. **Fase 2 / OE1** — aplicar técnicas de optimización y llenar la matriz (pendiente).
+6. **Fase 2 / OE1** — aplicar las técnicas en orden **INT8 → poda estructurada → destilación
+   (al final, por su costo)**, sobre los dos modelos, y llenar la matriz. En la Orin la poda
+   solo baja latencia si es estructurada (ver `docs/DECISIONS.md` D10).
 
 ## Reglas de coherencia (transversales)
 
@@ -56,11 +62,10 @@ Con `pull.rebase` activo, `git pull` falla si hay cambios sin commitear. Por eso
 confirma primero y el pull va después (el rebase reproduce tu commit encima de lo remoto):
 
 ```bash
-git add -A                            # 1. agrega tus cambios (respeta .gitignore)
-git add -f models/cnn_baseline.onnx   # 2. solo si cambió el modelo (está ignorado)
-git commit -m "mensaje claro"         # 3. confirma
-git pull                              # 4. integra lo remoto (rebasa tu commit encima)
-git push                              # 5. sube
+git add -A                            # 1. agrega tus cambios (los baselines ya NO están ignorados)
+git commit -m "mensaje claro"         # 2. confirma
+git pull                              # 3. integra lo remoto (rebasa tu commit encima)
+git push                              # 4. sube
 ```
 
 Hazlo una vez: `git config --global pull.rebase true`. El `git pull` de primero solo
@@ -84,13 +89,16 @@ Hace `pull --rebase` + `add results/` + `commit` + `push`, con aviso si hay conf
 
 ### Qué se versiona y qué no
 
-- **Sí:** código, guías, `results/*.json`, `RESULTS_LOG.md`, el modelo canónico (forzado).
+- **Sí:** código, guías, `results/*.json`, MobileNetV2 (`cnn_baseline.onnx`, ~14MB).
+- **ResNet-50** (~100MB) **no** se versiona (límite de GitHub): se comparte por archivo + checksum.
 - **No:** `datasets/` (cada equipo descarga el suyo), `.venv/`, `__pycache__/`,
   otros modelos en `models/`.
 
 ## Estado actual (junio 2026)
 
-- Jetson: arranca desde NVMe; arnés validado en `jetson-gpu` y `jetson-cpu`;
-  precisión validada (top-1 ~60.7% en subconjunto representativo de 2000).
-- Pendiente: set completo de precisión en las 3 condiciones; latencia/precisión
-  en `rpi-cpu` (Luis); energía (a la espera del INA226 + CP2112); Fase 2 / OE1.
+- Jetson: línea base V0 completa de MobileNetV2 en `jetson-gpu` y `jetson-cpu` (latencia,
+  precisión y energía con medidor externo). GPU ~5x más rápida y ~4.3x menos energía a igual precisión.
+- Director (CP2): confirma dos modelos (MobileNetV2 + ResNet-50) y el orden de técnicas
+  (INT8 → poda estructurada → destilación). Ver `docs/DECISIONS.md` D9–D12.
+- Pendiente: exportar ResNet-50 y su línea base; `rpi-cpu` (Luis); energía en rpi (shunt R010);
+  Fase 2 / OE1 (optimización).

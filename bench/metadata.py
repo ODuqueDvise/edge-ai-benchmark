@@ -54,7 +54,8 @@ def collect(model_path=None, backend_name=None, backend_version=None,
             "python": platform.python_version(),
         },
         "backend": {"name": backend_name, "version": backend_version},
-        "model": {"path": model_path, "sha256": sha256_file(model_path)},
+        "model": {"name": (os.path.splitext(os.path.basename(model_path))[0] if model_path else None),
+                  "path": model_path, "sha256": sha256_file(model_path)},
         "thermal_c_start": thermal_zones_c(),
     }
     if extra:

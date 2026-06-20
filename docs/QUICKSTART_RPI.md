@@ -5,19 +5,20 @@ La RPi 5 no tiene GPU para ML, asi que solo corre la condicion `rpi-cpu`.
 
 ## 0. Regla de coherencia (no la rompas)
 
-- Usa el MISMO archivo de modelo que Orlando, NO lo reexportes.
-  Modelo canonico: `models/cnn_baseline.onnx`, SHA-256:
-  `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd`
-- Mismos parametros: `--input-shape 1,3,224,224 --warmup 50 --iters 1000`.
+- Usa los MISMOS archivos de modelo que Orlando, NO los reexportes. Dos baselines:
+  `models/cnn_baseline.onnx` (MobileNetV2, SHA-256 `609015cb…56eb0dd`) y
+  `models/resnet50_baseline.onnx` (ResNet-50, checksum publicado por Orlando).
+- Mismos parametros (constantes congeladas): `--input-shape 1,3,224,224 --warmup 100 --iters 2000`.
 
 ## 1. Clonar el repo y traer el modelo
 
 ```bash
 git clone https://github.com/ODuqueDvise/edge-ai-benchmark.git
 cd edge-ai-benchmark
-# El modelo viene en el repo (models/cnn_baseline.onnx). Verifica el checksum:
-sha256sum models/cnn_baseline.onnx
-# Debe coincidir EXACTO con el de arriba. Si no, no midas: pide el archivo a Orlando.
+# MobileNetV2 viene en el repo. ResNet-50 (~100MB) NO va en el repo: pídeselo a Orlando
+# (scp / release de GitHub / unidad compartida) y déjalo en models/. Verifica los checksums:
+sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx
+# Deben coincidir EXACTO con los publicados. Si no, no midas: pide el archivo a Orlando.
 ```
 
 ## 2. Entorno y runtime de CPU
@@ -41,8 +42,11 @@ bash scripts/collect_env.sh    # congela versiones del equipo en un archivo
 ## 4. Linea base en CPU
 
 ```bash
+# Repite por modelo cambiando --model (el nombre del JSON incluye el modelo).
 python -m bench.run_benchmark --model models/cnn_baseline.onnx --backend ort \
-    --provider cpu --device-tag rpi-cpu --input-shape 1,3,224,224 --warmup 50 --iters 1000
+    --provider cpu --device-tag rpi-cpu --input-shape 1,3,224,224 --warmup 100 --iters 2000
+python -m bench.run_benchmark --model models/resnet50_baseline.onnx --backend ort \
+    --provider cpu --device-tag rpi-cpu --input-shape 1,3,224,224 --warmup 100 --iters 2000
 ```
 
 Deja el JSON en `results/`. Subelo al repo (rama propia) para consolidar con los de la Jetson.

@@ -6,10 +6,12 @@ venv/
 # Datasets: cada equipo descarga el suyo (se verifica por conteo/variante), no se versiona.
 datasets/
 
-# Modelos: no versionar pesos arbitrarios. El modelo canonico se fuerza con:
-#   git add -f models/cnn_baseline.onnx
+# Modelos: no versionar pesos arbitrarios. El baseline pequeno (MobileNetV2, ~14MB) SI
+# se versiona; ResNet-50 (~100MB) NO cabe en GitHub (limite de 100MB por archivo), asi
+# que se comparte por archivo + checksum, igual que las variantes optimizadas.
 models/*
 !models/.gitkeep
+!models/cnn_baseline.onnx
 
 # Los RESULTADOS crudos SI se versionan: son la traza auditable del proyecto (OE3).
 # (results/*.json y results/*.csv quedan trazados a proposito.)

@@ -33,9 +33,10 @@ pip install onnxruntime
 
 ```bash
 pip install torch torchvision        # solo donde exportes
-python scripts/export_model.py --model-name mobilenet_v2 --output models/cnn_baseline.onnx
-# Anota el SHA-256 que imprime: es el que Luis verifica antes de medir.
-sha256sum models/cnn_baseline.onnx
+python scripts/export_model.py --model-name mobilenet_v2 --output models/cnn_baseline.onnx --opset 18
+python scripts/export_model.py --model-name resnet50     --output models/resnet50_baseline.onnx --opset 18
+# Anota el SHA-256 que imprime cada uno: es el que Luis verifica antes de medir.
+sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx
 ```
 
 ## 4. Verificar que la GPU está activa (evitar caída silenciosa a CPU)
@@ -47,16 +48,20 @@ python3 -c "import onnxruntime as ort; print(ort.get_available_providers())"
 
 ## 5. Líneas base en las dos condiciones de la Jetson
 
+Constantes congeladas: `--warmup 100 --iters 2000`. Repite cada bloque por modelo
+cambiando `--model` (`models/cnn_baseline.onnx` y `models/resnet50_baseline.onnx`);
+el nombre del JSON incluye el modelo, así que no se pisan.
+
 ```bash
 # GPU (TensorRT EP)
 python -m bench.run_benchmark --model models/cnn_baseline.onnx --backend ort \
     --provider tensorrt --device-tag jetson-gpu --input-shape 1,3,224,224 \
-    --warmup 50 --iters 1000 --power-mode MAXN
+    --warmup 100 --iters 2000 --power-mode MAXN
 
 # CPU en la MISMA Jetson (aísla el aporte de la GPU)
 python -m bench.run_benchmark --model models/cnn_baseline.onnx --backend ort \
     --provider cpu --device-tag jetson-cpu --input-shape 1,3,224,224 \
-    --warmup 50 --iters 1000 --power-mode MAXN
+    --warmup 100 --iters 2000 --power-mode MAXN
 ```
 
 Cada corrida deja un JSON en `results/`. Súbelos al repositorio. Si en el paso 4

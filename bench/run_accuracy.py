@@ -56,7 +56,8 @@ def main():
 
     os.makedirs(a.out_dir, exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
-    out = os.path.join(a.out_dir, "acc_%s_%s_%s_%s.json" % (a.device_tag, a.backend, a.provider, stamp))
+    model_tag = os.path.splitext(os.path.basename(a.model))[0]
+    out = os.path.join(a.out_dir, "acc_%s_%s_%s_%s_%s.json" % (a.device_tag, model_tag, a.backend, a.provider, stamp))
     with open(out, "w") as f:
         json.dump(res, f, indent=2)
     print("Escrito:", out)

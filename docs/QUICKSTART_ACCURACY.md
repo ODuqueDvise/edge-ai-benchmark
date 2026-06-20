@@ -6,7 +6,9 @@ por optimización). Replicable por Orlando (Jetson) y Luis (RPi) con los mismos 
 ## 0. Reglas de coherencia (no romper)
 
 - **Mismo dataset:** variante *matched-frequency* (10.000 imágenes), idéntica en ambos equipos.
-- **Mismo modelo:** `models/cnn_baseline.onnx`, SHA-256 `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd`.
+- **Mismos modelos:** los dos baselines, cada uno verificado por su checksum —
+  MobileNetV2 `models/cnn_baseline.onnx` (`609015cb…56eb0dd`) y ResNet-50
+  `models/resnet50_baseline.onnx` (checksum que imprime la exportación).
 - **Mismo subconjunto:** si usas `--limit`, ambos usan el mismo valor (el orden de
   iteración es determinista: se miden las mismas imágenes en el mismo orden).
 - La precisión se mide por **(variante de modelo, condición)**: CPU FP32 y GPU
@@ -89,8 +91,10 @@ python -m bench.run_accuracy --model models/cnn_baseline.onnx --backend ort \
     --dataset datasets/imagenetv2-matched-frequency-format-val
 ```
 
-Cada corrida escribe `results/acc_<condición>_..._<fecha>.json` con la precisión y
-los metadatos (checksum del modelo, proveedores, dataset, nº de imágenes).
+Repite los tres comandos para el segundo modelo cambiando `--model` a
+`models/resnet50_baseline.onnx`. Cada corrida escribe
+`results/acc_<condición>_<modelo>_..._<fecha>.json` con la precisión y los metadatos
+(checksum del modelo, proveedores, dataset, nº de imágenes); el nombre incluye el modelo.
 
 ## 5. Documentar el proceso
 
@@ -105,7 +109,7 @@ los metadatos (checksum del modelo, proveedores, dataset, nº de imágenes).
 Mismos pasos. Antes de medir, dos verificaciones obligatorias:
 
 ```bash
-sha256sum models/cnn_baseline.onnx     # debe dar 609015cb...0dd
+sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx   # deben coincidir con los publicados
 find datasets/imagenetv2-matched-frequency-format-val -type f | wc -l   # debe dar 10000
 ```
 
