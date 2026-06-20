@@ -13,7 +13,7 @@ reproducibles y trazables.
 
 - **Visión completa del proceso:** `docs/RUNBOOK.md` (orden de todo, de principio a fin).
 - **Jetson Orin Nano (Orlando):** `docs/QUICKSTART_JETSON.md`
-- **Raspberry Pi 5 (Luis):** `docs/QUICKSTART_RPI.md`
+- **Raspberry Pi 5 (Luis) — guía completa paso a paso:** `docs/GUIA_LUIS_RPI.md` (de cero a resultados; referencia rápida en `docs/QUICKSTART_RPI.md`)
 - **Precisión (descarga del dataset y corridas):** `docs/QUICKSTART_ACCURACY.md`
 - **Energía (INA226 + CP2112):** `docs/POWER_MEASUREMENT.md`
 
@@ -147,7 +147,8 @@ scripts/
 docs/
   RUNBOOK.md              proceso end-to-end + flujo de git
   QUICKSTART_JETSON.md    puesta a punto de la Jetson
-  QUICKSTART_RPI.md       puesta a punto de la RPi 5
+  QUICKSTART_RPI.md       puesta a punto de la RPi 5 (referencia rápida)
+  GUIA_LUIS_RPI.md        guía completa paso a paso para Luis (de cero a resultados)
   QUICKSTART_ACCURACY.md  descarga del dataset y medición de precisión
   POWER_MEASUREMENT.md    medición de energía (INA226; nativo y CP2112)
   REGISTRO.md             procedimiento de registro y puntos de chequeo

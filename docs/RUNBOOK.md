@@ -7,7 +7,7 @@ Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
 
 1. **Configurar el equipo**
    - Jetson Orin Nano → `docs/QUICKSTART_JETSON.md`
-   - Raspberry Pi 5 → `docs/QUICKSTART_RPI.md`
+   - Raspberry Pi 5 → `docs/GUIA_LUIS_RPI.md` (guía completa paso a paso) o `docs/QUICKSTART_RPI.md` (referencia rápida)
 2. **Modelos canónicos** — dos modelos comprometidos (ver `docs/DECISIONS.md` D9):
    - MobileNetV2 → `models/cnn_baseline.onnx` (sha `609015cb…56eb0dd`), ya en el repo.
    - ResNet-50 → `models/resnet50_baseline.onnx`; se exporta una vez, se comparte por archivo

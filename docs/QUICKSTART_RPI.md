@@ -3,6 +3,9 @@
 Objetivo: medir el MISMO modelo con el MISMO arnes que la Jetson, en CPU.
 La RPi 5 no tiene GPU para ML, asi que solo corre la condicion `rpi-cpu`.
 
+> ¿Primera vez? Sigue **`docs/GUIA_LUIS_RPI.md`**: el camino completo de cero a resultados
+> (incluye git/SSH, dataset y precisión). Esta página es la referencia rápida de comandos.
+
 ## 0. Regla de coherencia (no la rompas)
 
 - Usa los MISMOS archivos de modelo que Orlando, NO los reexportes. Dos baselines:
