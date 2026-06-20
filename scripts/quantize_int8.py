@@ -82,12 +82,19 @@ def main():
     method = {"entropy": CalibrationMethod.Entropy,
               "percentile": CalibrationMethod.Percentile,
               "minmax": CalibrationMethod.MinMax}[a.method]
+    # extra_options para compatibilidad con TensorRT (proveedor de jetson-gpu):
+    #  - QuantizeBias=False: NO insertar el DequantizeLinear int32 del bias (TensorRT lo
+    #    rechaza: "input has type Int32 but must have type ... Int8"). El bias queda FP32;
+    #    la convolución sigue siendo int8 en CPU y en TensorRT.
+    #  - ActivationSymmetric=True: activaciones int8 simétricas (zero_point=0), evita el
+    #    aviso de "QuantizeLinear/DequantizeLinear with UINT8 zero_point" en TensorRT.
     quantize_static(pre, a.out, Reader(),
                     quant_format=QuantFormat.QDQ,
                     per_channel=per_channel,
                     activation_type=QuantType.QInt8,
                     weight_type=QuantType.QInt8,
-                    calibrate_method=method)
+                    calibrate_method=method,
+                    extra_options={"QuantizeBias": False, "ActivationSymmetric": True})
     if os.path.exists(pre):
         os.remove(pre)
 
