@@ -51,10 +51,10 @@ def main():
     ap.add_argument("--no-per-channel", action="store_true", help="desactiva per-canal (no recomendado)")
     a = ap.parse_args()
 
+    import onnx
     import onnxruntime as ort
     from onnxruntime.quantization import (quantize_static, QuantType, QuantFormat,
                                           CalibrationMethod, CalibrationDataReader)
-    from onnxruntime.quantization.shape_inference import quant_pre_process
 
     # nombre real de la entrada del modelo
     sess = ort.InferenceSession(a.model, providers=["CPUExecutionProvider"])
@@ -74,9 +74,17 @@ def main():
             f = next(self.it, None)
             return None if f is None else {input_name: preprocess_image(f)}
 
-    # 1) pre-procesar (inferencia de formas + fusión): mejora la cuantización
+    # 1) inferencia de formas (mejora la cuantización). Usamos onnx.shape_inference, que
+    #    NO depende de torch. (El quant_pre_process de ONNX Runtime importa torch vía
+    #    onnxruntime.tools y es frágil: p.ej. si iCloud evicta las fuentes de torch del
+    #    venv, falla con "could not get source code". Este camino es torch-free y reproducible.)
     pre = a.out + ".pre.onnx"
-    quant_pre_process(a.model, pre)
+    try:
+        onnx.shape_inference.infer_shapes_path(a.model, pre)
+    except Exception as e:
+        print("[aviso] shape_inference falló (%s); cuantizo el modelo tal cual." % type(e).__name__)
+        import shutil
+        shutil.copy(a.model, pre)
 
     # 2) cuantización estática, formato QDQ, S8S8 (activaciones+pesos int8), per-canal
     method = {"entropy": CalibrationMethod.Entropy,
