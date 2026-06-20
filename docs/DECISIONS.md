@@ -59,3 +59,10 @@ protocolo. Ver el procedimiento en `docs/REGISTRO.md`.
 - Gate de validación: confirmar que TensorRT corre el QDQ en INT8 real con speedup; si no, plan B = calibración nativa de TensorRT sobre el FP32 + etiqueta `--variant` en el arnés (para no colisionar el checksum con el V0).
 - Calibración sin fuga: conjunto separado del de evaluación; la evaluación oficial sigue siendo el V2 completo (10k). MobileNetV2: per-canal por defecto, QAT solo como último recurso (D9).
 - Consecuencia: los `*_int8.onnx` (<100MB) se versionan en git; primera técnica del OE1 (orden D10). Detalle en `docs/DISENO_INT8_OE1.md`.
+
+### D14 — INT8 en GPU: calibración nativa de TensorRT (plan B activado, jun 2026)
+- Contexto: el gate de D13 (correr el QDQ de ONNX Runtime en el proveedor TensorRT) falló dos veces. Con `QuantizeBias=False` el modelo quedó limpio (verificado: 0 DequantizeLinear de bias en int32), pero TensorRT 10.3 igual rechaza la construcción del motor con "Error Code 4 ... node_Conv_753_bias_dq: input has type Int32" —un nodo que genera el propio parser de TensorRT al manejar el bias FP32 de una convolución INT8— y declina todo el grafo (cae a CUDA, sin INT8; p50 32.8 ms > FP32 6.59 ms).
+- Decisión: descartar el QDQ unificado en GPU. INT8 definido por backend:
+  - CPU (jetson-cpu, rpi-cpu): modelo QDQ (`*_int8.onnx`), corre en el proveedor CPU. Sin cambios; ya validado en ORT.
+  - GPU (jetson-gpu): modelo FP32 + calibración nativa de TensorRT (tabla de calibración generada con el calibrador de ONNX Runtime sobre el mismo conjunto), vía el proveedor TensorRT con int8 habilitado. Es el camino documentado por ORT para GPU.
+- Consecuencia (cambios en el arnés): (a) el backend ONNX Runtime acepta las opciones INT8 del proveedor TensorRT; (b) se añade `--variant` a run_benchmark/run_accuracy (metadatos + nombre de archivo), porque la GPU reutiliza el `.onnx` FP32 —mismo checksum que el V0— y hay que distinguir la corrida INT8; (c) script para generar la tabla de calibración de TensorRT. La variante INT8 se reporta por (variante, backend), calibrada sobre el mismo conjunto.

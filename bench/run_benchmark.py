@@ -42,13 +42,16 @@ def parse_args():
     p.add_argument("--threads", type=int, default=0)
     p.add_argument("--warmup", type=int, default=50)
     p.add_argument("--iters", type=int, default=1000)
+    p.add_argument("--variant", default="", help="etiqueta de variante (p.ej. int8) para distinguir del V0 cuando el .onnx es el mismo")
+    p.add_argument("--trt-int8-table", default=None, help="ruta a calibration.flatbuffers para INT8 en TensorRT (plan B; provider tensorrt)")
     p.add_argument("--out-dir", default="results")
     return p.parse_args()
 
 
 def main():
     a = parse_args()
-    backend = make_backend(a.backend, provider=a.provider, intra_op_threads=a.threads)
+    backend = make_backend(a.backend, provider=a.provider, intra_op_threads=a.threads,
+                           trt_int8_table=a.trt_int8_table)
     backend.load(a.model, input_name=a.input_name)
 
     if not a.input_shape:
@@ -77,7 +80,7 @@ def main():
         extra={"active_providers": getattr(backend, "active_providers", None),
                "thermal_c_end": metadata.thermal_zones_c(),
                "input_shape": list(shape), "dtype": a.dtype,
-               "warmup": a.warmup, "iters": a.iters,
+               "warmup": a.warmup, "iters": a.iters, "variant": a.variant or None,
                "window": {"start_epoch_s": win_start, "end_epoch_s": win_end}})
 
     result = {
@@ -93,7 +96,8 @@ def main():
     os.makedirs(a.out_dir, exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
     model_tag = os.path.splitext(os.path.basename(a.model))[0]
-    fname = "%s_%s_%s_%s_%s.json" % (a.device_tag, model_tag, a.backend, a.provider, stamp)
+    vtag = ("_" + a.variant) if a.variant else ""
+    fname = "%s_%s%s_%s_%s_%s.json" % (a.device_tag, model_tag, vtag, a.backend, a.provider, stamp)
     out = os.path.join(a.out_dir, fname)
     with open(out, "w") as f:
         json.dump(result, f, indent=2)

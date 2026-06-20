@@ -132,8 +132,26 @@ python scripts/quantize_int8.py --model models/cnn_baseline.onnx \
     --calib-dir datasets/calib_imagenet1k --out models/cnn_baseline_int8.onnx --limit 300
 ```
 
-Luego se mide como cualquier variante (archivo distinto → el arnés lo distingue solo).
-**Gate en GPU:** confirmar que TensorRT corre el QDQ en INT8 real antes de medir en serio.
+En CPU (jetson-cpu, rpi-cpu) el INT8 es ese QDQ (`*_int8.onnx`), que corre en el proveedor CPU sin cambios.
+
+**INT8 en GPU (TensorRT) — plan B (D14).** TensorRT 10.3 NO consume el QDQ de ONNX Runtime (rechaza el
+`DequantizeLinear` de bias en int32 que su propio parser genera). El camino documentado por ORT para GPU es
+otro: modelo FP32 + tabla de calibración de TensorRT. Se genera la tabla y se mide con `--variant int8
+--trt-int8-table` (el modelo es el FP32, no el QDQ):
+
+```bash
+# Mac: genera la tabla (corre en CPU; reusa el conjunto de calibración, sin fuga)
+python scripts/make_trt_calib_table.py --model models/resnet50_baseline.onnx \
+    --calib-dir datasets/calib_imagenet1k --out-dir calib_tables/resnet50 --limit 300
+# Jetson GPU: FP32 + tabla + etiqueta de variante
+python -m bench.run_benchmark --model models/resnet50_baseline.onnx --backend ort \
+    --provider tensorrt --device-tag jetson-gpu --variant int8 \
+    --trt-int8-table calib_tables/resnet50/calibration.flatbuffers \
+    --input-shape 1,3,224,224 --warmup 100 --iters 2000 --power-mode MAXN
+```
+
+La variante INT8 se reporta por (variante, backend); el arnés la distingue con `--variant` (en GPU el `.onnx`
+es el mismo FP32 del V0, así que sin la etiqueta colisionarían). Ver `docs/DISENO_INT8_OE1.md` y DECISIONS D14.
 
 ## Estructura del proyecto
 

@@ -117,6 +117,22 @@ que el experimento debe decidir.
 4. Versionar los `*_int8.onnx`, actualizar `.gitignore`, README/RUNBOOK y la matriz
    experimental (filas V1 ya existen). Registrar checksums.
 
+## Resultado del gate y plan B (addendum, jun 2026)
+
+El gate de la sección 4.5 **falló dos veces**. Con `QuantizeBias=False` el QDQ quedó limpio
+(verificado: 0 `DequantizeLinear` de bias en int32), pero TensorRT 10.3 igual rechaza el motor
+con "Error Code 4 ... node_Conv_753_bias_dq: input has type Int32" —un nodo que genera su propio
+parser al manejar el bias FP32 de una convolución INT8— y declina el grafo (cae a CUDA, p50 32.8 ms,
+sin INT8). Además, la documentación de ONNX Runtime confirma que **no se puede dar una tabla de
+calibración a un modelo con nodos Q/DQ**, lo que cierra la vía del QDQ en GPU.
+
+Decisión registrada en DECISIONS **D14**: INT8 por backend. CPU (jetson-cpu, rpi-cpu) usa el QDQ
+(`*_int8.onnx`), que sí corre en el proveedor CPU. GPU (jetson-gpu) usa el modelo **FP32 + tabla de
+calibración nativa de TensorRT** (`scripts/make_trt_calib_table.py` → `trt_int8_enable` +
+`trt_int8_calibration_table_name`), con etiqueta `--variant int8` en el arnés para no colisionar con
+el V0 (mismo `.onnx`). Hallazgo preliminar (CPU): ResNet-50 INT8 en jetson-cpu 35.8 ms frente a 89.9 ms
+del FP32 (2.5×), con menor potencia — el INT8 sí acelera la CPU ARM.
+
 ## Fuera de alcance de esta nota
 
 No decide poda estructurada ni destilación (vienen después en el orden D10) ni toca el

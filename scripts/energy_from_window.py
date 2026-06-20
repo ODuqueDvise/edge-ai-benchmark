@@ -52,6 +52,7 @@ def main():
     dev = md.get("device_tag", "?")
     sha = md.get("model", {}).get("sha256")
     mname = md.get("model", {}).get("name")
+    var = md.get("variant")
 
     ts, pw = load_log(a.log)
     e, seg = integrate(ts, pw, t0, t1)
@@ -62,7 +63,7 @@ def main():
     avg = e / dur
     per_total = (e / iters * 1000) if iters else None
 
-    out = {"metadata": {"device_tag": dev, "model": {"name": mname, "sha256": sha},
+    out = {"metadata": {"device_tag": dev, "model": {"name": mname, "sha256": sha}, "variant": var,
                         "source_result": os.path.basename(a.result),
                         "idle_watts": a.idle_watts, "iters": iters,
                         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},

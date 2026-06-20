@@ -21,6 +21,10 @@ def lab(s):
     return MODEL_LABELS.get(s) or NAMES.get(s) or s
 
 
+def modlab(sha, var):
+    return lab(sha) + (" · " + var if var else "")
+
+
 def mean(xs):
     xs = [x for x in xs if x is not None]
     return statistics.mean(xs) if xs else 0.0
@@ -41,16 +45,17 @@ def load():
         md = d.get("metadata", {})
         dev = md.get("device_tag", "?")
         sha = (md.get("model", {}).get("sha256") or "????????")[:8]
+        var = md.get("variant") or ""
         nm = md.get("model", {}).get("name")
         if nm and sha not in NAMES:
             NAMES[sha] = nm
         if "latency_summary" in d:
-            lat[(dev, sha, md.get("iters", d["latency_summary"].get("n")))].append(d["latency_summary"])
+            lat[(dev, sha, var, md.get("iters", d["latency_summary"].get("n")))].append(d["latency_summary"])
         if "accuracy" in d:
             a = d["accuracy"]
-            acc.append((dev, sha, a.get("n_images"), a.get("top1") or 0, a.get("top5") or 0))
+            acc.append((dev, sha, var, a.get("n_images"), a.get("top1") or 0, a.get("top5") or 0))
         if "energy" in d:
-            ener[(dev, sha)].append(d["energy"])
+            ener[(dev, sha, var)].append(d["energy"])
     return lat, acc, ener
 
 
@@ -64,24 +69,24 @@ def main():
           "", "## Latencia", "",
           "| Condicion | Modelo | R | p50 media±desv (ms) | p95 (ms) | p99 (ms) | thr (ips) |",
           "|---|---|---|---|---|---|---|"]
-    for (dev, sha, _it), runs in sorted(lat.items()):
+    for (dev, sha, var, _it), runs in sorted(lat.items()):
         p50 = [r["p50_ms"] for r in runs]
         o.append("| %s | %s | %d | %.3f ± %.3f | %.3f | %.3f | %.1f |" % (
-            dev, lab(sha), len(runs), mean(p50), sd(p50),
+            dev, modlab(sha, var), len(runs), mean(p50), sd(p50),
             mean([r["p95_ms"] for r in runs]), mean([r["p99_ms"] for r in runs]),
             mean([r.get("throughput_ips") for r in runs])))
     o += ["", "## Precision (ImageNet-V2)", "",
           "| Condicion | Modelo | n img | top-1 | top-5 |", "|---|---|---|---|---|"]
-    for dev, sha, n, t1, t5 in sorted(acc):
-        o.append("| %s | %s | %s | %.4f | %.4f |" % (dev, lab(sha), n, t1, t5))
+    for dev, sha, var, n, t1, t5 in sorted(acc):
+        o.append("| %s | %s | %s | %.4f | %.4f |" % (dev, modlab(sha, var), n, t1, t5))
     o += ["", "## Energia (medidor externo)", "",
           "| Condicion | Modelo | corridas | Pot. media (W) | Energia/inf total (mJ) | Energia/inf neta (mJ) |",
           "|---|---|---|---|---|---|"]
-    for (dev, sha), es in sorted(ener.items()):
+    for (dev, sha, var), es in sorted(ener.items()):
         net = [x.get("per_inf_net_mj") for x in es]
         net_s = ("%.3f" % mean(net)) if any(v is not None for v in net) else "—"
         o.append("| %s | %s | %d | %.2f | %.3f | %s |" % (
-            dev, lab(sha), len(es), mean([x.get("avg_power_w") for x in es]),
+            dev, modlab(sha, var), len(es), mean([x.get("avg_power_w") for x in es]),
             mean([x.get("per_inf_total_mj") for x in es]), net_s))
     open(OUT, "w").write("\n".join(o) + "\n")
     print("Escrito %s (%d latencia, %d precision, %d energia)" %
