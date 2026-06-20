@@ -59,3 +59,19 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 - Nueva `docs/GUIA_LUIS_RPI.md`: camino lineal de cero a resultados para la condición `rpi-cpu` (clone → git/SSH a GitHub → entorno → modelos+checksum → dataset → pinning → latencia R=5 → precisión → sync), con verificaciones por paso y troubleshooting.
 - Cierra huecos que el `QUICKSTART_RPI` no cubría para Luis: setup de git/SSH (identidad noreply propia para evitar GH007, llave SSH, colaborador), recepción de ResNet-50 por archivo, y precisión (antes solo en QUICKSTART_ACCURACY). Energía marcada como diferida (falta shunt R010).
 - Enlazada desde README y RUNBOOK.
+
+## 2026-06-20 — Nota de diseño INT8 / OE1 (D13, registrar antes de ejecutar)
+- Antes de implementar la primera técnica del OE1 se registró el enfoque en `docs/DISENO_INT8_OE1.md` y como D13 en DECISIONS: PTQ estática QDQ (S8S8, per-canal, Entropy/Percentile), un `*_int8.onnx` por modelo (checksum distinto → el arnés los distingue sin cambios), CPU EP directo y TensorRT por cuantización explícita sobre el mismo QDQ.
+- Punto a validar primero: que TensorRT acelere el QDQ en INT8 real; si no, plan B = calibración nativa de TensorRT + etiqueta `--variant`. Verificado en la doc de ORT que la cuantización estática es la recomendada para CNN y que el camino GPU documentado usa calibración de TensorRT (de ahí el plan B).
+- Calibración sin fuga (set aparte del de evaluación); evaluación oficial sigue siendo el V2 completo. Pendiente: construir `scripts/quantize_int8.py` y pasar el gate de validación en la Orin.
+
+## 2026-06-20 — quantize_int8.py construido y validado (OE1)
+- `scripts/quantize_int8.py`: PTQ estática QDQ (S8S8, per-canal, calibración entropy/percentile/minmax) reusando `bench.datasets.preprocess_image` (preprocesamiento idéntico al de inferencia); CalibrationDataReader sobre `--calib-dir`; escribe la lista de calibración como evidencia e imprime el SHA-256.
+- Validado en seco (sandbox): MobileNetV2 14.2 MB → 4.0 MB (3.5×), QDQ válido, carga y corre en ORT CPU (salida 1×1000). Falta el gate en GPU (TensorRT con QDQ) en la Orin.
+- `.gitignore`: `*_int8.onnx` y `*.calib.txt` se versionan (<100MB). Calibración decidida: ImageNet-1k val (~256–500), aparte del V2.
+- Pendiente: conseguir el set de calibración (ImageNet-1k val, gated en HF), cuantizar ambos modelos, pasar el gate TensorRT, y medir las 3 condiciones con el orquestador.
+
+## 2026-06-20 — Variantes INT8 cuantizadas (OE1, pendiente gate GPU)
+- Calibrado con 300 imágenes de ImageNet-1k val (Camino 1, gate de HF aceptado), método entropy, per-canal. Resultados: MobileNetV2 14.2→4.0 MB (3.5×, SHA-256 `124fd2a4f9e60301274145644390145536e9bff07794c866108237f1eb510753`); ResNet-50 102.4→26.2 MB (3.9×, SHA-256 `ed792dcaf3ea0f2461492824d3674b6efaf904e1f6d6e9cbe1c5b0237b20a493`). Ambos verifican en ORT CPU (salida 1×1000).
+- Etiquetas en build_results_log (`124fd2a4`→MobileNetV2 INT8, `ed792dca`→ResNet-50 INT8). Los `*_int8.onnx` se versionan (git, <100MB).
+- Pendiente: gate de GPU (que TensorRT honre el QDQ en INT8 real) antes de la batería completa; luego R=5 + precisión + energía en las 3 condiciones.

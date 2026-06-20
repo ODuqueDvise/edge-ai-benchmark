@@ -11,7 +11,8 @@ ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 RESULTS = os.path.join(ROOT, "results")
 OUT = os.path.join(RESULTS, "RESULTS_LOG.md")
 # Etiquetas explicitas por prefijo sha (modelos canonicos medidos sin model.name).
-MODEL_LABELS = {"609015cb": "MobileNetV2 (base)", "05e5bc14": "ResNet-50 (base)"}
+MODEL_LABELS = {"609015cb": "MobileNetV2 (base)", "05e5bc14": "ResNet-50 (base)",
+                "124fd2a4": "MobileNetV2 INT8", "ed792dca": "ResNet-50 INT8"}
 # sha8 -> nombre de archivo del modelo (metadata.model.name); poblado al cargar.
 NAMES = {}
 
