@@ -1,0 +1,21 @@
+{
+  "metadata": {
+    "device_tag": "jetson-gpu",
+    "model": {
+      "name": "resnet50_baseline",
+      "sha256": "05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc"
+    },
+    "source_result": "jetson-gpu_resnet50_baseline_ort_tensorrt_20260620-185035.json",
+    "idle_watts": 7.8,
+    "iters": 2000,
+    "timestamp_utc": "2026-06-20T18:54:17Z"
+  },
+  "energy": {
+    "window_s": 14.041174173355103,
+    "total_j": 195.63389564569496,
+    "avg_power_w": 13.932872937146163,
+    "per_inf_total_mj": 97.81694782284748,
+    "net_j": 86.11273709352517,
+    "per_inf_net_mj": 43.056368546762585
+  }
+}
