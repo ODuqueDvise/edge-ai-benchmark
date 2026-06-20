@@ -21,6 +21,15 @@ Ejemplos:
       --device-tag jetson-gpu --provider tensorrt --model models/resnet50_baseline.onnx \
       --shunt 0.1 --expect-sha 05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc
 
+  # jetson-gpu INT8 (plan B D14): modelo FP32 + tabla de calibración + etiqueta de variante
+  python3 scripts/measure_remote.py --host ... --device-tag jetson-gpu --provider tensorrt \
+      --model models/resnet50_baseline.onnx --variant int8 \
+      --trt-int8-table calib_tables/resnet50/calibration.flatbuffers --shunt 0.1 --accuracy
+
+  # jetson-cpu INT8: el modelo QDQ (archivo distinto; no necesita --variant)
+  python3 scripts/measure_remote.py --host ... --device-tag jetson-cpu --provider cpu \
+      --model models/resnet50_baseline_int8.onnx --shunt 0.1 --accuracy
+
   # ver el plan sin ejecutar nada
   python3 scripts/measure_remote.py --host ... --device-tag jetson-cpu --provider cpu \
       --model models/resnet50_baseline.onnx --dry-run
@@ -83,6 +92,8 @@ def parse_args():
     p.add_argument("--interval", type=float, default=0.05, help="periodo de muestreo del logger (s)")
     p.add_argument("--accuracy", action="store_true", help="además, corre precisión (set completo; lenta, sin logger)")
     p.add_argument("--dataset", default="datasets/imagenetv2-matched-frequency-format-val")
+    p.add_argument("--variant", default="", help="etiqueta de variante (p.ej. int8) para no colisionar con V0 cuando el .onnx es el mismo")
+    p.add_argument("--trt-int8-table", default=None, help="ruta a calibration.flatbuffers para INT8 en TensorRT (GPU; plan B)")
     p.add_argument("--max-clock-skew", type=float, default=0.5, help="desfase de reloj Mac↔host tolerado (s)")
     p.add_argument("--activate", default=". .venv/bin/activate", help="comando para activar el venv en el host")
     p.add_argument("--no-commit", action="store_true", help="no commitea (para pruebas)")
@@ -94,6 +105,12 @@ def main():
     a = parse_args()
     r = Runner(a.dry_run)
     stem = os.path.splitext(os.path.basename(a.model))[0]
+    vflags = ""
+    if a.variant:
+        vflags += " --variant %s" % a.variant
+    if a.trt_int8_table:
+        vflags += " --trt-int8-table %s" % a.trt_int8_table
+    vtag = ("_" + a.variant) if a.variant else ""
     gpu_expected = a.device_tag.endswith("-gpu") or a.provider in ("tensorrt", "cuda")
     measure_energy = a.shunt is not None
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
@@ -165,9 +182,9 @@ def main():
         info("Latencia remota: %d corrida(s) en %s…" % (a.reps, a.device_tag))
         lat_cmd = ("cd %s && %s && for i in $(seq 1 %d); do "
                    "python -m bench.run_benchmark --model %s --backend ort --provider %s "
-                   "--device-tag %s --input-shape %s --warmup %d --iters %d --power-mode %s || exit 1; done"
+                   "--device-tag %s --input-shape %s --warmup %d --iters %d --power-mode %s%s || exit 1; done"
                    % (a.remote_repo, a.activate, a.reps, a.model, a.provider, a.device_tag,
-                      a.input_shape, a.warmup, a.iters, a.power_mode))
+                      a.input_shape, a.warmup, a.iters, a.power_mode, vflags))
         r.ssh(a.host, lat_cmd)
     finally:
         if proc is not None:
@@ -182,8 +199,8 @@ def main():
     if a.accuracy:
         info("Precisión remota (set completo; puede tardar)…")
         acc_cmd = ("cd %s && %s && python -m bench.run_accuracy --model %s --backend ort "
-                   "--provider %s --device-tag %s --dataset %s"
-                   % (a.remote_repo, a.activate, a.model, a.provider, a.device_tag, a.dataset))
+                   "--provider %s --device-tag %s --dataset %s%s"
+                   % (a.remote_repo, a.activate, a.model, a.provider, a.device_tag, a.dataset, vflags))
         r.ssh(a.host, acc_cmd)
 
     # ---------- 6-7. La Jetson commitea sus JSON; el Mac hace pull ----------
@@ -197,7 +214,7 @@ def main():
         return
 
     # ---------- 8. Guardia de proveedor ----------
-    pat = "results/%s_%s_ort_%s_*.json" % (a.device_tag, stem, a.provider)
+    pat = "results/%s_%s%s_ort_%s_*.json" % (a.device_tag, stem, vtag, a.provider)
     cands = sorted(glob.glob(os.path.join(REPO, pat)))
     if not cands:
         die("no encuentro el JSON de latencia tras el pull (patrón %s)." % pat)
