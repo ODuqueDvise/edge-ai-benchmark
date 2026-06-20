@@ -89,3 +89,10 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 ## 2026-06-20 — Orquestador con soporte INT8 (listo para la batería)
 - `measure_remote.py` ahora pasa `--variant` y `--trt-int8-table` a la latencia y a la precisión, e incluye la variante en el patrón de archivos del guardia de proveedor y la energía. Verificado en dry-run.
 - La batería oficial INT8 queda en un comando por condición desde el Mac: GPU = FP32 + tabla de calibración + `--variant int8`; CPU = el modelo QDQ. Prerrequisito: SSH por llave (ssh-copy-id) y medidor conectado para `--shunt`.
+
+## 2026-06-20 — Campaña oficial INT8 en la Jetson COMPLETA (CP1)
+- Batería completa vía orquestador (R=5 + precisión 10k + energía), 4 condiciones, auto-commiteada. INT8 en GPU por plan B (FP32 + tabla TensorRT, variante int8); en CPU por el QDQ.
+- ResNet-50: GPU FP32 6.59→INT8 2.45 ms (2.69×), CPU FP32 89.9→INT8 35.8 ms (2.51×). Top-1 (10k): GPU 0.6944→0.6833, CPU 0.6946→0.6744 (caída 1-2 pts). Energía neta/inf: GPU 43.1→8.4 mJ, CPU 370→161.7 mJ. Brecha 13.6×→14.6×.
+- MobileNetV2: GPU FP32 2.468→INT8 1.81 ms (1.36×), CPU FP32 12.28→INT8 12.31 ms (**1.00×, sin ganancia**). Top-1: GPU 0.596→0.591, CPU 0.596→0.589. Energía neta/inf: GPU 12.1→3.0 mJ, CPU 52.3→48.3 mJ. Brecha 5.0×→6.8×.
+- HALLAZGOS: (1) el INT8 NO estrecha la brecha GPU-CPU; la ENSANCHA en ambos modelos. (2) En CPU el beneficio del INT8 depende de si el modelo es compute-bound (ResNet-50: 2.5×) o memory-bound (MobileNetV2 depthwise: sin ganancia): el INT8 recorta cómputo, no tráfico de memoria. (3) Precisión casi intacta en ambos (MobileNetV2 NO se degradó → D9 infundado); el cuantizador de CPU (QDQ) degrada algo más que el de GPU (TensorRT) en ResNet-50 (−2.0 vs −1.1 pts). (4) El INT8 ahorra energía en todas las condiciones, más donde también acelera.
+- Pendiente: rpi-cpu INT8 (Luis). OE1/INT8 cerrado en la Jetson; siguiente técnica del orden D10: poda estructurada.
