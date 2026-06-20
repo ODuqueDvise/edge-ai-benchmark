@@ -66,6 +66,9 @@ python scripts/energy_from_window.py --log power_log.csv --result results/<corri
 # Analizar variabilidad entre corridas (decidir/verificar R)
 python scripts/analyze_runs.py "results/jetson-gpu_*tensorrt*.json"
 
+# Traer los *.json de un equipo de medicion al Mac (para calcular energia o consolidar)
+bash scripts/fetch_results.sh orlando@orlando-desktop.local
+
 # Consolidar y subir resultados (pull + regenerar log + commit + push), en una orden
 bash scripts/sync_results.sh
 ```
@@ -87,10 +90,11 @@ scripts/
   collect_env.sh          vuelca versiones y estado del equipo
   ina226_logger.py        logger de energía por I2C nativo (Linux / Pi auxiliar)
   ina226_cp2112_logger.py logger de energía vía CP2112 (Mac/Windows)
-  energy_from_window.py   integra energía sobre la ventana de cada corrida
+  energy_from_window.py   integra energía sobre la ventana y la guarda en results/energy_*.json
   analyze_runs.py         resume corridas y variabilidad entre ellas (decidir R)
   build_results_log.py    genera results/RESULTS_LOG.md desde los JSON
   sync_results.sh         pull + regenerar log + add + commit + push (Jetson/RPi)
+  fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al Mac por SSH
 docs/
   RUNBOOK.md              proceso end-to-end + flujo de git
   QUICKSTART_JETSON.md    puesta a punto de la Jetson

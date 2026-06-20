@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-"""Calcula la energia sobre la ventana de una corrida del arnes.
+"""Calcula la energia sobre la ventana de una corrida y la GUARDA en results/energy_*.json.
 
-Toma el CSV del logger INA226 y un JSON de resultados (con
-metadata.window.start_epoch_s/end_epoch_s), integra la potencia en esa ventana
-(trapezoidal) y reporta energia total, energia por inferencia y potencia media.
-Opcional: resta una linea base de reposo.
+Toma el CSV del logger INA226 y un JSON de resultados (con metadata.window),
+integra la potencia en esa ventana, reporta energia total y neta, y escribe
+results/energy_<device>_<stamp>.json para que build_results_log.py la incluya solo.
 
-IMPORTANTE: los relojes del host de registro y del equipo bajo prueba deben
-estar sincronizados (NTP), o las ventanas no coincidiran.
+Relojes del host de registro y del equipo deben estar sincronizados (NTP).
 
-  python scripts/energy_from_window.py --log power_log.csv --result results/jetson-gpu_....json
-  python scripts/energy_from_window.py --log power_log.csv --result ... --idle-watts 5.1
+  python scripts/energy_from_window.py --log power.csv --result results/jetson-gpu_....json --idle-watts 7.8
 """
-import argparse, csv, json
+import argparse, csv, json, os, time
 
 
 def load_log(path):
@@ -44,26 +41,48 @@ def main():
     ap.add_argument("--log", required=True)
     ap.add_argument("--result", required=True)
     ap.add_argument("--idle-watts", type=float, default=None, help="potencia en reposo a restar (W)")
+    ap.add_argument("--out-dir", default="results")
     a = ap.parse_args()
 
     R = json.load(open(a.result))
-    win = R["metadata"]["window"]
+    md = R.get("metadata", {})
+    win = md["window"]
     t0, t1 = win["start_epoch_s"], win["end_epoch_s"]
-    iters = R["metadata"].get("iters") or R["latency_summary"]["n"]
+    iters = md.get("iters") or R.get("latency_summary", {}).get("n")
+    dev = md.get("device_tag", "?")
+    sha = md.get("model", {}).get("sha256")
 
     ts, pw = load_log(a.log)
     e, seg = integrate(ts, pw, t0, t1)
     if seg == 0:
-        print("ERROR: el log no cubre la ventana de la corrida.")
-        print("Revisa: relojes sincronizados (NTP) y que el logger corriera durante la medicion.")
+        print("ERROR: el log no cubre la ventana. Revisa relojes NTP y que el logger corriera durante la corrida.")
         return
     dur = t1 - t0
-    print("Ventana: %.2f s | energia total: %.3f J | potencia media: %.3f W" % (dur, e, e / dur))
-    print("Energia por inferencia (total): %.3f mJ  (n=%d)" % (e / iters * 1000, iters))
+    avg = e / dur
+    per_total = (e / iters * 1000) if iters else None
+
+    out = {"metadata": {"device_tag": dev, "model": {"sha256": sha},
+                        "source_result": os.path.basename(a.result),
+                        "idle_watts": a.idle_watts, "iters": iters,
+                        "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())},
+           "energy": {"window_s": dur, "total_j": e, "avg_power_w": avg,
+                      "per_inf_total_mj": per_total}}
+
+    print("Ventana: %.2f s | energia total: %.3f J | potencia media: %.3f W" % (dur, e, avg))
+    print("Energia por inferencia (total): %.3f mJ  (n=%s)" % (per_total, iters))
     if a.idle_watts is not None:
         e_net = e - a.idle_watts * dur
-        print("Energia neta (resta reposo %.2f W): %.3f J | por inferencia: %.3f mJ"
-              % (a.idle_watts, e_net, e_net / iters * 1000))
+        per_net = (e_net / iters * 1000) if iters else None
+        out["energy"]["net_j"] = e_net
+        out["energy"]["per_inf_net_mj"] = per_net
+        print("Energia neta (resta reposo %.2f W): %.3f J | por inferencia: %.3f mJ" % (a.idle_watts, e_net, per_net))
+
+    os.makedirs(a.out_dir, exist_ok=True)
+    stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
+    outp = os.path.join(a.out_dir, "energy_%s_%s.json" % (dev, stamp))
+    with open(outp, "w") as f:
+        json.dump(out, f, indent=2)
+    print("Escrito:", outp)
 
 
 if __name__ == "__main__":
