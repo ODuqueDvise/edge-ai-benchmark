@@ -94,6 +94,21 @@ Hace `pull --rebase` + `add results/` + `commit` + `push`, con aviso si hay conf
 - **No:** `datasets/` (cada equipo descarga el suyo), `.venv/`, `__pycache__/`,
   otros modelos en `models/`.
 
+## Medición automatizada (un comando, desde el Mac)
+
+Para no orquestar a mano latencia + energía + sincronización en dos terminales,
+`scripts/measure_remote.py` hace una condición de punta a punta por SSH y
+`scripts/measure_jetson_model.sh` corre las dos condiciones de la Jetson de un tiro.
+Comandos y opciones en el README ("Medición automatizada").
+
+**Prerrequisitos (una vez):**
+- SSH por llave Mac→equipo: `ssh-copy-id orlando@orlando-desktop.local`. Sin esto, el flujo se cuelga pidiendo contraseña.
+- Relojes sincronizados por NTP en Mac y Jetson (la ventana de energía depende de ello; Jetson: `sudo timedatectl set-ntp true`).
+
+El orquestador **aborta en rojo** ante reloj desfasado, checksum que no cuadra, autotest del
+medidor fallido, caída silenciosa de la GPU a CPU o ventana de energía sin cubrir. Los pasos
+manuales de este runbook quedan como respaldo.
+
 ## Estado actual (junio 2026)
 
 - Jetson: línea base V0 completa de MobileNetV2 en `jetson-gpu` y `jetson-cpu` (latencia,

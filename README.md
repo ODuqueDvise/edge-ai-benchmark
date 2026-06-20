@@ -92,6 +92,34 @@ bash scripts/fetch_results.sh orlando@orlando-desktop.local
 bash scripts/sync_results.sh
 ```
 
+## Medición automatizada (un comando, desde el Mac)
+
+`measure_remote.py` orquesta una condición de punta a punta por SSH: chequeos (reloj NTP,
+checksum del modelo, autotest del medidor) → logger de energía local → latencia remota (R) →
+la Jetson commitea sus JSON → el Mac hace `pull` → guardia de proveedor (aborta si la GPU cae
+a CPU) → energía → commit. Aborta en rojo ante cualquier anomalía; un final verde significa
+"medido bien", no "corrió sin reventar". Los JSON de dispositivo viajan por **git** (no rsync).
+
+**Prerrequisitos (una vez):** SSH por llave (`ssh-copy-id usuario@host`, sin contraseña) y
+relojes sincronizados por NTP en ambas máquinas. El medidor INA226+CP2112 va en el Mac.
+
+```bash
+# Una condición (jetson-gpu) con energía y verificación de modelo
+python3 scripts/measure_remote.py --host orlando@orlando-desktop.local \
+    --device-tag jetson-gpu --provider tensorrt --model models/resnet50_baseline.onnx \
+    --shunt 0.1 --expect-sha 05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc
+
+# Las dos condiciones de la Jetson de un modelo, de un tiro
+bash scripts/measure_jetson_model.sh models/resnet50_baseline.onnx 05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc
+
+# Ver el plan sin ejecutar nada
+python3 scripts/measure_remote.py --host … --device-tag jetson-cpu --provider cpu \
+    --model models/resnet50_baseline.onnx --dry-run
+```
+
+Sin `--shunt` solo mide latencia (no energía). Con `--accuracy` añade precisión (lenta, sin
+logger). Los comandos manuales de arriba quedan como respaldo.
+
 ## Estructura del proyecto
 
 ```
@@ -113,7 +141,9 @@ scripts/
   analyze_runs.py         resume corridas y variabilidad entre ellas (decidir R)
   build_results_log.py    genera results/RESULTS_LOG.md desde los JSON
   sync_results.sh         pull + regenerar log + add + commit + push (Jetson/RPi)
-  fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al Mac por SSH
+  fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al Mac por SSH (respaldo)
+  measure_remote.py       orquestador: una condición de punta a punta por SSH (Mac)
+  measure_jetson_model.sh wrapper: ambas condiciones de la Jetson de un modelo
 docs/
   RUNBOOK.md              proceso end-to-end + flujo de git
   QUICKSTART_JETSON.md    puesta a punto de la Jetson
