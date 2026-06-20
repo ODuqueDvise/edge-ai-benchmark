@@ -8,7 +8,7 @@ por optimización). Replicable por Orlando (Jetson) y Luis (RPi) con los mismos 
 - **Mismo dataset:** variante *matched-frequency* (10.000 imágenes), idéntica en ambos equipos.
 - **Mismos modelos:** los dos baselines, cada uno verificado por su checksum —
   MobileNetV2 `models/cnn_baseline.onnx` (`609015cb…56eb0dd`) y ResNet-50
-  `models/resnet50_baseline.onnx` (checksum que imprime la exportación).
+  `models/resnet50_baseline.onnx` (`05e5bc14…290dc`).
 - **Mismo subconjunto:** si usas `--limit`, ambos usan el mismo valor (el orden de
   iteración es determinista: se miden las mismas imágenes en el mismo orden).
 - La precisión se mide por **(variante de modelo, condición)**: CPU FP32 y GPU

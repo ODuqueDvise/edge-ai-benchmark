@@ -7,7 +7,7 @@ La RPi 5 no tiene GPU para ML, asi que solo corre la condicion `rpi-cpu`.
 
 - Usa los MISMOS archivos de modelo que Orlando, NO los reexportes. Dos baselines:
   `models/cnn_baseline.onnx` (MobileNetV2, SHA-256 `609015cb…56eb0dd`) y
-  `models/resnet50_baseline.onnx` (ResNet-50, checksum publicado por Orlando).
+  `models/resnet50_baseline.onnx` (ResNet-50, SHA-256 `05e5bc14…290dc`).
 - Mismos parametros (constantes congeladas): `--input-shape 1,3,224,224 --warmup 100 --iters 2000`.
 
 ## 1. Clonar el repo y traer el modelo

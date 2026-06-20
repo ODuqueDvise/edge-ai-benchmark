@@ -37,7 +37,7 @@ Dos modelos comprometidos (decisión del director, jun 2026; ver `docs/DECISIONS
 | Modelo | Archivo | Rol en el contraste | SHA-256 |
 |---|---|---|---|
 | MobileNetV2 | `models/cnn_baseline.onnx` | modelo ya eficiente (poco margen) | `609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd` |
-| ResNet-50 | `models/resnet50_baseline.onnx` | modelo denso con margen | se publica al exportar |
+| ResNet-50 | `models/resnet50_baseline.onnx` | modelo denso con margen | `05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc` |
 
 Ambos: ONNX autocontenido (opset 18), entrada `1,3,224,224`, preprocesamiento ImageNet.
 Se comparten por archivo y se verifican por checksum; **no se reexportan por equipo**.

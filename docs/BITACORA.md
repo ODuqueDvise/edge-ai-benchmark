@@ -37,4 +37,4 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
   - `build_results_log.py` etiqueta por nombre de modelo con respaldo al sha; sigue agrupando por sha, así que los JSON viejos de MobileNetV2 no se rompen. Verificado con dos JSON simulados → dos filas separadas y etiquetadas.
   - `.gitignore`: `cnn_baseline.onnx` (~14MB) versionado; ResNet-50 (~100MB) NO se versiona —supera el límite de 100MB de GitHub—, se comparte por archivo + checksum.
   - Docs actualizadas (README, RUNBOOK, QUICKSTART_JETSON/RPI/ACCURACY) al flujo de dos modelos y a las constantes congeladas (100/2000 donde quedaban 50/1000).
-- Pendiente inmediato: exportar ResNet-50 (`--model-name resnet50 --opset 18`, igual que el canónico), publicar su checksum y correr su línea base V0 (jetson-gpu/cpu por Orlando; rpi-cpu por Luis).
+- ResNet-50 exportado (opset 18, 102.4 MB, pesos IMAGENET1K_V2, SHA-256 `05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc`) y copiado a la Jetson por scp. Pendiente: correr su línea base V0 (jetson-gpu/cpu por Orlando; rpi-cpu por Luis).
