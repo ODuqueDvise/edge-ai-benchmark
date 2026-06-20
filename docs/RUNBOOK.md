@@ -50,20 +50,24 @@ git pull
 #   git fetch origin && git reset --hard origin/master
 ```
 
-### Subir cambios (flujo estándar, trabajando dentro del clon)
+### Subir cambios (orden robusto: commit ANTES de pull)
+
+Con `pull.rebase` activo, `git pull` falla si hay cambios sin commitear. Por eso se
+confirma primero y el pull va después (el rebase reproduce tu commit encima de lo remoto):
 
 ```bash
-git pull                              # 1. sincroniza antes
-# ... editar / generar resultados ...
-git add -A                            # 2. agrega cambios (respeta .gitignore)
-git add -f models/cnn_baseline.onnx   # 3. solo si cambió el modelo (esta ignorado)
-git commit -m "mensaje claro"         # 4. confirma
+git add -A                            # 1. agrega tus cambios (respeta .gitignore)
+git add -f models/cnn_baseline.onnx   # 2. solo si cambió el modelo (está ignorado)
+git commit -m "mensaje claro"         # 3. confirma
+git pull                              # 4. integra lo remoto (rebasa tu commit encima)
 git push                              # 5. sube
 ```
 
-> Nota (Orlando): si editas fuera del clon (en la carpeta del proyecto de Cowork),
-> copia al clon antes de confirmar:
-> `rsync -a --exclude='.git' --exclude='.venv' --exclude='__pycache__' --exclude='datasets' "<carpeta_proyecto>/" ./`
+Hazlo una vez: `git config --global pull.rebase true`. El `git pull` de primero solo
+sirve con el árbol limpio; si tienes ediciones pendientes, commitea antes.
+
+> Nota: en el Mac, la carpeta del proyecto YA es el clon (normalizado), así que se
+> edita y commitea ahí directamente; no se usa rsync.
 
 ### Subir resultados de mediciones (atajo)
 
