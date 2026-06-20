@@ -37,7 +37,19 @@ protocolo. Ver el procedimiento en `docs/REGISTRO.md`.
 - Decisión: no incluir modelos de razonamiento jerárquico.
 - Motivo: otra clase de workload; no encaja en OE1/OE2; fracturaría diseño y cronograma.
 
-### D9 — Alcance de modelos: 1 comprometido + 1 extensión (EN CONSULTA, jun 2026)
-- Propuesta: comprometer MobileNetV2; recuperar un segundo modelo más pesado (ResNet-50/EfficientNet) como extensión condicionada al tiempo.
-- Motivo: un solo modelo debilita la validez externa; MobileNetV2 ya optimizado puede subestimar el efecto de las técnicas.
-- Estado: pendiente de confirmación del director (ver `Concepto_Alcance_Modelos.md`).
+### D9 — Alcance de modelos: dos modelos comprometidos (CONFIRMADO por el director, jun 2026)
+- Decisión: comprometer MobileNetV2 + las técnicas, y AÑADIR ResNet-50 como segundo modelo comprometido, con lugar explícito en el cronograma (no condicional "si el tiempo da").
+- Motivo (director): ResNet-50 es denso y con redundancia → más margen para cuantización y poda; el contraste "modelo ya eficiente (MobileNetV2) vs modelo con margen (ResNet-50)" queda más limpio. Se prefirió ResNet-50 sobre EfficientNet.
+- Consecuencia: la matriz experimental se duplica (2 modelos × técnicas × 3 condiciones); el cronograma debe ubicar el segundo modelo de forma explícita. El arnés ya soporta el cambio (otro .onnx + checksum). Reemplaza la propuesta condicional del `Concepto_Alcance_Modelos.md`.
+
+### D10 — Técnicas de optimización: tipo y orden (director, jun 2026)
+- Decisión: cuantización INT8 → poda ESTRUCTURADA → destilación al final.
+- Motivo (director): en la Orin la poda solo baja latencia si es estructurada (la no estructurada deja dispersión que el hardware denso no aprovecha); la destilación va de última por su costo.
+- Consecuencia: implementar poda por canales/filtros (no por magnitud), con reentrenamiento de recuperación; la destilación es el ítem flexible si el cronograma aprieta.
+
+### D11 — Método estadístico: tamaño de efecto sobre p-valores (director, jun 2026)
+- Decisión: no forzar el ANOVA clásico. Transformación logarítmica para la tendencia central; Aligned Rank Transform (ART) si se conserva el diseño factorial. Conclusiones apoyadas en tamaños de efecto e intervalos de confianza, no en p-valores (con miles de inferencias casi todo sale "significativo"). La cola se reporta con mediana, p95 y p99.
+- Consecuencia: definir herramienta para ART (R/ARTool o equivalente); reportar tamaño de efecto + IC en cada comparación. Afecta el análisis del OE3.
+
+### D12 — Confirmación de dataset (director, jun 2026)
+- Decisión: ratifica D5 (ImageNet-V2). Reportar siempre como "V2" y usar el mismo conjunto en ambos modelos.
