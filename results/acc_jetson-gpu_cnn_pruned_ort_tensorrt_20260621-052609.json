@@ -1,0 +1,46 @@
+{
+  "metadata": {
+    "timestamp_utc": "2026-06-21T05:26:09Z",
+    "device_tag": "jetson-gpu",
+    "power_mode_declared": null,
+    "nvpmodel": "NV Power Mode: 15W 0",
+    "platform": {
+      "node": "orlando-desktop",
+      "machine": "aarch64",
+      "system": "Linux",
+      "release": "5.15.148-tegra",
+      "python": "3.10.12"
+    },
+    "backend": {
+      "name": "onnxruntime",
+      "version": "1.24.0"
+    },
+    "model": {
+      "name": "cnn_pruned",
+      "path": "models/cnn_pruned.onnx",
+      "sha256": "7be5303c91aef53d0b110ecac8509bcf0c16aa22d925a72f9330070b6d3c9226"
+    },
+    "thermal_c_start": {
+      "cpu-thermal": 50.72,
+      "soc2-thermal": 50.62,
+      "soc0-thermal": 50.38,
+      "gpu-thermal": 50.88,
+      "tj-thermal": 51.03,
+      "soc1-thermal": 51.16
+    },
+    "dataset": "datasets/imagenetv2-matched-frequency-format-val",
+    "n_images": 10000,
+    "variant": null,
+    "active_providers": [
+      "TensorrtExecutionProvider",
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "accuracy": {
+    "top1": 0.4532,
+    "top5": 0.6997,
+    "n_images": 10000,
+    "eval_seconds": 133.31139087677002
+  }
+}
