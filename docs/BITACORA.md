@@ -96,3 +96,15 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 - MobileNetV2: GPU FP32 2.468→INT8 1.81 ms (1.36×), CPU FP32 12.28→INT8 12.31 ms (**1.00×, sin ganancia**). Top-1: GPU 0.596→0.591, CPU 0.596→0.589. Energía neta/inf: GPU 12.1→3.0 mJ, CPU 52.3→48.3 mJ. Brecha 5.0×→6.8×.
 - HALLAZGOS: (1) el INT8 NO estrecha la brecha GPU-CPU; la ENSANCHA en ambos modelos. (2) En CPU el beneficio del INT8 depende de si el modelo es compute-bound (ResNet-50: 2.5×) o memory-bound (MobileNetV2 depthwise: sin ganancia): el INT8 recorta cómputo, no tráfico de memoria. (3) Precisión casi intacta en ambos (MobileNetV2 NO se degradó → D9 infundado); el cuantizador de CPU (QDQ) degrada algo más que el de GPU (TensorRT) en ResNet-50 (−2.0 vs −1.1 pts). (4) El INT8 ahorra energía en todas las condiciones, más donde también acelera.
 - Pendiente: rpi-cpu INT8 (Luis). OE1/INT8 cerrado en la Jetson; siguiente técnica del orden D10: poda estructurada.
+
+## 2026-06-20 — Subconjunto de recuperación para la poda (cerrado)
+- Para el reentrenamiento de recuperación de la poda se bajó un subconjunto balanceado de ImageNet-1k de entrenamiento en el Legion (WSL2): ~100 img/clase, 1000 clases, 100 203 imágenes, 3.9 GB en ext4. Guía: `docs/SETUP_IMAGENET_SUBSET.md`.
+- Streaming desde HuggingFace con buffer pequeño (`buffer_size=2000`) + reanudación desde disco para no agotar la RAM de WSL (el buffer de 10000 causaba `Killed`). 24 clases quedaron entre 68 y 99 img (mínimo 68); se aceptó así —imbalance trivial para fine-tuning de recuperación—. JPGs truncados: manejo diferido al cargador de entrenamiento (`ImageFile.LOAD_TRUNCATED_IMAGES`), no a un escaneo aparte.
+
+## 2026-06-20 — Verificación del mapeo de clases (paso 0 de la poda)
+- `scripts/verify_class_mapping.py`: evalúa el preentrenado de torchvision sobre el subconjunto usando el índice de carpeta como etiqueta. Resultado: ResNet-50 top-1 90.7% (top-5 98.7%), MobileNetV2 77.5% (93.8%) sobre 4000 muestras → el índice de Hugging Face (0000–0999) COINCIDE con el orden de torchvision. No hay que reordenar etiquetas.
+
+## 2026-06-20 — Fase de poda estructurada iniciada (OE1, técnica 2)
+- `scripts/prune_finetune.py`: poda estructurada (torch-pruning/DepGraph, importancia L1, global iterativa hasta una fracción de MACs objetivo, sin tocar el clasificador) + reentrenamiento de recuperación (AMP, SGD+coseno, label smoothing, checkpoint por época con resume, dataloader tolerante a corruptos) + export a ONNX FP32 (opset 18, archivo único, SHA-256), idéntico en formato a la línea base.
+- Parámetros (D15): ResNet-50 conservar ~50% de MACs, MobileNetV2 ~70% (asimétrico por ser compacto/memory-bound). FP32 para aislar la variable poda. Corre en el Legion (RTX 3060, ~1–1.5 h/modelo estimado); el ONNX se copia a la Jetson para EXP-07/08 (MobileNetV2) y 19/20 (ResNet-50). RPi (09/21) a Luis.
+- Máquina de entrenamiento: Lenovo Legion 5 17ACH6H, RTX 3060 Laptop 6 GB, Windows 11 + WSL2 Ubuntu. NO es dispositivo de medición; solo produce los modelos podados.

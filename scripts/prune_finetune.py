@@ -10,7 +10,7 @@ Flujo, en una sola corrida por modelo (lanzar con nohup en el Legion):
      (mantiene 1000 salidas). Reporta MACs/parametros antes y despues.
   3. Reentrenamiento de recuperacion sobre el subconjunto de ImageNet (AMP, SGD+coseno,
      label smoothing). Checkpoint por epoca (modelo podado completo) -> resume si se corta.
-  4. Export a ONNX FP32 con los MISMOS ajustes que la linea base (opset 13, un solo
+  4. Export a ONNX FP32 con los MISMOS ajustes que la linea base (opset 18, un solo
      archivo, input/output, SHA-256), para que la comparacion contra V0 sea limpia.
 
 Requiere (en el Legion, prune-env): torch, torchvision, torch-pruning, onnx, onnxruntime, pillow.
@@ -118,7 +118,7 @@ def export_onnx(model, out, dev):
     model.eval().to(dev)
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
     dummy = torch.randn(1, 3, 224, 224, device=dev)
-    torch.onnx.export(model, dummy, out, opset_version=13,
+    torch.onnx.export(model, dummy, out, opset_version=18,
                       input_names=["input"], output_names=["output"])
     import onnx
     m = onnx.load(out); onnx.save_model(m, out, save_as_external_data=False)
