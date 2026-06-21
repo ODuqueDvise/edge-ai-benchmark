@@ -160,3 +160,19 @@ PRÓXIMOS PASOS (en orden, para la siguiente sesión):
   4. Consolidar EXP-07/08/19/20 en la matriz (latencia/energía firmes; precisión cuando se resuelva) y en la tabla de resultados del Word (Retos_Tecnicos_Reproducibilidad.docx, ya tiene el reto 4.7).
   5. Pendiente de Luis: rpi-cpu para V0, INT8 y poda (necesita shunt R010).
 REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperación); scripts/prune_finetune.py; docs/SETUP_LEGION_CUDA.md y SETUP_IMAGENET_SUBSET.md.
+
+## 2026-06-21 — Recuperación por destilación (KD) implementada; ResNet KD entrenado
+- Nuevo `scripts/prune_distill.py`: recuperación de la poda por destilación (maestro = modelo sin podar, congelado; pérdida mixta KD [KL sobre logits suavizados, T=4] + CE dura, alpha=0.8). Poda y export idénticos a prune_finetune (L1 global, FP32, opset 18). Corrige el sesgo de selección: exporta la ÚLTIMA época, no la "mejor" por val de train.
+- ResNet-50 KD (−53% MACs) entrenado y exportado: `models/resnet50_pruned_kd.onnx`, sha `efffe63b3e650cd67fbfa237bd5c5311b1dff6a25b94e9d2de85c3bf18292efb`, 69.8 MB. Val de entrenamiento 92.68% (vs 95.99% del fine-tuning normal → menos memorización; falta confirmar en V2).
+- EN CURSO: precisión V2 del KD en la Jetson (accuracy-only, jetson-gpu). Latencia/energía NO se re-miden (arquitectura idéntica a la poda con fine-tuning normal → se heredan). Referencias: poda normal 0.510, sin podar 0.694. Gate: si el KD sube claro (>~0.60) → correr MobileNet KD; si no, el cuello es de datos (llevar al director).
+
+## 2026-06-21 — ResNet KD: precisión V2 (la destilación recupera parcialmente)
+- ResNet-50 podado −53% MACs, recuperado por DESTILACIÓN: top-1 V2 = 0.5787 (top-5 0.8034), vs 0.510 del fine-tuning normal (+6.8 pts) y 0.694 sin podar. Latencia p50 5.10 ms = idéntica a la poda normal (confirma misma arquitectura; latencia/energía se heredan).
+- Lectura: la destilación SÍ funciona como recuperación (+6.8 pts top-1, +6 pts top-5 sobre el fine-tuning normal), pero queda ~12 pts bajo el modelo sin podar → ayuda pero no sustituye datos; el residual es límite del subconjunto de 100/clase. Hallazgo cuantificado: poda −53% MACs cuesta −18 pts con fine-tuning normal, de los cuales la destilación recupera ~7 (a −12); cerrar el resto exige más datos.
+- Pendiente: MobileNet KD (par del experimento) + consolidar el set completo V0 / poda-FT / poda-KD para ambos modelos.
+
+## 2026-06-21 — MobileNet KD: precisión V2 + experimento de poda CERRADO
+- MobileNetV2 podado −33% MACs, recuperado por DESTILACIÓN: top-1 V2 = 0.5083 (top-5 0.7544), vs 0.453 del fine-tuning normal (+5.5 pts) y 0.596 sin podar. Latencia 2.34 ms = idéntica a la poda normal.
+- SET COMPLETO de la poda (top-1 V2): ResNet-50 0.694 (V0) → 0.510 (FT) → 0.579 (KD); MobileNetV2 0.596 → 0.453 → 0.508. La destilación recupera +5.5/+6.8 pts; residual −9/−12 pts = límite de datos (100/clase).
+- CIERRE del experimento de poda. Historia: la poda ESTRECHA la brecha GPU-CPU (al revés del INT8) y rescata la CPU memory-bound de MobileNet; su costo de precisión es real pero parcialmente recuperable por destilación, con el residual atribuible al presupuesto de datos de recuperación.
+- Pendiente: consolidar en Word (en curso); rpi-cpu (Luis); destilación como técnica 3 independiente (estudiante compacto).
