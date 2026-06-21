@@ -1,0 +1,275 @@
+dispositivo: cuda | modelo: mobilenet_v2 | conservar MACs: 0.7
+dataset: 100203 imagenes (95192 train / 5011 val) en 1000 clases
+poda: MACs 0.32G -> 0.21G (67% del original) | params 3.50M -> 3.16M | pasos=3
+/home/orlando/edge-ai-benchmark/scripts/prune_finetune.py:164: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler()
+/home/orlando/edge-ai-benchmark/scripts/prune_finetune.py:177: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast():
+  epoca 0  paso 0/1487  loss 6.502  5 img/s
+  epoca 0  paso 100/1487  loss 4.178  337 img/s
+  epoca 0  paso 200/1487  loss 3.958  482 img/s
+  epoca 0  paso 300/1487  loss 3.321  565 img/s
+  epoca 0  paso 400/1487  loss 4.069  619 img/s
+  epoca 0  paso 500/1487  loss 3.188  658 img/s
+  epoca 0  paso 600/1487  loss 3.764  686 img/s
+  epoca 0  paso 700/1487  loss 3.209  707 img/s
+  epoca 0  paso 800/1487  loss 3.656  723 img/s
+  epoca 0  paso 900/1487  loss 3.410  737 img/s
+  epoca 0  paso 1000/1487  loss 3.205  749 img/s
+  epoca 0  paso 1100/1487  loss 3.108  759 img/s
+  epoca 0  paso 1200/1487  loss 3.308  767 img/s
+  epoca 0  paso 1300/1487  loss 2.962  774 img/s
+  epoca 0  paso 1400/1487  loss 2.896  780 img/s
+epoca 0/14  val top-1 56.04%  lr 0.009891  (2.1 min)
+  nuevo mejor (56.04%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 1  paso 0/1487  loss 3.055  192 img/s
+  epoca 1  paso 100/1487  loss 3.228  831 img/s
+  epoca 1  paso 200/1487  loss 3.274  839 img/s
+  epoca 1  paso 300/1487  loss 3.118  845 img/s
+  epoca 1  paso 400/1487  loss 2.792  846 img/s
+  epoca 1  paso 500/1487  loss 2.792  849 img/s
+  epoca 1  paso 600/1487  loss 3.235  853 img/s
+  epoca 1  paso 700/1487  loss 3.606  853 img/s
+  epoca 1  paso 800/1487  loss 3.125  855 img/s
+  epoca 1  paso 900/1487  loss 3.000  856 img/s
+  epoca 1  paso 1000/1487  loss 2.688  857 img/s
+  epoca 1  paso 1100/1487  loss 2.892  857 img/s
+  epoca 1  paso 1200/1487  loss 3.225  858 img/s
+  epoca 1  paso 1300/1487  loss 2.834  859 img/s
+  epoca 1  paso 1400/1487  loss 3.030  859 img/s
+epoca 1/14  val top-1 65.70%  lr 0.009568  (1.9 min)
+  nuevo mejor (65.70%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 2  paso 0/1487  loss 2.954  191 img/s
+  epoca 2  paso 100/1487  loss 3.138  813 img/s
+  epoca 2  paso 200/1487  loss 2.728  837 img/s
+  epoca 2  paso 300/1487  loss 3.226  842 img/s
+  epoca 2  paso 400/1487  loss 2.987  846 img/s
+  epoca 2  paso 500/1487  loss 2.887  850 img/s
+  epoca 2  paso 600/1487  loss 2.987  853 img/s
+  epoca 2  paso 700/1487  loss 2.739  855 img/s
+  epoca 2  paso 800/1487  loss 3.237  857 img/s
+  epoca 2  paso 900/1487  loss 2.548  858 img/s
+  epoca 2  paso 1000/1487  loss 2.955  859 img/s
+  epoca 2  paso 1100/1487  loss 3.036  860 img/s
+  epoca 2  paso 1200/1487  loss 2.543  860 img/s
+  epoca 2  paso 1300/1487  loss 2.974  861 img/s
+  epoca 2  paso 1400/1487  loss 3.190  862 img/s
+epoca 2/14  val top-1 68.15%  lr 0.009045  (1.9 min)
+  nuevo mejor (68.15%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 3  paso 0/1487  loss 2.957  192 img/s
+  epoca 3  paso 100/1487  loss 2.683  839 img/s
+  epoca 3  paso 200/1487  loss 2.500  859 img/s
+  epoca 3  paso 300/1487  loss 3.039  862 img/s
+  epoca 3  paso 400/1487  loss 3.063  861 img/s
+  epoca 3  paso 500/1487  loss 2.929  862 img/s
+  epoca 3  paso 600/1487  loss 2.481  864 img/s
+  epoca 3  paso 700/1487  loss 2.658  865 img/s
+  epoca 3  paso 800/1487  loss 2.545  867 img/s
+  epoca 3  paso 900/1487  loss 2.592  867 img/s
+  epoca 3  paso 1000/1487  loss 2.501  867 img/s
+  epoca 3  paso 1100/1487  loss 2.850  867 img/s
+  epoca 3  paso 1200/1487  loss 2.837  868 img/s
+  epoca 3  paso 1300/1487  loss 2.598  868 img/s
+  epoca 3  paso 1400/1487  loss 2.552  867 img/s
+epoca 3/14  val top-1 68.65%  lr 0.008346  (1.9 min)
+  nuevo mejor (68.65%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 4  paso 0/1487  loss 2.268  173 img/s
+  epoca 4  paso 100/1487  loss 2.581  810 img/s
+  epoca 4  paso 200/1487  loss 2.819  826 img/s
+  epoca 4  paso 300/1487  loss 2.575  835 img/s
+  epoca 4  paso 400/1487  loss 2.374  837 img/s
+  epoca 4  paso 500/1487  loss 2.540  842 img/s
+  epoca 4  paso 600/1487  loss 2.332  845 img/s
+  epoca 4  paso 700/1487  loss 2.803  847 img/s
+  epoca 4  paso 800/1487  loss 2.940  849 img/s
+  epoca 4  paso 900/1487  loss 2.362  850 img/s
+  epoca 4  paso 1000/1487  loss 2.763  851 img/s
+  epoca 4  paso 1100/1487  loss 2.768  851 img/s
+  epoca 4  paso 1200/1487  loss 2.645  851 img/s
+  epoca 4  paso 1300/1487  loss 2.457  851 img/s
+  epoca 4  paso 1400/1487  loss 2.523  852 img/s
+epoca 4/14  val top-1 73.90%  lr 0.0075  (2.0 min)
+  nuevo mejor (73.90%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 5  paso 0/1487  loss 2.301  171 img/s
+  epoca 5  paso 100/1487  loss 2.459  824 img/s
+  epoca 5  paso 200/1487  loss 2.343  845 img/s
+  epoca 5  paso 300/1487  loss 2.431  851 img/s
+  epoca 5  paso 400/1487  loss 2.832  854 img/s
+  epoca 5  paso 500/1487  loss 2.919  854 img/s
+  epoca 5  paso 600/1487  loss 2.436  855 img/s
+  epoca 5  paso 700/1487  loss 2.324  855 img/s
+  epoca 5  paso 800/1487  loss 2.309  854 img/s
+  epoca 5  paso 900/1487  loss 2.833  854 img/s
+  epoca 5  paso 1000/1487  loss 2.683  853 img/s
+  epoca 5  paso 1100/1487  loss 2.096  852 img/s
+  epoca 5  paso 1200/1487  loss 2.140  852 img/s
+  epoca 5  paso 1300/1487  loss 2.550  853 img/s
+  epoca 5  paso 1400/1487  loss 2.518  855 img/s
+epoca 5/14  val top-1 76.29%  lr 0.006545  (2.0 min)
+  nuevo mejor (76.29%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 6  paso 0/1487  loss 2.518  168 img/s
+  epoca 6  paso 100/1487  loss 2.427  825 img/s
+  epoca 6  paso 200/1487  loss 2.450  848 img/s
+  epoca 6  paso 300/1487  loss 2.160  857 img/s
+  epoca 6  paso 400/1487  loss 2.491  858 img/s
+  epoca 6  paso 500/1487  loss 2.353  857 img/s
+  epoca 6  paso 600/1487  loss 2.576  854 img/s
+  epoca 6  paso 700/1487  loss 2.297  855 img/s
+  epoca 6  paso 800/1487  loss 2.607  854 img/s
+  epoca 6  paso 900/1487  loss 2.383  852 img/s
+  epoca 6  paso 1000/1487  loss 2.389  853 img/s
+  epoca 6  paso 1100/1487  loss 2.448  853 img/s
+  epoca 6  paso 1200/1487  loss 2.493  853 img/s
+  epoca 6  paso 1300/1487  loss 2.560  854 img/s
+  epoca 6  paso 1400/1487  loss 2.368  854 img/s
+epoca 6/14  val top-1 78.45%  lr 0.005523  (2.0 min)
+  nuevo mejor (78.45%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 7  paso 0/1487  loss 2.106  197 img/s
+  epoca 7  paso 100/1487  loss 2.492  832 img/s
+  epoca 7  paso 200/1487  loss 2.557  841 img/s
+  epoca 7  paso 300/1487  loss 2.238  847 img/s
+  epoca 7  paso 400/1487  loss 2.260  845 img/s
+  epoca 7  paso 500/1487  loss 2.337  844 img/s
+  epoca 7  paso 600/1487  loss 2.277  844 img/s
+  epoca 7  paso 700/1487  loss 2.233  846 img/s
+  epoca 7  paso 800/1487  loss 2.108  847 img/s
+  epoca 7  paso 900/1487  loss 2.155  846 img/s
+  epoca 7  paso 1000/1487  loss 2.296  847 img/s
+  epoca 7  paso 1100/1487  loss 2.286  848 img/s
+  epoca 7  paso 1200/1487  loss 2.085  849 img/s
+  epoca 7  paso 1300/1487  loss 2.277  850 img/s
+  epoca 7  paso 1400/1487  loss 2.222  851 img/s
+epoca 7/14  val top-1 80.68%  lr 0.004477  (2.0 min)
+  nuevo mejor (80.68%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 8  paso 0/1487  loss 2.460  203 img/s
+  epoca 8  paso 100/1487  loss 2.492  817 img/s
+  epoca 8  paso 200/1487  loss 2.323  831 img/s
+  epoca 8  paso 300/1487  loss 2.404  844 img/s
+  epoca 8  paso 400/1487  loss 2.237  852 img/s
+  epoca 8  paso 500/1487  loss 2.065  854 img/s
+  epoca 8  paso 600/1487  loss 2.375  851 img/s
+  epoca 8  paso 700/1487  loss 2.119  852 img/s
+  epoca 8  paso 800/1487  loss 2.390  851 img/s
+  epoca 8  paso 900/1487  loss 2.225  851 img/s
+  epoca 8  paso 1000/1487  loss 2.214  852 img/s
+  epoca 8  paso 1100/1487  loss 2.136  850 img/s
+  epoca 8  paso 1200/1487  loss 2.065  849 img/s
+  epoca 8  paso 1300/1487  loss 2.341  849 img/s
+  epoca 8  paso 1400/1487  loss 2.317  848 img/s
+epoca 8/14  val top-1 82.40%  lr 0.003455  (2.0 min)
+  nuevo mejor (82.40%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 9  paso 0/1487  loss 2.300  168 img/s
+  epoca 9  paso 100/1487  loss 1.974  817 img/s
+  epoca 9  paso 200/1487  loss 2.035  832 img/s
+  epoca 9  paso 300/1487  loss 1.859  844 img/s
+  epoca 9  paso 400/1487  loss 2.289  843 img/s
+  epoca 9  paso 500/1487  loss 2.247  846 img/s
+  epoca 9  paso 600/1487  loss 2.221  850 img/s
+  epoca 9  paso 700/1487  loss 2.567  852 img/s
+  epoca 9  paso 800/1487  loss 2.043  854 img/s
+  epoca 9  paso 900/1487  loss 2.063  855 img/s
+  epoca 9  paso 1000/1487  loss 2.197  856 img/s
+  epoca 9  paso 1100/1487  loss 2.389  857 img/s
+  epoca 9  paso 1200/1487  loss 2.216  857 img/s
+  epoca 9  paso 1300/1487  loss 2.334  858 img/s
+  epoca 9  paso 1400/1487  loss 1.901  859 img/s
+epoca 9/14  val top-1 83.76%  lr 0.0025  (2.0 min)
+  nuevo mejor (83.76%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 10  paso 0/1487  loss 2.039  199 img/s
+  epoca 10  paso 100/1487  loss 1.913  815 img/s
+  epoca 10  paso 200/1487  loss 2.103  838 img/s
+  epoca 10  paso 300/1487  loss 2.117  842 img/s
+  epoca 10  paso 400/1487  loss 2.151  845 img/s
+  epoca 10  paso 500/1487  loss 2.212  849 img/s
+  epoca 10  paso 600/1487  loss 2.085  850 img/s
+  epoca 10  paso 700/1487  loss 2.042  851 img/s
+  epoca 10  paso 800/1487  loss 2.087  851 img/s
+  epoca 10  paso 900/1487  loss 2.003  853 img/s
+  epoca 10  paso 1000/1487  loss 2.002  854 img/s
+  epoca 10  paso 1100/1487  loss 2.515  854 img/s
+  epoca 10  paso 1200/1487  loss 1.965  854 img/s
+  epoca 10  paso 1300/1487  loss 2.080  854 img/s
+  epoca 10  paso 1400/1487  loss 2.238  855 img/s
+epoca 10/14  val top-1 84.02%  lr 0.001654  (2.0 min)
+  nuevo mejor (84.02%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 11  paso 0/1487  loss 1.945  189 img/s
+  epoca 11  paso 100/1487  loss 2.180  820 img/s
+  epoca 11  paso 200/1487  loss 2.091  834 img/s
+  epoca 11  paso 300/1487  loss 2.051  837 img/s
+  epoca 11  paso 400/1487  loss 1.857  840 img/s
+  epoca 11  paso 500/1487  loss 1.864  843 img/s
+  epoca 11  paso 600/1487  loss 1.960  847 img/s
+  epoca 11  paso 700/1487  loss 1.877  849 img/s
+  epoca 11  paso 800/1487  loss 2.321  851 img/s
+  epoca 11  paso 900/1487  loss 2.017  852 img/s
+  epoca 11  paso 1000/1487  loss 1.891  854 img/s
+  epoca 11  paso 1100/1487  loss 2.032  853 img/s
+  epoca 11  paso 1200/1487  loss 2.215  855 img/s
+  epoca 11  paso 1300/1487  loss 1.840  855 img/s
+  epoca 11  paso 1400/1487  loss 2.394  856 img/s
+epoca 11/14  val top-1 86.29%  lr 0.0009549  (2.0 min)
+  nuevo mejor (86.29%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 12  paso 0/1487  loss 2.132  177 img/s
+  epoca 12  paso 100/1487  loss 2.075  831 img/s
+  epoca 12  paso 200/1487  loss 1.895  845 img/s
+  epoca 12  paso 300/1487  loss 1.750  849 img/s
+  epoca 12  paso 400/1487  loss 2.194  852 img/s
+  epoca 12  paso 500/1487  loss 2.267  858 img/s
+  epoca 12  paso 600/1487  loss 1.944  863 img/s
+  epoca 12  paso 700/1487  loss 1.997  863 img/s
+  epoca 12  paso 800/1487  loss 2.270  863 img/s
+  epoca 12  paso 900/1487  loss 2.022  863 img/s
+  epoca 12  paso 1000/1487  loss 2.021  863 img/s
+  epoca 12  paso 1100/1487  loss 2.146  861 img/s
+  epoca 12  paso 1200/1487  loss 1.838  861 img/s
+  epoca 12  paso 1300/1487  loss 2.188  861 img/s
+  epoca 12  paso 1400/1487  loss 1.878  860 img/s
+epoca 12/14  val top-1 86.83%  lr 0.0004323  (2.0 min)
+  nuevo mejor (86.83%) -> /home/orlando/ck_mobilenet_v2.pth.best
+  epoca 13  paso 0/1487  loss 2.033  128 img/s
+  epoca 13  paso 100/1487  loss 1.785  799 img/s
+  epoca 13  paso 200/1487  loss 1.871  826 img/s
+  epoca 13  paso 300/1487  loss 2.001  827 img/s
+  epoca 13  paso 400/1487  loss 2.346  830 img/s
+  epoca 13  paso 500/1487  loss 1.988  834 img/s
+  epoca 13  paso 600/1487  loss 1.989  839 img/s
+  epoca 13  paso 700/1487  loss 1.815  843 img/s
+  epoca 13  paso 800/1487  loss 2.080  843 img/s
+  epoca 13  paso 900/1487  loss 1.888  844 img/s
+  epoca 13  paso 1000/1487  loss 2.108  846 img/s
+  epoca 13  paso 1100/1487  loss 2.127  847 img/s
+  epoca 13  paso 1200/1487  loss 2.034  846 img/s
+  epoca 13  paso 1300/1487  loss 1.928  846 img/s
+  epoca 13  paso 1400/1487  loss 1.871  847 img/s
+epoca 13/14  val top-1 86.75%  lr 0.0001093  (2.0 min)
+  epoca 14  paso 0/1487  loss 2.012  189 img/s
+  epoca 14  paso 100/1487  loss 1.868  814 img/s
+  epoca 14  paso 200/1487  loss 1.788  837 img/s
+  epoca 14  paso 300/1487  loss 1.982  847 img/s
+  epoca 14  paso 400/1487  loss 2.140  850 img/s
+  epoca 14  paso 500/1487  loss 1.743  850 img/s
+  epoca 14  paso 600/1487  loss 2.245  854 img/s
+  epoca 14  paso 700/1487  loss 2.052  856 img/s
+  epoca 14  paso 800/1487  loss 1.947  858 img/s
+  epoca 14  paso 900/1487  loss 1.815  860 img/s
+  epoca 14  paso 1000/1487  loss 2.089  861 img/s
+  epoca 14  paso 1100/1487  loss 2.236  860 img/s
+  epoca 14  paso 1200/1487  loss 1.907  859 img/s
+  epoca 14  paso 1300/1487  loss 2.015  860 img/s
+  epoca 14  paso 1400/1487  loss 1.978  859 img/s
+epoca 14/14  val top-1 87.05%  lr 0  (2.0 min)
+  nuevo mejor (87.05%) -> /home/orlando/ck_mobilenet_v2.pth.best
+exportando el mejor checkpoint (val=87.05%)
+/usr/lib/python3.14/copyreg.py:104: FutureWarning: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+  return cls.__new__(cls, *args)
+[torch.onnx] Obtain model graph for `MobileNetV2([...]` with `torch.export.export(..., strict=False)`...
+[torch.onnx] Obtain model graph for `MobileNetV2([...]` with `torch.export.export(..., strict=False)`... ✅
+[torch.onnx] Run decompositions...
+[torch.onnx] Run decompositions... ✅
+[torch.onnx] Translate the graph into ONNX...
+[torch.onnx] Translate the graph into ONNX... ✅
+[torch.onnx] Optimize the ONNX graph...
+[torch.onnx] Optimize the ONNX graph... ✅
+ONNX exportado: models/cnn_pruned.onnx (12.8 MB)
+SHA-256: 7be5303c91aef53d0b110ecac8509bcf0c16aa22d925a72f9330070b6d3c9226
+LISTO. ONNX en models/cnn_pruned.onnx. Siguiente: copiarlo a la Jetson y medir (EXP-07/08 o 19/20).

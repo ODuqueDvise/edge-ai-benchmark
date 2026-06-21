@@ -1,0 +1,10 @@
+Downloading: "https://download.pytorch.org/models/resnet50-11ad3fa6.pth" to /home/orlando/.cache/torch/hub/checkpoints/resnet50-11ad3fa6.pth
+  0%|          | 0.00/97.8M [00:00<?, ?B/s]  5%|▍         | 4.62M/97.8M [00:00<00:02, 48.2MB/s] 11%|█         | 10.9M/97.8M [00:00<00:01, 58.2MB/s] 18%|█▊        | 17.9M/97.8M [00:00<00:01, 64.7MB/s] 25%|██▍       | 24.1M/97.8M [00:00<00:01, 61.1MB/s] 32%|███▏      | 31.4M/97.8M [00:00<00:01, 66.2MB/s] 39%|███▊      | 37.8M/97.8M [00:00<00:01, 61.1MB/s] 47%|████▋     | 45.5M/97.8M [00:00<00:00, 65.4MB/s] 55%|█████▌    | 54.2M/97.8M [00:00<00:00, 73.1MB/s] 63%|██████▎   | 61.4M/97.8M [00:00<00:00, 71.8MB/s] 71%|███████   | 69.4M/97.8M [00:01<00:00, 75.0MB/s] 78%|███████▊  | 76.6M/97.8M [00:01<00:00, 73.9MB/s] 88%|████████▊ | 86.1M/97.8M [00:01<00:00, 81.1MB/s] 96%|█████████▌| 94.0M/97.8M [00:01<00:00, 80.3MB/s]100%|██████████| 97.8M/97.8M [00:01<00:00, 72.0MB/s]
+modelo: resnet50 | muestras: 4000 en 1000 clases | dispositivo: cuda
+top-1: 90.7% | top-5: 98.7% (n=4000)
+VEREDICTO: el mapeo COINCIDE. Indice de carpeta = clase de torchvision.
+Downloading: "https://download.pytorch.org/models/mobilenet_v2-7ebf99e0.pth" to /home/orlando/.cache/torch/hub/checkpoints/mobilenet_v2-7ebf99e0.pth
+  0%|          | 0.00/13.6M [00:00<?, ?B/s] 30%|███       | 4.12M/13.6M [00:00<00:00, 41.6MB/s] 70%|██████▉   | 9.50M/13.6M [00:00<00:00, 50.1MB/s]100%|██████████| 13.6M/13.6M [00:00<00:00, 56.5MB/s]
+modelo: mobilenet_v2 | muestras: 4000 en 1000 clases | dispositivo: cuda
+top-1: 77.5% | top-5: 93.8% (n=4000)
+VEREDICTO: el mapeo COINCIDE. Indice de carpeta = clase de torchvision.
