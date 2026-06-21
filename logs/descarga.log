@@ -1,0 +1,15 @@
+reanudando: 80319 guardadas, 67 clases completas
+guardadas 82000 | clases completas 95/1000
+guardadas 84000 | clases completas 135/1000
+guardadas 86000 | clases completas 185/1000
+guardadas 88000 | clases completas 243/1000
+guardadas 90000 | clases completas 309/1000
+guardadas 92000 | clases completas 382/1000
+guardadas 94000 | clases completas 495/1000
+/home/orlando/prune-env/lib/python3.14/site-packages/PIL/TiffImagePlugin.py:949: UserWarning: Corrupt EXIF data.  Expecting to read 2 bytes but only got 0. 
+  warnings.warn(str(msg))
+guardadas 96000 | clases completas 630/1000
+guardadas 98000 | clases completas 778/1000
+guardadas 100000 | clases completas 952/1000
+/usr/lib/python3.14/multiprocessing/resource_tracker.py:396: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/mp-en2ajiqa'}
+  warnings.warn(

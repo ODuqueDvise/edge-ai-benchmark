@@ -1,0 +1,261 @@
+dispositivo: cuda | modelo: resnet50 | conservar MACs: 0.5 | T: 4.0 | alpha: 0.8
+dataset: 100203 (95192 train / 5011 val) en 1000 clases
+poda: MACs 4.12G->1.94G (47% del original) | params 25.56M->17.42M | pasos=4
+/home/orlando/edge-ai-benchmark/scripts/prune_distill.py:154: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler()
+/home/orlando/edge-ai-benchmark/scripts/prune_distill.py:169: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast():
+  epoca 0  paso 0/1487  loss 1.454 (kd 0.312 ce 6.023)  15 img/s
+  epoca 0  paso 100/1487  loss 0.879 (kd 0.239 ce 3.440)  218 img/s
+  epoca 0  paso 200/1487  loss 0.774 (kd 0.230 ce 2.951)  233 img/s
+  epoca 0  paso 300/1487  loss 0.700 (kd 0.212 ce 2.651)  238 img/s
+  epoca 0  paso 400/1487  loss 0.653 (kd 0.219 ce 2.392)  241 img/s
+  epoca 0  paso 500/1487  loss 0.548 (kd 0.207 ce 1.911)  243 img/s
+  epoca 0  paso 600/1487  loss 0.642 (kd 0.190 ce 2.449)  244 img/s
+  epoca 0  paso 700/1487  loss 0.634 (kd 0.220 ce 2.290)  245 img/s
+  epoca 0  paso 800/1487  loss 0.687 (kd 0.178 ce 2.723)  245 img/s
+  epoca 0  paso 900/1487  loss 0.561 (kd 0.173 ce 2.110)  246 img/s
+  epoca 0  paso 1000/1487  loss 0.561 (kd 0.166 ce 2.139)  246 img/s
+  epoca 0  paso 1100/1487  loss 0.523 (kd 0.159 ce 1.980)  247 img/s
+  epoca 0  paso 1200/1487  loss 0.640 (kd 0.189 ce 2.441)  247 img/s
+  epoca 0  paso 1300/1487  loss 0.599 (kd 0.173 ce 2.300)  247 img/s
+  epoca 0  paso 1400/1487  loss 0.562 (kd 0.142 ce 2.241)  246 img/s
+epoca 0/14  val top-1 (train-dist, solo monitoreo) 74.22%  lr 0.009891  (6.6 min)
+  epoca 1  paso 0/1487  loss 0.595 (kd 0.154 ce 2.360)  124 img/s
+  epoca 1  paso 100/1487  loss 0.535 (kd 0.161 ce 2.029)  243 img/s
+  epoca 1  paso 200/1487  loss 0.474 (kd 0.156 ce 1.745)  243 img/s
+  epoca 1  paso 300/1487  loss 0.578 (kd 0.157 ce 2.261)  245 img/s
+  epoca 1  paso 400/1487  loss 0.585 (kd 0.167 ce 2.259)  245 img/s
+  epoca 1  paso 500/1487  loss 0.581 (kd 0.142 ce 2.340)  246 img/s
+  epoca 1  paso 600/1487  loss 0.495 (kd 0.132 ce 1.948)  246 img/s
+  epoca 1  paso 700/1487  loss 0.448 (kd 0.131 ce 1.716)  246 img/s
+  epoca 1  paso 800/1487  loss 0.439 (kd 0.150 ce 1.594)  247 img/s
+  epoca 1  paso 900/1487  loss 0.515 (kd 0.150 ce 1.977)  247 img/s
+  epoca 1  paso 1000/1487  loss 0.451 (kd 0.151 ce 1.649)  247 img/s
+  epoca 1  paso 1100/1487  loss 0.426 (kd 0.125 ce 1.632)  247 img/s
+  epoca 1  paso 1200/1487  loss 0.567 (kd 0.158 ce 2.204)  247 img/s
+  epoca 1  paso 1300/1487  loss 0.480 (kd 0.151 ce 1.792)  247 img/s
+  epoca 1  paso 1400/1487  loss 0.466 (kd 0.132 ce 1.801)  247 img/s
+epoca 1/14  val top-1 (train-dist, solo monitoreo) 79.49%  lr 0.009568  (6.5 min)
+  epoca 2  paso 0/1487  loss 0.420 (kd 0.133 ce 1.565)  116 img/s
+  epoca 2  paso 100/1487  loss 0.400 (kd 0.128 ce 1.486)  244 img/s
+  epoca 2  paso 200/1487  loss 0.435 (kd 0.126 ce 1.670)  245 img/s
+  epoca 2  paso 300/1487  loss 0.344 (kd 0.147 ce 1.136)  246 img/s
+  epoca 2  paso 400/1487  loss 0.414 (kd 0.146 ce 1.488)  246 img/s
+  epoca 2  paso 500/1487  loss 0.376 (kd 0.144 ce 1.307)  246 img/s
+  epoca 2  paso 600/1487  loss 0.496 (kd 0.127 ce 1.972)  246 img/s
+  epoca 2  paso 700/1487  loss 0.438 (kd 0.137 ce 1.643)  246 img/s
+  epoca 2  paso 800/1487  loss 0.363 (kd 0.141 ce 1.249)  246 img/s
+  epoca 2  paso 900/1487  loss 0.467 (kd 0.148 ce 1.744)  246 img/s
+  epoca 2  paso 1000/1487  loss 0.450 (kd 0.121 ce 1.766)  246 img/s
+  epoca 2  paso 1100/1487  loss 0.462 (kd 0.135 ce 1.770)  246 img/s
+  epoca 2  paso 1200/1487  loss 0.463 (kd 0.139 ce 1.761)  246 img/s
+  epoca 2  paso 1300/1487  loss 0.384 (kd 0.132 ce 1.389)  246 img/s
+  epoca 2  paso 1400/1487  loss 0.379 (kd 0.127 ce 1.389)  246 img/s
+epoca 2/14  val top-1 (train-dist, solo monitoreo) 82.98%  lr 0.009045  (6.6 min)
+  epoca 3  paso 0/1487  loss 0.405 (kd 0.149 ce 1.426)  134 img/s
+  epoca 3  paso 100/1487  loss 0.445 (kd 0.133 ce 1.693)  244 img/s
+  epoca 3  paso 200/1487  loss 0.478 (kd 0.150 ce 1.790)  245 img/s
+  epoca 3  paso 300/1487  loss 0.438 (kd 0.160 ce 1.553)  246 img/s
+  epoca 3  paso 400/1487  loss 0.336 (kd 0.140 ce 1.121)  246 img/s
+  epoca 3  paso 500/1487  loss 0.428 (kd 0.130 ce 1.622)  246 img/s
+  epoca 3  paso 600/1487  loss 0.388 (kd 0.133 ce 1.405)  246 img/s
+  epoca 3  paso 700/1487  loss 0.442 (kd 0.126 ce 1.707)  246 img/s
+  epoca 3  paso 800/1487  loss 0.285 (kd 0.140 ce 0.865)  246 img/s
+  epoca 3  paso 900/1487  loss 0.433 (kd 0.125 ce 1.663)  246 img/s
+  epoca 3  paso 1000/1487  loss 0.391 (kd 0.109 ce 1.519)  246 img/s
+  epoca 3  paso 1100/1487  loss 0.358 (kd 0.139 ce 1.236)  246 img/s
+  epoca 3  paso 1200/1487  loss 0.323 (kd 0.134 ce 1.079)  246 img/s
+  epoca 3  paso 1300/1487  loss 0.381 (kd 0.137 ce 1.356)  246 img/s
+  epoca 3  paso 1400/1487  loss 0.342 (kd 0.124 ce 1.215)  246 img/s
+epoca 3/14  val top-1 (train-dist, solo monitoreo) 84.79%  lr 0.008346  (6.6 min)
+  epoca 4  paso 0/1487  loss 0.326 (kd 0.129 ce 1.113)  124 img/s
+  epoca 4  paso 100/1487  loss 0.310 (kd 0.137 ce 1.001)  243 img/s
+  epoca 4  paso 200/1487  loss 0.343 (kd 0.120 ce 1.232)  245 img/s
+  epoca 4  paso 300/1487  loss 0.377 (kd 0.110 ce 1.443)  245 img/s
+  epoca 4  paso 400/1487  loss 0.437 (kd 0.126 ce 1.682)  245 img/s
+  epoca 4  paso 500/1487  loss 0.323 (kd 0.106 ce 1.195)  245 img/s
+  epoca 4  paso 600/1487  loss 0.329 (kd 0.143 ce 1.073)  246 img/s
+  epoca 4  paso 700/1487  loss 0.326 (kd 0.130 ce 1.112)  246 img/s
+  epoca 4  paso 800/1487  loss 0.429 (kd 0.122 ce 1.654)  246 img/s
+  epoca 4  paso 900/1487  loss 0.355 (kd 0.124 ce 1.283)  246 img/s
+  epoca 4  paso 1000/1487  loss 0.395 (kd 0.128 ce 1.460)  246 img/s
+  epoca 4  paso 1100/1487  loss 0.264 (kd 0.117 ce 0.849)  246 img/s
+  epoca 4  paso 1200/1487  loss 0.335 (kd 0.129 ce 1.163)  246 img/s
+  epoca 4  paso 1300/1487  loss 0.352 (kd 0.123 ce 1.267)  246 img/s
+  epoca 4  paso 1400/1487  loss 0.367 (kd 0.125 ce 1.339)  246 img/s
+epoca 4/14  val top-1 (train-dist, solo monitoreo) 87.21%  lr 0.0075  (6.6 min)
+  epoca 5  paso 0/1487  loss 0.338 (kd 0.112 ce 1.241)  133 img/s
+  epoca 5  paso 100/1487  loss 0.325 (kd 0.130 ce 1.105)  244 img/s
+  epoca 5  paso 200/1487  loss 0.312 (kd 0.125 ce 1.062)  245 img/s
+  epoca 5  paso 300/1487  loss 0.322 (kd 0.110 ce 1.171)  245 img/s
+  epoca 5  paso 400/1487  loss 0.397 (kd 0.136 ce 1.443)  245 img/s
+  epoca 5  paso 500/1487  loss 0.295 (kd 0.126 ce 0.969)  246 img/s
+  epoca 5  paso 600/1487  loss 0.373 (kd 0.123 ce 1.374)  246 img/s
+  epoca 5  paso 700/1487  loss 0.378 (kd 0.133 ce 1.356)  246 img/s
+  epoca 5  paso 800/1487  loss 0.289 (kd 0.130 ce 0.926)  246 img/s
+  epoca 5  paso 900/1487  loss 0.297 (kd 0.118 ce 1.012)  246 img/s
+  epoca 5  paso 1000/1487  loss 0.344 (kd 0.107 ce 1.288)  246 img/s
+  epoca 5  paso 1100/1487  loss 0.420 (kd 0.130 ce 1.579)  246 img/s
+  epoca 5  paso 1200/1487  loss 0.285 (kd 0.107 ce 0.997)  246 img/s
+  epoca 5  paso 1300/1487  loss 0.365 (kd 0.135 ce 1.283)  246 img/s
+  epoca 5  paso 1400/1487  loss 0.299 (kd 0.115 ce 1.037)  246 img/s
+epoca 5/14  val top-1 (train-dist, solo monitoreo) 88.61%  lr 0.006545  (6.6 min)
+  epoca 6  paso 0/1487  loss 0.327 (kd 0.113 ce 1.184)  108 img/s
+  epoca 6  paso 100/1487  loss 0.362 (kd 0.131 ce 1.285)  243 img/s
+  epoca 6  paso 200/1487  loss 0.342 (kd 0.117 ce 1.244)  244 img/s
+  epoca 6  paso 300/1487  loss 0.227 (kd 0.113 ce 0.682)  245 img/s
+  epoca 6  paso 400/1487  loss 0.294 (kd 0.111 ce 1.026)  245 img/s
+  epoca 6  paso 500/1487  loss 0.344 (kd 0.109 ce 1.282)  245 img/s
+  epoca 6  paso 600/1487  loss 0.253 (kd 0.108 ce 0.834)  245 img/s
+  epoca 6  paso 700/1487  loss 0.347 (kd 0.107 ce 1.310)  245 img/s
+  epoca 6  paso 800/1487  loss 0.350 (kd 0.123 ce 1.259)  245 img/s
+  epoca 6  paso 900/1487  loss 0.321 (kd 0.119 ce 1.131)  245 img/s
+  epoca 6  paso 1000/1487  loss 0.369 (kd 0.116 ce 1.378)  245 img/s
+  epoca 6  paso 1100/1487  loss 0.298 (kd 0.116 ce 1.028)  246 img/s
+  epoca 6  paso 1200/1487  loss 0.323 (kd 0.111 ce 1.169)  246 img/s
+  epoca 6  paso 1300/1487  loss 0.302 (kd 0.116 ce 1.047)  246 img/s
+  epoca 6  paso 1400/1487  loss 0.361 (kd 0.131 ce 1.279)  246 img/s
+epoca 6/14  val top-1 (train-dist, solo monitoreo) 89.48%  lr 0.005523  (6.6 min)
+  epoca 7  paso 0/1487  loss 0.343 (kd 0.120 ce 1.233)  115 img/s
+  epoca 7  paso 100/1487  loss 0.270 (kd 0.114 ce 0.893)  243 img/s
+  epoca 7  paso 200/1487  loss 0.311 (kd 0.123 ce 1.062)  244 img/s
+  epoca 7  paso 300/1487  loss 0.275 (kd 0.112 ce 0.930)  245 img/s
+  epoca 7  paso 400/1487  loss 0.347 (kd 0.104 ce 1.322)  245 img/s
+  epoca 7  paso 500/1487  loss 0.388 (kd 0.120 ce 1.462)  245 img/s
+  epoca 7  paso 600/1487  loss 0.304 (kd 0.107 ce 1.091)  245 img/s
+  epoca 7  paso 700/1487  loss 0.259 (kd 0.123 ce 0.806)  245 img/s
+  epoca 7  paso 800/1487  loss 0.323 (kd 0.099 ce 1.221)  245 img/s
+  epoca 7  paso 900/1487  loss 0.307 (kd 0.110 ce 1.094)  245 img/s
+  epoca 7  paso 1000/1487  loss 0.276 (kd 0.112 ce 0.931)  245 img/s
+  epoca 7  paso 1100/1487  loss 0.339 (kd 0.113 ce 1.243)  246 img/s
+  epoca 7  paso 1200/1487  loss 0.275 (kd 0.115 ce 0.916)  246 img/s
+  epoca 7  paso 1300/1487  loss 0.258 (kd 0.122 ce 0.804)  246 img/s
+  epoca 7  paso 1400/1487  loss 0.310 (kd 0.090 ce 1.188)  246 img/s
+epoca 7/14  val top-1 (train-dist, solo monitoreo) 90.34%  lr 0.004477  (6.6 min)
+  epoca 8  paso 0/1487  loss 0.273 (kd 0.114 ce 0.908)  108 img/s
+  epoca 8  paso 100/1487  loss 0.227 (kd 0.103 ce 0.727)  243 img/s
+  epoca 8  paso 200/1487  loss 0.321 (kd 0.110 ce 1.161)  244 img/s
+  epoca 8  paso 300/1487  loss 0.311 (kd 0.120 ce 1.078)  245 img/s
+  epoca 8  paso 400/1487  loss 0.224 (kd 0.112 ce 0.672)  245 img/s
+  epoca 8  paso 500/1487  loss 0.310 (kd 0.110 ce 1.110)  245 img/s
+  epoca 8  paso 600/1487  loss 0.213 (kd 0.124 ce 0.571)  245 img/s
+  epoca 8  paso 700/1487  loss 0.219 (kd 0.116 ce 0.633)  245 img/s
+  epoca 8  paso 800/1487  loss 0.312 (kd 0.114 ce 1.107)  245 img/s
+  epoca 8  paso 900/1487  loss 0.270 (kd 0.107 ce 0.924)  245 img/s
+  epoca 8  paso 1000/1487  loss 0.322 (kd 0.106 ce 1.186)  245 img/s
+  epoca 8  paso 1100/1487  loss 0.312 (kd 0.111 ce 1.118)  245 img/s
+  epoca 8  paso 1200/1487  loss 0.280 (kd 0.112 ce 0.952)  245 img/s
+  epoca 8  paso 1300/1487  loss 0.322 (kd 0.121 ce 1.125)  245 img/s
+  epoca 8  paso 1400/1487  loss 0.325 (kd 0.109 ce 1.186)  245 img/s
+epoca 8/14  val top-1 (train-dist, solo monitoreo) 91.20%  lr 0.003455  (6.6 min)
+  epoca 9  paso 0/1487  loss 0.297 (kd 0.110 ce 1.046)  119 img/s
+  epoca 9  paso 100/1487  loss 0.221 (kd 0.099 ce 0.706)  243 img/s
+  epoca 9  paso 200/1487  loss 0.283 (kd 0.101 ce 1.010)  244 img/s
+  epoca 9  paso 300/1487  loss 0.289 (kd 0.097 ce 1.057)  245 img/s
+  epoca 9  paso 400/1487  loss 0.226 (kd 0.104 ce 0.715)  245 img/s
+  epoca 9  paso 500/1487  loss 0.305 (kd 0.113 ce 1.070)  245 img/s
+  epoca 9  paso 600/1487  loss 0.285 (kd 0.111 ce 0.978)  245 img/s
+  epoca 9  paso 700/1487  loss 0.297 (kd 0.102 ce 1.075)  245 img/s
+  epoca 9  paso 800/1487  loss 0.252 (kd 0.101 ce 0.856)  245 img/s
+  epoca 9  paso 900/1487  loss 0.283 (kd 0.105 ce 0.994)  245 img/s
+  epoca 9  paso 1000/1487  loss 0.212 (kd 0.114 ce 0.605)  245 img/s
+  epoca 9  paso 1100/1487  loss 0.227 (kd 0.106 ce 0.710)  245 img/s
+  epoca 9  paso 1200/1487  loss 0.247 (kd 0.106 ce 0.809)  245 img/s
+  epoca 9  paso 1300/1487  loss 0.258 (kd 0.111 ce 0.848)  245 img/s
+  epoca 9  paso 1400/1487  loss 0.204 (kd 0.095 ce 0.641)  245 img/s
+epoca 9/14  val top-1 (train-dist, solo monitoreo) 91.74%  lr 0.0025  (6.6 min)
+  epoca 10  paso 0/1487  loss 0.189 (kd 0.111 ce 0.500)  115 img/s
+  epoca 10  paso 100/1487  loss 0.231 (kd 0.116 ce 0.691)  243 img/s
+  epoca 10  paso 200/1487  loss 0.296 (kd 0.109 ce 1.046)  244 img/s
+  epoca 10  paso 300/1487  loss 0.231 (kd 0.102 ce 0.750)  245 img/s
+  epoca 10  paso 400/1487  loss 0.203 (kd 0.106 ce 0.591)  245 img/s
+  epoca 10  paso 500/1487  loss 0.277 (kd 0.103 ce 0.974)  245 img/s
+  epoca 10  paso 600/1487  loss 0.236 (kd 0.112 ce 0.735)  245 img/s
+  epoca 10  paso 700/1487  loss 0.247 (kd 0.111 ce 0.789)  245 img/s
+  epoca 10  paso 800/1487  loss 0.264 (kd 0.107 ce 0.892)  245 img/s
+  epoca 10  paso 900/1487  loss 0.217 (kd 0.111 ce 0.639)  245 img/s
+  epoca 10  paso 1000/1487  loss 0.313 (kd 0.102 ce 1.157)  245 img/s
+  epoca 10  paso 1100/1487  loss 0.249 (kd 0.110 ce 0.806)  245 img/s
+  epoca 10  paso 1200/1487  loss 0.331 (kd 0.098 ce 1.260)  245 img/s
+  epoca 10  paso 1300/1487  loss 0.295 (kd 0.101 ce 1.071)  245 img/s
+  epoca 10  paso 1400/1487  loss 0.280 (kd 0.104 ce 0.988)  245 img/s
+epoca 10/14  val top-1 (train-dist, solo monitoreo) 91.70%  lr 0.001654  (6.6 min)
+  epoca 11  paso 0/1487  loss 0.245 (kd 0.102 ce 0.818)  113 img/s
+  epoca 11  paso 100/1487  loss 0.255 (kd 0.109 ce 0.836)  243 img/s
+  epoca 11  paso 200/1487  loss 0.259 (kd 0.094 ce 0.919)  244 img/s
+  epoca 11  paso 300/1487  loss 0.311 (kd 0.100 ce 1.158)  245 img/s
+  epoca 11  paso 400/1487  loss 0.338 (kd 0.106 ce 1.264)  245 img/s
+  epoca 11  paso 500/1487  loss 0.327 (kd 0.104 ce 1.222)  245 img/s
+  epoca 11  paso 600/1487  loss 0.262 (kd 0.102 ce 0.903)  245 img/s
+  epoca 11  paso 700/1487  loss 0.244 (kd 0.104 ce 0.804)  245 img/s
+  epoca 11  paso 800/1487  loss 0.261 (kd 0.105 ce 0.886)  245 img/s
+  epoca 11  paso 900/1487  loss 0.388 (kd 0.117 ce 1.474)  245 img/s
+  epoca 11  paso 1000/1487  loss 0.354 (kd 0.104 ce 1.351)  245 img/s
+  epoca 11  paso 1100/1487  loss 0.268 (kd 0.102 ce 0.935)  245 img/s
+  epoca 11  paso 1200/1487  loss 0.208 (kd 0.117 ce 0.572)  245 img/s
+  epoca 11  paso 1300/1487  loss 0.290 (kd 0.098 ce 1.058)  245 img/s
+  epoca 11  paso 1400/1487  loss 0.293 (kd 0.107 ce 1.036)  245 img/s
+epoca 11/14  val top-1 (train-dist, solo monitoreo) 92.30%  lr 0.0009549  (6.6 min)
+  epoca 12  paso 0/1487  loss 0.309 (kd 0.107 ce 1.118)  117 img/s
+  epoca 12  paso 100/1487  loss 0.213 (kd 0.110 ce 0.627)  243 img/s
+  epoca 12  paso 200/1487  loss 0.272 (kd 0.097 ce 0.972)  244 img/s
+  epoca 12  paso 300/1487  loss 0.245 (kd 0.120 ce 0.743)  245 img/s
+  epoca 12  paso 400/1487  loss 0.248 (kd 0.092 ce 0.869)  245 img/s
+  epoca 12  paso 500/1487  loss 0.305 (kd 0.113 ce 1.070)  245 img/s
+  epoca 12  paso 600/1487  loss 0.307 (kd 0.124 ce 1.037)  245 img/s
+  epoca 12  paso 700/1487  loss 0.251 (kd 0.105 ce 0.833)  245 img/s
+  epoca 12  paso 800/1487  loss 0.245 (kd 0.114 ce 0.771)  245 img/s
+  epoca 12  paso 900/1487  loss 0.260 (kd 0.098 ce 0.906)  245 img/s
+  epoca 12  paso 1000/1487  loss 0.235 (kd 0.115 ce 0.718)  245 img/s
+  epoca 12  paso 1100/1487  loss 0.317 (kd 0.100 ce 1.185)  245 img/s
+  epoca 12  paso 1200/1487  loss 0.286 (kd 0.114 ce 0.977)  245 img/s
+  epoca 12  paso 1300/1487  loss 0.271 (kd 0.100 ce 0.959)  245 img/s
+  epoca 12  paso 1400/1487  loss 0.232 (kd 0.095 ce 0.778)  245 img/s
+epoca 12/14  val top-1 (train-dist, solo monitoreo) 92.56%  lr 0.0004323  (6.6 min)
+  epoca 13  paso 0/1487  loss 0.277 (kd 0.113 ce 0.935)  121 img/s
+  epoca 13  paso 100/1487  loss 0.267 (kd 0.103 ce 0.923)  243 img/s
+  epoca 13  paso 200/1487  loss 0.267 (kd 0.105 ce 0.912)  244 img/s
+  epoca 13  paso 300/1487  loss 0.264 (kd 0.109 ce 0.882)  245 img/s
+  epoca 13  paso 400/1487  loss 0.334 (kd 0.117 ce 1.202)  245 img/s
+  epoca 13  paso 500/1487  loss 0.309 (kd 0.101 ce 1.139)  245 img/s
+  epoca 13  paso 600/1487  loss 0.241 (kd 0.101 ce 0.801)  245 img/s
+  epoca 13  paso 700/1487  loss 0.267 (kd 0.104 ce 0.920)  245 img/s
+  epoca 13  paso 800/1487  loss 0.293 (kd 0.112 ce 1.018)  245 img/s
+  epoca 13  paso 900/1487  loss 0.227 (kd 0.101 ce 0.730)  245 img/s
+  epoca 13  paso 1000/1487  loss 0.246 (kd 0.108 ce 0.797)  245 img/s
+  epoca 13  paso 1100/1487  loss 0.278 (kd 0.106 ce 0.969)  245 img/s
+  epoca 13  paso 1200/1487  loss 0.301 (kd 0.105 ce 1.086)  245 img/s
+  epoca 13  paso 1300/1487  loss 0.213 (kd 0.091 ce 0.699)  245 img/s
+  epoca 13  paso 1400/1487  loss 0.318 (kd 0.095 ce 1.209)  245 img/s
+epoca 13/14  val top-1 (train-dist, solo monitoreo) 92.66%  lr 0.0001093  (6.6 min)
+  epoca 14  paso 0/1487  loss 0.247 (kd 0.099 ce 0.840)  122 img/s
+  epoca 14  paso 100/1487  loss 0.222 (kd 0.099 ce 0.713)  243 img/s
+  epoca 14  paso 200/1487  loss 0.244 (kd 0.104 ce 0.803)  244 img/s
+  epoca 14  paso 300/1487  loss 0.173 (kd 0.090 ce 0.502)  245 img/s
+  epoca 14  paso 400/1487  loss 0.185 (kd 0.085 ce 0.587)  245 img/s
+  epoca 14  paso 500/1487  loss 0.213 (kd 0.106 ce 0.639)  245 img/s
+  epoca 14  paso 600/1487  loss 0.279 (kd 0.103 ce 0.985)  245 img/s
+  epoca 14  paso 700/1487  loss 0.235 (kd 0.102 ce 0.766)  245 img/s
+  epoca 14  paso 800/1487  loss 0.248 (kd 0.104 ce 0.821)  245 img/s
+  epoca 14  paso 900/1487  loss 0.259 (kd 0.102 ce 0.885)  245 img/s
+  epoca 14  paso 1000/1487  loss 0.277 (kd 0.102 ce 0.978)  245 img/s
+  epoca 14  paso 1100/1487  loss 0.267 (kd 0.097 ce 0.945)  245 img/s
+  epoca 14  paso 1200/1487  loss 0.272 (kd 0.107 ce 0.930)  245 img/s
+  epoca 14  paso 1300/1487  loss 0.269 (kd 0.107 ce 0.917)  245 img/s
+  epoca 14  paso 1400/1487  loss 0.293 (kd 0.100 ce 1.065)  245 img/s
+epoca 14/14  val top-1 (train-dist, solo monitoreo) 92.68%  lr 0  (6.6 min)
+exportando el modelo de la ULTIMA época (no se selecciona por val de train; la precisión real va en V2 sobre la Jetson)
+/usr/lib/python3.14/copyreg.py:104: FutureWarning: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+  return cls.__new__(cls, *args)
+[torch.onnx] Obtain model graph for `ResNet([...]` with `torch.export.export(..., strict=False)`...
+[torch.onnx] Obtain model graph for `ResNet([...]` with `torch.export.export(..., strict=False)`... ✅
+[torch.onnx] Run decompositions...
+[torch.onnx] Run decompositions... ✅
+[torch.onnx] Translate the graph into ONNX...
+[torch.onnx] Translate the graph into ONNX... ✅
+[torch.onnx] Optimize the ONNX graph...
+[torch.onnx] Optimize the ONNX graph... ✅
+ONNX exportado: models/resnet50_pruned_kd.onnx (69.8 MB)
+SHA-256: efffe63b3e650cd67fbfa237bd5c5311b1dff6a25b94e9d2de85c3bf18292efb
+LISTO. ONNX en models/resnet50_pruned_kd.onnx. Copiar a la Jetson y medir con el mismo procedimiento de los podados.
