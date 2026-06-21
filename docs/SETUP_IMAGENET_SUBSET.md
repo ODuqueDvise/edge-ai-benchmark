@@ -39,8 +39,18 @@ OUT = os.path.expanduser("~/imagenet_train_subset")
 PER_CLASS = 200
 os.makedirs(OUT, exist_ok=True)
 
-ds = load_dataset("ILSVRC/imagenet-1k", split="train", streaming=True).shuffle(seed=42, buffer_size=10000)
-counts, full, saved = {}, 0, 0
+# reanudar desde lo ya guardado en disco (no rehace lo hecho)
+counts = {}
+for c in os.listdir(OUT):
+    p = os.path.join(OUT, c)
+    if os.path.isdir(p) and c.isdigit():
+        counts[int(c)] = len([f for f in os.listdir(p) if f.endswith(".jpg")])
+full = sum(1 for v in counts.values() if v >= PER_CLASS)
+saved = sum(counts.values())
+print("reanudando: %d guardadas, %d clases completas" % (saved, full))
+
+# buffer_size PEQUEÑO: el de 10000 imágenes a resolución completa agota la RAM de WSL ("Killed")
+ds = load_dataset("ILSVRC/imagenet-1k", split="train", streaming=True).shuffle(seed=42, buffer_size=2000)
 for ex in ds:
     lab = ex["label"]                                  # 0..999
     if counts.get(lab, 0) >= PER_CLASS:
@@ -63,9 +73,20 @@ PY
 
 **Expectativa honesta:** esto **transmite (stream) una porción grande** de ImageNet de
 entrenamiento para juntar las 200 de cada clase —descarga más de lo que guarda—, así que tarda:
-de un par de horas a toda la noche, según tu conexión. Déjalo corriendo. Si se corta, vuelve a
-lanzarlo: las clases ya completas se saltan, pero como el orden de stream cambia, lo más simple
-si se interrumpe es borrar `~/imagenet_train_subset` y reiniciar con calma de noche.
+de un par de horas a toda la noche, según tu conexión. Déjalo corriendo. El script **reanuda**:
+si se corta, vuelve a lanzarlo y continúa desde lo que ya hay en disco.
+
+**Si dice `Killed`:** WSL se quedó sin RAM (el buffer de *shuffle* es el culpable; ya está bajo).
+Si aún pasa, dale más memoria a WSL: crea `C:\Users\oduke\.wslconfig` (en Windows) con
+
+```
+[wsl2]
+memory=12GB
+```
+
+y en PowerShell ejecuta `wsl --shutdown`; luego reabre Ubuntu. Esos 12 GB también ayudan al
+entrenamiento. Verás un aviso de "leaked semaphore" tras un `Killed`: es inofensivo, secuela del
+corte abrupto.
 
 ## 3. Verificar
 
