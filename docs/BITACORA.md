@@ -108,3 +108,19 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 - `scripts/prune_finetune.py`: poda estructurada (torch-pruning/DepGraph, importancia L1, global iterativa hasta una fracción de MACs objetivo, sin tocar el clasificador) + reentrenamiento de recuperación (AMP, SGD+coseno, label smoothing, checkpoint por época con resume, dataloader tolerante a corruptos) + export a ONNX FP32 (opset 18, archivo único, SHA-256), idéntico en formato a la línea base.
 - Parámetros (D15): ResNet-50 conservar ~50% de MACs, MobileNetV2 ~70% (asimétrico por ser compacto/memory-bound). FP32 para aislar la variable poda. Corre en el Legion (RTX 3060, ~1–1.5 h/modelo estimado); el ONNX se copia a la Jetson para EXP-07/08 (MobileNetV2) y 19/20 (ResNet-50). RPi (09/21) a Luis.
 - Máquina de entrenamiento: Lenovo Legion 5 17ACH6H, RTX 3060 Laptop 6 GB, Windows 11 + WSL2 Ubuntu. NO es dispositivo de medición; solo produce los modelos podados.
+
+## 2026-06-20 — ResNet-50 podado: artefacto exportado (para EXP-19/20)
+- Poda + reentrenamiento + export completos en el Legion. ResNet-50: MACs 4.12→1.94 G (−53%, conserva 47%), parámetros 25.56→17.42 M (−32%), ONNX 102.4→69.8 MB (−32%: el tamaño sigue a los parámetros, no a los MACs). 15 épocas; val top-1 sobre subconjunto train 95.99% (cifra de salud, NO la precisión real —esa sale del V2 en la Jetson).
+- `models/resnet50_pruned.onnx`, FP32, opset 18, SHA-256 `940aefb80c3ea650da12300b6170f74fbd220e8ff76c6306d4db131197473957`. <100 MB → versionable en git si se decide (la base de 102 MB no lo era).
+- Pendiente: MobileNetV2 podado (--target-macs 0.7); luego copiar ambos ONNX a la Jetson y medir EXP-19/20 y 07/08 con el orquestador.
+
+## 2026-06-20 — MobileNetV2 podado: artefacto exportado (para EXP-07/08)
+- MobileNetV2: MACs 0.32→0.21 G (−33%, conserva 67%), parámetros 3.50→3.16 M (−10%), ONNX 14.2→12.8 MB (−10%). Los parámetros casi no bajan: el clasificador (1280→1000, ~1.28 M) no se poda y el depthwise casi no tiene parámetros; la poda global recorta canales caros en cómputo, no en peso. 15 épocas; val top-1 (subconjunto train) 87.05% (salud, no precisión real —esa sale del V2 en la Jetson).
+- `models/cnn_pruned.onnx`, FP32, opset 18, SHA-256 `7be5303c91aef53d0b110ecac8509bcf0c16aa22d925a72f9330070b6d3c9226`.
+- Ambos modelos podados listos (ResNet-50 `940aefb8…`, MobileNetV2 `7be5303c…`). Siguiente: copiar a la Jetson y medir EXP-19/20 (ResNet) y 07/08 (MobileNet) con el orquestador.
+
+## 2026-06-20 — Modelos podados en la Jetson + medición en curso (EXP-19/20, 07/08)
+- Los dos ONNX podados se copiaron del Legion (WSL) a la Jetson vía el Mac (WSL → carpeta de Windows → scp Mac → scp Jetson), con huellas verificadas: ResNet-50 `940aefb8…`, MobileNetV2 `7be5303c…`.
+- Legion habilitado para push a GitHub: llave SSH propia `legion-orlando`, remoto por SSH (igual que la Jetson). Logs de poda/reentrenamiento versionados en `logs/` del repo (push desde el Legion).
+- Batería de medición EN CURSO en la Jetson vía orquestador (`measure_jetson_model.sh … --accuracy`): latencia R=5 + precisión V2 (10k) + energía (INA226 conectado), condiciones gpu+cpu, ambos modelos. El podado se mide como el V0 (FP32, archivo y sha propios; sin `--variant` ni tabla de calibración). Resultados → EXP-19/20 (ResNet) y EXP-07/08 (MobileNet); rpi-cpu pendiente (Luis).
+- Pendiente al cerrar la batería: consolidar p50 gpu/cpu, top-1 V2 y energía en la matriz, el documento y la bitácora; leer si la poda estrecha la brecha GPU-CPU (contraste con INT8) y la precisión real frente al val de entrenamiento (91.6%/87.1%, distribución de train).
