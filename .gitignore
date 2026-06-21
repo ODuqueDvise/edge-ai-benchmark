@@ -6,15 +6,13 @@ venv/
 # Datasets: cada equipo descarga el suyo (se verifica por conteo/variante), no se versiona.
 datasets/
 
-# Modelos: se versionan TODOS los ONNX <100MB (baselines pequenos, INT8, podados, KD) y
-# las listas de calibracion. EXCEPCIONES: el baseline ResNet-50 FP32 (~102MB) supera el
-# limite duro de 100MB de GitHub y es regenerable con export_model.py + checksum, asi que
-# NO se versiona; los ONNX temporales de cuantizacion/calibracion tampoco.
+# Modelos: TODOS los ONNX se versionan via Git LFS (*.onnx -> LFS, ver .gitattributes),
+# incluido el baseline ResNet-50 FP32 (~102MB). Solo se excluyen los ONNX temporales de
+# cuantizacion/calibracion; las listas de calibracion (.calib.txt) se versionan normales.
 models/*
 !models/.gitkeep
 !models/*.onnx
 !models/*.calib.txt
-models/resnet50_baseline.onnx
 models/*.pre.onnx
 models/augmented.onnx
 models/*-inferred.onnx
