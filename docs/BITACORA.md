@@ -124,3 +124,39 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 - Legion habilitado para push a GitHub: llave SSH propia `legion-orlando`, remoto por SSH (igual que la Jetson). Logs de poda/reentrenamiento versionados en `logs/` del repo (push desde el Legion).
 - Batería de medición EN CURSO en la Jetson vía orquestador (`measure_jetson_model.sh … --accuracy`): latencia R=5 + precisión V2 (10k) + energía (INA226 conectado), condiciones gpu+cpu, ambos modelos. El podado se mide como el V0 (FP32, archivo y sha propios; sin `--variant` ni tabla de calibración). Resultados → EXP-19/20 (ResNet) y EXP-07/08 (MobileNet); rpi-cpu pendiente (Luis).
 - Pendiente al cerrar la batería: consolidar p50 gpu/cpu, top-1 V2 y energía en la matriz, el documento y la bitácora; leer si la poda estrecha la brecha GPU-CPU (contraste con INT8) y la precisión real frente al val de entrenamiento (91.6%/87.1%, distribución de train).
+
+## 2026-06-21 — ResNet-50 podado medido (EXP-19/20) + problema de recuperación detectado
+RESULTADOS (ResNet-50 podado −53% MACs, FP32, sha 940aefb8, frente al V0):
+- Latencia p50: GPU 6.59→5.11 ms (1.29×), CPU 89.9→47.5 ms (1.89×). Brecha GPU-CPU 13.6×→9.3×.
+- Energía neta/inf: GPU 43.1→27.6 mJ, CPU 370→202 mJ. Throughput GPU 196 ips, CPU 20.9 ips.
+- Precisión top-1 V2 (10k): GPU 0.5104 / CPU 0.5106 (top-5 0.744) frente a V0 0.694 → −18 puntos.
+HALLAZGO (latencia, sólido): la poda ESTRECHA la brecha GPU-CPU (13.6→9.3×), al revés del INT8 (que la ensanchó a 14.6×). El recorte de MACs favorece a la CPU (cómputo-acotada, 1.89×) más que a la GPU (a lote 1 no estaba limitada por cómputo, 1.29×).
+PROBLEMA (precisión, a corregir): −18 pts NO es el costo real de la poda, es sobre-ajuste del reentrenamiento a las 100k. Pista: val de entrenamiento 95.99% vs test V2 51% (45 pts de brecha = memorización). Causas: (a) 100 img/clase es poco para recuperar una poda agresiva; (b) el checkpoint se eligió por el val de entrenamiento, que premia al más sobre-ajustado. NO reportar este número de precisión tal cual.
+PLAN (para retomar):
+  1. Medir MobileNetV2 podado (−33%, suave, mismas 100k) -> su precisión V2 dice si la poda moderada recupera con estos datos [EN CURSO al anotar; cierra EXP-07/08].
+  2. Re-entrenar ResNet a poda suave -30% MACs (~1 h en el Legion), artefactos aparte para conservar el de -53%:
+     python scripts/prune_finetune.py --model resnet50 --target-macs 0.7 --data ~/imagenet_train_subset --epochs 15 --out models/resnet50_pruned_p30.onnx --ckpt ~/ck_resnet50_p30.pth
+     -> diagnóstico + 2º punto de la curva latencia-precisión.
+  3. Si aun así cae: escalar recuperación -> más imágenes/clase, o destilación desde el modelo sin podar (técnica 3). Y NO elegir checkpoint por el val de entrenamiento.
+  La latencia/energía/brecha son válidas y se conservan; solo el eje de precisión queda pendiente de una recuperación adecuada. Anotar al director: la poda necesita datos de recuperación suficientes, a diferencia del INT8/PTQ que no reentrena.
+
+## 2026-06-21 — MobileNetV2 podado medido (EXP-07/08) + diagnóstico de recuperación
+RESULTADOS (MobileNetV2 podado −33% MACs, FP32, sha 7be5303c, frente al V0):
+- Latencia p50: GPU 2.468→2.34 ms (1.05×), CPU 12.28→8.59 ms (1.43×). Brecha GPU-CPU 5.0×→3.67×.
+- Energía neta/inf: GPU 12.1→7.1 mJ, CPU 52.3→37.4 mJ. Throughput GPU 402 ips, CPU 113 ips.
+- Precisión top-1 V2 (10k): GPU 0.4532 / CPU 0.4536 (top-5 0.700) frente a V0 0.596 → −14 puntos.
+HALLAZGO CLAVE (cross-técnica): en la CPU memory-bound de MobileNetV2 la PODA acelera 1.43× donde el INT8 no movió nada (1.00×). La poda quita canales completos (menos trabajo y menos tráfico de activaciones); el INT8 en depthwise de la CPU ARM no rindió. La brecha GPU-CPU: el INT8 la ENSANCHA (5.0→6.8×), la poda la ESTRECHA (5.0→3.67×) — consistente con ResNet (13.6→9.3×).
+DIAGNÓSTICO (recuperación): MobileNet se podó SUAVE (−33%) y aun así la precisión cayó −14 pts con la misma firma de sobre-ajuste (val train 87% vs test 45%). CONCLUSIÓN: el problema NO es la agresividad de la poda sino la recuperación (100/clase + selección por val de train). Se DESCARTA el re-entrenamiento de ResNet a −30% (no arreglaría la precisión). El arreglo es la recuperación: más imágenes/clase o destilación; decisión de alcance con el director.
+
+## 2026-06-21 — Cierre de sesión: estado de la poda y próximos pasos
+ESTADO. Fase de poda (OE1, técnica 2) medida en la Jetson, ambos modelos, GPU+CPU:
+- Latencia/energía/brecha: SÓLIDAS. La poda ESTRECHA la brecha GPU-CPU (ResNet 13.6→9.3×, MobileNet 5.0→3.67×), al revés del INT8 que la ensancha. Hallazgo clave: en la CPU memory-bound de MobileNet la poda acelera 1.43× donde el INT8 no movió nada (1.00×).
+- Precisión: PROVISIONAL, no reportable. Ambos cayeron por sobre-ajuste a las 100/clase: ResNet 0.694→0.510 (−18), MobileNet 0.596→0.453 (−14). La poda suave (MobileNet −33%) también cayó → la causa es la recuperación, no la agresividad.
+- Datos crudos: JSON en results/ (auto-commiteados por la Jetson). Artefactos: resnet50_pruned.onnx (940aefb8, 69.8 MB), cnn_pruned.onnx (7be5303c, 12.8 MB), ambos FP32 opset 18.
+PRÓXIMOS PASOS (en orden, para la siguiente sesión):
+  1. Subir desde el Mac los docs sin commitear: git add docs/BITACORA.md docs/DECISIONS.md -> commit -> pull --rebase -> push.
+  2. Llevar al director la decisión de alcance sobre la precisión de la poda: invertir en recuperación adecuada (más imágenes/clase o destilación) vs reportar el costo bajo recuperación limitada como hallazgo. NO re-entrenar a −30% (descartado: la poda suave también sobre-ajustó).
+  3. Según esa decisión: ampliar el subconjunto y re-entrenar, o montar recuperación por destilación (toca técnica 3); luego re-medir precisión.
+  4. Consolidar EXP-07/08/19/20 en la matriz (latencia/energía firmes; precisión cuando se resuelva) y en la tabla de resultados del Word (Retos_Tecnicos_Reproducibilidad.docx, ya tiene el reto 4.7).
+  5. Pendiente de Luis: rpi-cpu para V0, INT8 y poda (necesita shunt R010).
+REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperación); scripts/prune_finetune.py; docs/SETUP_LEGION_CUDA.md y SETUP_IMAGENET_SUBSET.md.
