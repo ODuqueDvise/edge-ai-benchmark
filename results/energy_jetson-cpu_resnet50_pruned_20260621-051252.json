@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "device_tag": "jetson-cpu",
+    "model": {
+      "name": "resnet50_pruned",
+      "sha256": "940aefb80c3ea650da12300b6170f74fbd220e8ff76c6306d4db131197473957"
+    },
+    "variant": null,
+    "source_result": "jetson-cpu_resnet50_pruned_ort_cpu_20260621-050326.json",
+    "idle_watts": 7.8,
+    "iters": 2000,
+    "timestamp_utc": "2026-06-21T05:12:52Z"
+  },
+  "energy": {
+    "window_s": 100.68255639076233,
+    "total_j": 1190.0544527307952,
+    "avg_power_w": 11.819867267891334,
+    "per_inf_total_mj": 595.0272263653976,
+    "net_j": 404.7305128828491,
+    "per_inf_net_mj": 202.36525644142455
+  }
+}
