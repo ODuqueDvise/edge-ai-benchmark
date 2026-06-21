@@ -13,15 +13,15 @@ La RPi 5 no tiene GPU para ML, asi que solo corre la condicion `rpi-cpu`.
   `models/resnet50_baseline.onnx` (ResNet-50, SHA-256 `05e5bc14…290dc`).
 - Mismos parametros (constantes congeladas): `--input-shape 1,3,224,224 --warmup 100 --iters 2000`.
 
-## 1. Clonar el repo y traer el modelo
+## 1. Clonar el repo y traer los modelos
 
 ```bash
+sudo apt install -y git-lfs && git lfs install   # una sola vez por máquina: trae los .onnx reales, no punteros
 git clone https://github.com/ODuqueDvise/edge-ai-benchmark.git
 cd edge-ai-benchmark
-# MobileNetV2 viene en el repo. ResNet-50 (~100MB) NO va en el repo: pídeselo a Orlando
-# (scp / release de GitHub / unidad compartida) y déjalo en models/. Verifica los checksums:
+# Los dos baselines vienen con el clon: todos los *.onnx se versionan vía Git LFS. Verifica los checksums:
 sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx
-# Deben coincidir EXACTO con los publicados. Si no, no midas: pide el archivo a Orlando.
+# Deben coincidir EXACTO con los publicados. Si no, no midas: git lfs install && git lfs pull.
 ```
 
 ## 2. Entorno y runtime de CPU

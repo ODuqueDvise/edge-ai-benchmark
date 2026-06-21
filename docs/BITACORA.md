@@ -176,3 +176,8 @@ REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperaci
 - SET COMPLETO de la poda (top-1 V2): ResNet-50 0.694 (V0) → 0.510 (FT) → 0.579 (KD); MobileNetV2 0.596 → 0.453 → 0.508. La destilación recupera +5.5/+6.8 pts; residual −9/−12 pts = límite de datos (100/clase).
 - CIERRE del experimento de poda. Historia: la poda ESTRECHA la brecha GPU-CPU (al revés del INT8) y rescata la CPU memory-bound de MobileNet; su costo de precisión es real pero parcialmente recuperable por destilación, con el residual atribuible al presupuesto de datos de recuperación.
 - Pendiente: consolidar en Word (en curso); rpi-cpu (Luis); destilación como técnica 3 independiente (estudiante compacto).
+
+## 2026-06-21 — Git LFS para todos los ONNX
+- Se versionan TODOS los ONNX en el repo vía Git LFS (incluido `resnet50_baseline.onnx` ~102 MB, que antes se compartía por archivo + checksum). `.gitattributes` enruta `*.onnx`; el `.gitignore` solo excluye los ONNX temporales de cuantización. Decisión D17.
+- Requiere git-lfs en cada máquina para clonar/actualizar y obtener los archivos reales (si no, se reciben punteros de texto): `git lfs install` (Linux: `sudo apt install -y git-lfs`; Mac: `brew install git-lfs`). Setup inicial en el Mac: `git lfs track "*.onnx"` → add `.gitattributes` → commit → push.
+- Instrucciones propagadas a RUNBOOK, GUIA_LUIS_RPI y QUICKSTARTs. Los ONNX ya commiteados como blobs normales (cnn_baseline, *_int8) se quedan así; LFS aplica a lo nuevo (no se reescribe historia).

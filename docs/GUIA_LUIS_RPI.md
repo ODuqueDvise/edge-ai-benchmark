@@ -21,7 +21,7 @@ Tiempo aproximado: ~30–40 min de configuración + las mediciones (la precisió
 ### Antes de empezar, ten a la mano
 - Raspberry Pi 5 con Raspberry Pi OS de 64 bits, encendida, con internet y un disipador/ventilador (la RPi 5 baja la frecuencia si se calienta).
 - Una cuenta de GitHub. **Pídele a Orlando que te agregue como colaborador** del repositorio `ODuqueDvise/edge-ai-benchmark` (sin eso no podrás hacer `push`).
-- El archivo **`resnet50_baseline.onnx`** que te envía Orlando (pesa ~100 MB y no viene en el repositorio).
+- **Git LFS instalado** (los modelos `.onnx` se versionan con LFS): `sudo apt install -y git-lfs && git lfs install`.
 
 ---
 
@@ -29,6 +29,7 @@ Tiempo aproximado: ~30–40 min de configuración + las mediciones (la precisió
 
 ```bash
 cd ~
+sudo apt install -y git-lfs && git lfs install   # una sola vez por máquina: trae los .onnx reales, no punteros
 git clone https://github.com/ODuqueDvise/edge-ai-benchmark.git
 cd edge-ai-benchmark
 ls
@@ -75,9 +76,9 @@ python -c "import onnxruntime as ort; print(ort.get_available_providers())"
 
 ## 4. Tener los dos modelos y verificarlos
 
-MobileNetV2 ya vino con el clon. ResNet-50 te lo pasa Orlando (por `scp`, Drive, o un
-*release* de GitHub): déjalo en la carpeta `models/`. Luego verifica que son idénticos
-a los de Orlando —si un solo byte difiere, las mediciones no son comparables—:
+Ambos modelos ya vinieron con el clon (se versionan en el repo vía Git LFS), así que
+no tienes que recibir ResNet-50 por aparte. Verifica que son idénticos a los de Orlando
+—si un solo byte difiere, las mediciones no son comparables—:
 
 ```bash
 sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx
@@ -87,7 +88,8 @@ sha256sum models/cnn_baseline.onnx models/resnet50_baseline.onnx
 609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd  models/cnn_baseline.onnx
 05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc  models/resnet50_baseline.onnx
 ```
-Si alguno no coincide, **no midas**: pídele el archivo correcto a Orlando.
+Si alguno no coincide, **no midas**: confirma que Git LFS quedó instalado (`git lfs install`)
+y vuelve a traer los archivos con `git lfs pull`.
 
 ## 5. Descargar el dataset (ImageNet-V2, una vez)
 
@@ -191,6 +193,6 @@ Cuando estén subidos, avísale a Orlando para consolidar la comparación de dis
 ## Si algo se rompe (lo más común)
 
 - **`command not found` o `ModuleNotFoundError`:** olvidaste activar el entorno → `source .venv/bin/activate`.
-- **El checksum no coincide:** el archivo del modelo no es el de Orlando → pídeselo de nuevo, no midas.
+- **El checksum no coincide:** el `.onnx` quedó como puntero de LFS o desactualizado → `git lfs install` y `git lfs pull`, no midas.
 - **El dataset da 0 imágenes:** la carpeta no es `imagenetv2-matched-frequency-format-val/` → revisa el paso 5.
 - **No actualices versiones a mitad de campaña** (Python, onnxruntime, etc.). Si algo cambió, corre `scripts/collect_env.sh` otra vez y avisa.

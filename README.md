@@ -40,7 +40,7 @@ Dos modelos comprometidos (decisión del director, jun 2026; ver `docs/DECISIONS
 | ResNet-50 | `models/resnet50_baseline.onnx` | modelo denso con margen | `05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc` |
 
 Ambos: ONNX autocontenido (opset 18), entrada `1,3,224,224`, preprocesamiento ImageNet.
-Se comparten por archivo y se verifican por checksum; **no se reexportan por equipo**.
+Se versionan en el repo vía Git LFS y se verifican por checksum; **no se reexportan por equipo**.
 Para regenerarlos (en el equipo de exportación):
 
 ```bash
@@ -48,9 +48,11 @@ python scripts/export_model.py --model-name mobilenet_v2 --output models/cnn_bas
 python scripts/export_model.py --model-name resnet50     --output models/resnet50_baseline.onnx --opset 18
 ```
 
-> **Distribución.** MobileNetV2 (~14 MB) está versionado en el repo. ResNet-50 (~100 MB)
-> **no** se versiona (supera el límite de 100 MB por archivo de GitHub): se comparte por
-> archivo —`scp` en la LAN, o un *release* de GitHub / unidad compartida— y se verifica por checksum.
+> **Distribución.** Todos los `*.onnx` se versionan en el repo vía **Git LFS** (un
+> `.gitattributes` enruta `*.onnx`), así que ambos baselines —y las variantes INT8, podadas
+> y destiladas— vienen con el clon. ResNet-50 (~100 MB) ya no se pasa por archivo. Requisito,
+> una sola vez por máquina: tener Git LFS instalado (Linux: `sudo apt install -y git-lfs`;
+> macOS: `brew install git-lfs`; luego `git lfs install`) para traer los archivos reales y no punteros.
 
 Los resultados quedan etiquetados por modelo: el nombre del JSON lo incluye
 (`<condición>_<modelo>_<backend>_<proveedor>_<fecha>.json`) y `RESULTS_LOG.md`
@@ -190,15 +192,15 @@ docs/
   BITACORA.md             bitácora cronológica de estado
 config/example.yaml       plantilla de configuración por condición
 models/cnn_baseline.onnx      baseline canónico 1 (MobileNetV2)
-models/resnet50_baseline.onnx baseline 2 (ResNet-50) — LOCAL, no versionado (>100MB; scp+checksum)
+models/resnet50_baseline.onnx baseline 2 (ResNet-50) — versionado vía Git LFS (como todos los *.onnx)
 results/                  resultados crudos (*.json, versionados); RESULTS_LOG.md se genera y NO se versiona
 ```
 
 ## Registro y trazabilidad
 
 El estado y las decisiones se registran en puntos de chequeo definidos; ver
-`docs/REGISTRO.md`. Qué se versiona: código, guías, `results/*.json` y el modelo
-canónico. Qué **no**: `datasets/` (cada equipo descarga el suyo), `.venv/`,
+`docs/REGISTRO.md`. Qué se versiona: código, guías, `results/*.json` y todos los
+`*.onnx` (vía Git LFS). Qué **no**: `datasets/` (cada equipo descarga el suyo), `.venv/`,
 `__pycache__/`, y `results/RESULTS_LOG.md` (es generado; se reconstruye con
 `build_results_log.py`).
 

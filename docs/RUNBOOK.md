@@ -10,8 +10,8 @@ Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
    - Raspberry Pi 5 → `docs/GUIA_LUIS_RPI.md` (guía completa paso a paso) o `docs/QUICKSTART_RPI.md` (referencia rápida)
 2. **Modelos canónicos** — dos modelos comprometidos (ver `docs/DECISIONS.md` D9):
    - MobileNetV2 → `models/cnn_baseline.onnx` (sha `609015cb…56eb0dd`), ya en el repo.
-   - ResNet-50 → `models/resnet50_baseline.onnx`; se exporta una vez, se comparte por archivo
-     + checksum y **NO va al repo** (~100MB supera el límite de 100MB de GitHub):
+   - ResNet-50 → `models/resnet50_baseline.onnx`; se exporta una vez y queda versionado
+     en el repo vía Git LFS (igual que el resto de `*.onnx`), así que viene con el clon:
      `python scripts/export_model.py --model-name resnet50 --output models/resnet50_baseline.onnx --opset 18`
    Verifica antes de medir: `sha256sum models/<archivo>.onnx`. El nombre del JSON de cada
    corrida incluye el modelo, así que ambos coexisten sin pisarse en `results/`.
@@ -49,6 +49,10 @@ de ser comparables.
 ## Flujo de trabajo con git (paso a paso)
 
 ### Traer los últimos cambios (antes de trabajar)
+
+Una sola vez por máquina, antes de clonar o actualizar, instala Git LFS para que los
+`*.onnx` lleguen como archivo real y no como puntero de texto (Linux: `sudo apt install -y
+git-lfs`; macOS: `brew install git-lfs`; luego `git lfs install`).
 
 ```bash
 cd edge-ai-benchmark
@@ -90,10 +94,10 @@ Hace `pull --rebase` + `add results/` + `commit` + `push`, con aviso si hay conf
 
 ### Qué se versiona y qué no
 
-- **Sí:** código, guías, `results/*.json`, MobileNetV2 (`cnn_baseline.onnx`, ~14MB).
-- **ResNet-50** (~100MB) **no** se versiona (límite de GitHub): se comparte por archivo + checksum.
-- **No:** `datasets/` (cada equipo descarga el suyo), `.venv/`, `__pycache__/`,
-  otros modelos en `models/`.
+- **Sí:** código, guías, `results/*.json`, y **todos los `*.onnx`** vía Git LFS
+  (un `.gitattributes` enruta `*.onnx`): baselines MobileNetV2 y ResNet-50, INT8,
+  podados y destilados. ResNet-50 (~100MB) viene con el clon, ya no se pasa por archivo.
+- **No:** `datasets/` (cada equipo descarga el suyo), `.venv/`, `__pycache__/`.
 
 ## Medición automatizada (un comando, desde el Mac)
 

@@ -13,6 +13,9 @@ bash scripts/collect_env.sh # guarda versiones, modo de potencia y temperaturas 
 
 ## 2. Entorno e instalación de runtimes
 
+Una sola vez por máquina, instala Git LFS para que los `*.onnx` (incluido el que exportes
+aquí) viajen como archivo real y no como puntero: `sudo apt install -y git-lfs && git lfs install`.
+
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
@@ -26,8 +29,8 @@ pip install onnxruntime
 ```
 
 > Para exportar el modelo necesitas torch y torchvision en el equipo donde exportes
-> (puede ser la Jetson o tu portátil). El artefacto ONNX resultante es el que se
-> comparte; no se re-exporta en cada equipo.
+> (puede ser la Jetson o tu portátil). El artefacto ONNX resultante se versiona en el
+> repo vía Git LFS y llega con el clon; no se re-exporta en cada equipo.
 
 ## 3. Exportar el modelo base (una sola vez) y publicar su checksum
 
