@@ -87,23 +87,24 @@ python scripts/energy_from_window.py --log power_log.csv --result results/<corri
 # Analizar variabilidad entre corridas (decidir/verificar R)
 python scripts/analyze_runs.py "results/jetson-gpu_*tensorrt*.json"
 
-# Traer los *.json de un equipo de medicion al Mac (para calcular energia o consolidar)
+# Traer los *.json de un equipo de medicion al host (para calcular energia o consolidar)
 bash scripts/fetch_results.sh orlando@orlando-desktop.local
 
 # Consolidar y subir resultados (pull + regenerar log + commit + push), en una orden
 bash scripts/sync_results.sh
 ```
 
-## Medición automatizada (un comando, desde el Mac)
+## Medición automatizada (un comando, desde la máquina anfitriona (host))
 
 `measure_remote.py` orquesta una condición de punta a punta por SSH: chequeos (reloj NTP,
 checksum del modelo, autotest del medidor) → logger de energía local → latencia remota (R) →
-la Jetson commitea sus JSON → el Mac hace `pull` → guardia de proveedor (aborta si la GPU cae
+la Jetson commitea sus JSON → el host hace `pull` → guardia de proveedor (aborta si la GPU cae
 a CPU) → energía → commit. Aborta en rojo ante cualquier anomalía; un final verde significa
 "medido bien", no "corrió sin reventar". Los JSON de dispositivo viajan por **git** (no rsync).
+El host puede ser macOS, Linux o Windows; para Windows, ver `docs/SETUP_HOST_WINDOWS.md`.
 
 **Prerrequisitos (una vez):** SSH por llave (`ssh-copy-id usuario@host`, sin contraseña) y
-relojes sincronizados por NTP en ambas máquinas. El medidor INA226+CP2112 va en el Mac.
+relojes sincronizados por NTP en ambas máquinas. El medidor INA226+CP2112 va en el host de registro.
 
 ```bash
 # Una condición (jetson-gpu) con energía y verificación de modelo
@@ -142,7 +143,7 @@ otro: modelo FP32 + tabla de calibración de TensorRT. Se genera la tabla y se m
 --trt-int8-table` (el modelo es el FP32, no el QDQ):
 
 ```bash
-# Mac: genera la tabla (corre en CPU; reusa el conjunto de calibración, sin fuga)
+# en el host: genera la tabla (corre en CPU; reusa el conjunto de calibración, sin fuga)
 python scripts/make_trt_calib_table.py --model models/resnet50_baseline.onnx \
     --calib-dir datasets/calib_imagenet1k --out-dir calib_tables/resnet50 --limit 300
 # Jetson GPU: FP32 + tabla + etiqueta de variante
@@ -177,8 +178,8 @@ scripts/
   build_results_log.py    genera results/RESULTS_LOG.md desde los JSON
   quantize_int8.py        cuantiza un ONNX FP32 a INT8 (PTQ estática QDQ) — OE1
   sync_results.sh         pull + regenerar log + add + commit + push (Jetson/RPi)
-  fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al Mac por SSH (respaldo)
-  measure_remote.py       orquestador: una condición de punta a punta por SSH (Mac)
+  fetch_results.sh        trae los *.json de un equipo (Jetson/RPi) al host por SSH (respaldo)
+  measure_remote.py       orquestador: una condición de punta a punta por SSH (desde cualquier host)
   measure_jetson_model.sh wrapper: ambas condiciones de la Jetson de un modelo
 docs/
   RUNBOOK.md              proceso end-to-end + flujo de git

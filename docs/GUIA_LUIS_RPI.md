@@ -177,7 +177,7 @@ medidor externo** (INA226 + CP2112) que la Jetson, pero con un shunt **R010 (0.0
 en vez del R100. Cuando tengas ese hardware, el procedimiento está en
 `docs/POWER_MEASUREMENT.md`, y se puede automatizar con el orquestador desde tu portátil:
 `python3 scripts/measure_remote.py --host <tu_usuario@tu_rpi> --device-tag rpi-cpu --provider cpu --model models/<modelo>.onnx --shunt 0.01`.
-Por ahora, déjala pendiente.
+Por ahora, déjala pendiente. Tu portátil puede ser Windows o Mac; si es Windows, prepara primero el entorno anfitrión (lo más simple es WSL2): ver `docs/SETUP_HOST_WINDOWS.md`.
 
 ---
 

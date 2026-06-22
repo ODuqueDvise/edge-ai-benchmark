@@ -76,7 +76,7 @@ git push                              # 4. sube
 Hazlo una vez: `git config --global pull.rebase true`. El `git pull` de primero solo
 sirve con el árbol limpio; si tienes ediciones pendientes, commitea antes.
 
-> Nota: en el Mac, la carpeta del proyecto YA es el clon (normalizado), así que se
+> Nota: en el equipo de Orlando, la carpeta del proyecto YA es el clon (normalizado), así que se
 > edita y commitea ahí directamente; no se usa rsync.
 
 ### Subir resultados de mediciones (atajo)
@@ -99,16 +99,17 @@ Hace `pull --rebase` + `add results/` + `commit` + `push`, con aviso si hay conf
   podados y destilados. ResNet-50 (~100MB) viene con el clon, ya no se pasa por archivo.
 - **No:** `datasets/` (cada equipo descarga el suyo), `.venv/`, `__pycache__/`.
 
-## Medición automatizada (un comando, desde el Mac)
+## Medición automatizada (un comando, desde la máquina anfitriona (host))
 
 Para no orquestar a mano latencia + energía + sincronización en dos terminales,
 `scripts/measure_remote.py` hace una condición de punta a punta por SSH y
 `scripts/measure_jetson_model.sh` corre las dos condiciones de la Jetson de un tiro.
-Comandos y opciones en el README ("Medición automatizada").
+Comandos y opciones en el README ("Medición automatizada"). El host puede ser macOS,
+Linux o Windows; para Windows, ver `docs/SETUP_HOST_WINDOWS.md`.
 
 **Prerrequisitos (una vez):**
-- SSH por llave Mac→equipo: `ssh-copy-id orlando@orlando-desktop.local`. Sin esto, el flujo se cuelga pidiendo contraseña.
-- Relojes sincronizados por NTP en Mac y Jetson (la ventana de energía depende de ello; Jetson: `sudo timedatectl set-ntp true`).
+- SSH por llave host→equipo: `ssh-copy-id orlando@orlando-desktop.local`. Sin esto, el flujo se cuelga pidiendo contraseña.
+- Relojes sincronizados por NTP en el host y el equipo medido (la ventana de energía depende de ello; Jetson: `sudo timedatectl set-ntp true`).
 
 El orquestador **aborta en rojo** ante reloj desfasado, checksum que no cuadra, autotest del
 medidor fallido, caída silenciosa de la GPU a CPU o ventana de energía sin cubrir. Los pasos

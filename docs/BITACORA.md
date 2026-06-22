@@ -181,3 +181,7 @@ REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperaci
 - Se versionan TODOS los ONNX en el repo vía Git LFS (incluido `resnet50_baseline.onnx` ~102 MB, que antes se compartía por archivo + checksum). `.gitattributes` enruta `*.onnx`; el `.gitignore` solo excluye los ONNX temporales de cuantización. Decisión D17.
 - Requiere git-lfs en cada máquina para clonar/actualizar y obtener los archivos reales (si no, se reciben punteros de texto): `git lfs install` (Linux: `sudo apt install -y git-lfs`; Mac: `brew install git-lfs`). Setup inicial en el Mac: `git lfs track "*.onnx"` → add `.gitattributes` → commit → push.
 - Instrucciones propagadas a RUNBOOK, GUIA_LUIS_RPI y QUICKSTARTs. Los ONNX ya commiteados como blobs normales (cnn_baseline, *_int8) se quedan así; LFS aplica a lo nuevo (no se reescribe historia).
+
+## 2026-06-21 — Orquestador documentado como multiplataforma (host cualquiera)
+- Corrección de premisa: `measure_remote.py` corre desde cualquier máquina anfitriona (macOS/Linux/Windows), no solo el Mac; lee el medidor por hidapi (multiplataforma). Generalizado en README y RUNBOOK ("el Mac" → "el host"), conservando lo que sí es del Mac de Orlando (export con pyenv, clon canónico).
+- Nueva guía `docs/SETUP_HOST_WINDOWS.md`: cómo correr el orquestador en Windows. Recomendado WSL2 (entorno idéntico a la doc); para el medidor USB-HID, `usbipd-win` para adjuntarlo a WSL, o Windows nativo (hidapi sin driver). Latencia/precisión no requieren host. Puntero agregado en GUIA_LUIS_RPI (Luis puede estar en Windows).
