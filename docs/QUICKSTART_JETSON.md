@@ -1,4 +1,4 @@
-# Quickstart — Jetson Orin Nano (frente Orlando)
+# Quickstart — Jetson Orin Nano (mi frente)
 
 Pasos para validar la cadena de exportación y dejar el arnés corriendo en las dos
 condiciones de la Jetson (jetson-gpu y jetson-cpu). Ejecutar sobre JetPack 6.2.

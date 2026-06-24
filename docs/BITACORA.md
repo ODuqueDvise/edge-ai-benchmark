@@ -2,7 +2,7 @@
 
 Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 
-## 2026-06-15 — Orlando (Jetson)
+## 2026-06-15 — Jetson
 - Jetson Orin Nano operativa: arranque desde NVMe (JetPack 6.2), stack CUDA 12.6 / TensorRT 10.3 validado.
 - Banco de medición construido y en repositorio público; protocolo congelado (D6).
 - Línea base V0 (MobileNetV2 sin optimizar) en jetson-gpu y jetson-cpu: latencia (R=5) y precisión (10k, ImageNet-V2). Hallazgo: GPU ~5x más rápida que CPU sin pérdida de precisión.
@@ -13,7 +13,7 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
 - Hardware: el shunt R100 (0.1 Ω) topa en ~0.82 A; la RPi requiere un R010 (0.01 Ω).
 - Herramientas: `energy_from_window.py` ahora escribe `results/energy_*.json` y `build_results_log.py` lo integra al log automáticamente.
 
-## 2026-06-20 — Orlando (Jetson)
+## 2026-06-20 — Jetson
 - Cerrada la comparación GPU vs CPU del baseline V0 en la Jetson (tres métricas):
   - Latencia: GPU 2.468 ms vs CPU 12.280 ms (~5×).
   - Precisión: equivalente (top-1 0.5959 vs 0.5961).
@@ -37,7 +37,7 @@ Entradas cronológicas de estado. Ver el procedimiento en `docs/REGISTRO.md`.
   - `build_results_log.py` etiqueta por nombre de modelo con respaldo al sha; sigue agrupando por sha, así que los JSON viejos de MobileNetV2 no se rompen. Verificado con dos JSON simulados → dos filas separadas y etiquetadas.
   - `.gitignore`: `cnn_baseline.onnx` (~14MB) versionado; ResNet-50 (~100MB) NO se versiona —supera el límite de 100MB de GitHub—, se comparte por archivo + checksum.
   - Docs actualizadas (README, RUNBOOK, QUICKSTART_JETSON/RPI/ACCURACY) al flujo de dos modelos y a las constantes congeladas (100/2000 donde quedaban 50/1000).
-- ResNet-50 exportado (opset 18, 102.4 MB, pesos IMAGENET1K_V2, SHA-256 `05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc`) y copiado a la Jetson por scp. Pendiente: correr su línea base V0 (jetson-gpu/cpu por Orlando; rpi-cpu por Luis).
+- ResNet-50 exportado (opset 18, 102.4 MB, pesos IMAGENET1K_V2, SHA-256 `05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc`) y copiado a la Jetson por scp. Pendiente: correr su línea base V0 (jetson-gpu/cpu por mí; rpi-cpu por Luis).
 
 ## 2026-06-20 — Línea base V0 de ResNet-50 en la Jetson (CP1)
 - Medido jetson-gpu (TensorRT) y jetson-cpu, R=5, precisión sobre el set completo (10k V2):
@@ -183,10 +183,14 @@ REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperaci
 - Instrucciones propagadas a RUNBOOK, GUIA_LUIS_RPI y QUICKSTARTs. Los ONNX ya commiteados como blobs normales (cnn_baseline, *_int8) se quedan así; LFS aplica a lo nuevo (no se reescribe historia).
 
 ## 2026-06-21 — Orquestador documentado como multiplataforma (host cualquiera)
-- Corrección de premisa: `measure_remote.py` corre desde cualquier máquina anfitriona (macOS/Linux/Windows), no solo el Mac; lee el medidor por hidapi (multiplataforma). Generalizado en README y RUNBOOK ("el Mac" → "el host"), conservando lo que sí es del Mac de Orlando (export con pyenv, clon canónico).
+- Corrección de premisa: `measure_remote.py` corre desde cualquier máquina anfitriona (macOS/Linux/Windows), no solo el Mac; lee el medidor por hidapi (multiplataforma). Generalizado en README y RUNBOOK ("el Mac" → "el host"), conservando lo que sí es de mi Mac (export con pyenv, clon canónico).
 - Nueva guía `docs/SETUP_HOST_WINDOWS.md`: cómo correr el orquestador en Windows. Recomendado WSL2 (entorno idéntico a la doc); para el medidor USB-HID, `usbipd-win` para adjuntarlo a WSL, o Windows nativo (hidapi sin driver). Latencia/precisión no requieren host. Puntero agregado en GUIA_LUIS_RPI (Luis puede estar en Windows).
 
 ## 2026-06-22 — rpi-cpu V0 validado + análisis de despliegue; guía ampliada a INT8/poda
 - Luis subió la línea base V0 en rpi-cpu (latencia R=5 + precisión, ambos modelos; sin energía). Validado: la precisión coincide con la Jetson (ResNet-50 0.695, MobileNetV2 0.596) → modelo y dataset correctos. Notas para Luis: ResNet subió con 10 corridas (protocolo R=5); MobileNetV2 con CV 9% y cola gorda (revisar gobernador `performance` y refrigeración).
 - Análisis de despliegue (V0): latencia geom rpi-cpu ResNet 150.8 ms, MobileNet 25.2 ms. La CPU del RPi5 es 1.67×/2.0× más lenta que la CPU de la Jetson. Brecha de despliegue Jetson-GPU vs RPi-CPU: 22.9× (ResNet) / 9.9× (MobileNet) —un orden de magnitud—. Descompone en aceleración GPU (13.7×/4.9×) × mejor CPU del SoC (1.67×/2.0×): el grueso es el acelerador.
 - Energía rpi sigue diferida (necesita dongle INA226+CP2112 + shunt R010). INT8 y poda NO necesitan el dongle (solo latencia+precisión). Guía de Luis ampliada (`GUIA_LUIS_RPI.md` §9) con comandos INT8 (`*_int8.onnx`) y poda (`*_pruned.onnx`), el `git lfs pull` y el aviso de que la poda baja la precisión a propósito.
+
+## 2026-06-22 — Conciliación de guías RPi + voz unificada
+- Se eliminó la duplicación entre `GUIA_LUIS_RPI.md` (guía completa, única fuente del setup) y `QUICKSTART_RPI.md`, reducida a tarjeta de comandos (V0/INT8/poda + constantes), que remite a la guía para clonar/entorno/gobernador. Evita que diverjan.
+- Voz unificada: la documentación (README, RUNBOOK, QUICKSTART, POWER, bitácora, guía de Luis) habla en primera persona; "Orlando" en tercera persona se quitó salvo identificadores literales (git user.name, llave SSH, host de ejemplo).

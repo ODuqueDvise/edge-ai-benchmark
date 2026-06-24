@@ -1,7 +1,7 @@
 # Runbook — proceso end-to-end
 
 Orden de ejecución de todo el flujo, con puntero a cada guía. Pensado para que
-Orlando (Jetson) y Luis (RPi) trabajen igual y de forma trazable.
+Luis (RPi) y yo (Jetson) trabajemos igual y de forma trazable.
 
 ## Orden general
 
@@ -76,7 +76,7 @@ git push                              # 4. sube
 Hazlo una vez: `git config --global pull.rebase true`. El `git pull` de primero solo
 sirve con el árbol limpio; si tienes ediciones pendientes, commitea antes.
 
-> Nota: en el equipo de Orlando, la carpeta del proyecto YA es el clon (normalizado), así que se
+> Nota: en mi equipo, la carpeta del proyecto YA es el clon (normalizado), así que se
 > edita y commitea ahí directamente; no se usa rsync.
 
 ### Subir resultados de mediciones (atajo)

@@ -12,7 +12,7 @@ reproducibles y trazables.
 ## Inicio rápido por rol
 
 - **Visión completa del proceso:** `docs/RUNBOOK.md` (orden de todo, de principio a fin).
-- **Jetson Orin Nano (Orlando):** `docs/QUICKSTART_JETSON.md`
+- **Jetson Orin Nano (yo):** `docs/QUICKSTART_JETSON.md`
 - **Raspberry Pi 5 (Luis) — guía completa paso a paso:** `docs/GUIA_LUIS_RPI.md` (de cero a resultados; referencia rápida en `docs/QUICKSTART_RPI.md`)
 - **Precisión (descarga del dataset y corridas):** `docs/QUICKSTART_ACCURACY.md`
 - **Energía (INA226 + CP2112):** `docs/POWER_MEASUREMENT.md`

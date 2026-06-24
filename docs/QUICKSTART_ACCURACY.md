@@ -1,7 +1,7 @@
 # Quickstart — Medición de precisión (ImageNet-V2)
 
 Mide top-1 / top-5 del modelo en cada condición, para el OE1 (pérdida de precisión
-por optimización). Replicable por Orlando (Jetson) y Luis (RPi) con los mismos pasos.
+por optimización). Replicable por mí (Jetson) y por Luis (RPi) con los mismos pasos.
 
 ## 0. Reglas de coherencia (no romper)
 

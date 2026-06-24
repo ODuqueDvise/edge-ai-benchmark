@@ -97,7 +97,7 @@ python scripts/ina226_cp2112_logger.py --selftest
 python scripts/ina226_cp2112_logger.py --rshunt 0.002 --addr 0x40 --interval 0.05 --out power_log.csv
 ```
 
-Cada integrante mide su propio equipo desde su portatil (Orlando -> Jetson,
+Cada integrante mide su propio equipo desde su portatil (yo -> Jetson,
 Luis -> RPi) con su propio CP2112+INA226. El calculo de energia
 (`energy_from_window.py`) no cambia: usa el mismo CSV.
 
