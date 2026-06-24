@@ -158,7 +158,62 @@ python -m bench.run_accuracy --model models/resnet50_baseline.onnx --backend ort
   --provider cpu --device-tag rpi-cpu --dataset datasets/imagenetv2-matched-frequency-format-val
 ```
 
-## 9. Subir los resultados
+## 9. Variantes optimizadas: INT8 y poda (latencia + precisión, SIN energía)
+
+Cuando tengas lista la línea base V0, repite latencia y precisión para las dos técnicas ya
+optimizadas. **No necesitas el medidor de energía**: el dongle (INA226 + CP2112) es solo para
+energía, que sigue diferida. Esto es latencia + precisión, exactamente igual que V0.
+
+Primero, baja los modelos optimizados (vienen en el repo por **Git LFS**):
+
+```bash
+git lfs install        # una sola vez, si no lo has hecho
+git pull               # trae los .onnx INT8 y podados
+ls -lh models/*_int8.onnx models/*_pruned.onnx   # deben pesar MB reales; si dan ~130 bytes son punteros LFS sin descargar -> repite git lfs install + git pull
+```
+
+**INT8** — archivos `*_int8.onnx`:
+
+```bash
+# Latencia (5 corridas cada uno)
+for m in cnn_baseline_int8 resnet50_baseline_int8; do
+  for i in 1 2 3 4 5; do
+    python -m bench.run_benchmark --model models/$m.onnx --backend ort \
+      --provider cpu --device-tag rpi-cpu --input-shape 1,3,224,224 --warmup 100 --iters 2000
+  done
+done
+# Precisión (completa)
+for m in cnn_baseline_int8 resnet50_baseline_int8; do
+  python -m bench.run_accuracy --model models/$m.onnx --backend ort \
+    --provider cpu --device-tag rpi-cpu --dataset datasets/imagenetv2-matched-frequency-format-val
+done
+```
+**Qué esperar (precisión):** ~**0.59** (MobileNetV2 INT8) y ~**0.67** (ResNet-50 INT8) — casi igual que V0.
+
+**Poda** — archivos `*_pruned.onnx`:
+
+```bash
+# Latencia (5 corridas cada uno)
+for m in cnn_pruned resnet50_pruned; do
+  for i in 1 2 3 4 5; do
+    python -m bench.run_benchmark --model models/$m.onnx --backend ort \
+      --provider cpu --device-tag rpi-cpu --input-shape 1,3,224,224 --warmup 100 --iters 2000
+  done
+done
+# Precisión (completa)
+for m in cnn_pruned resnet50_pruned; do
+  python -m bench.run_accuracy --model models/$m.onnx --backend ort \
+    --provider cpu --device-tag rpi-cpu --dataset datasets/imagenetv2-matched-frequency-format-val
+done
+```
+**Qué esperar (precisión):** ~**0.45** (MobileNetV2 podado) y ~**0.51** (ResNet-50 podado). **Ojo:** la poda
+baja la precisión **a propósito** —es el costo de la recuperación limitada, ya documentado—; ese número
+más bajo es lo esperado, **no es un error**. (Si sale ~0.001, eso sí es problema de dataset: detente y avisa.)
+
+Al terminar, sube todo (sección siguiente) con un mensaje claro, p. ej.
+`bash scripts/sync_results.sh "rpi-cpu INT8 + poda (MobileNetV2 + ResNet-50)"`.
+
+## 10. Subir los resultados
 
 Un solo comando hace `pull` + regenerar el log + `commit` + `push`:
 
@@ -170,7 +225,7 @@ bash scripts/sync_results.sh "rpi-cpu baseline V0 (MobileNetV2 + ResNet-50)"
 - Si dice **permission denied / authentication**: falta la llave SSH (paso 2.2) o que Orlando te agregue como colaborador.
 - Si dice **conflicto en el pull**: avísale a Orlando antes de forzar nada.
 
-## 10. Energía (DIFERIDA — no la necesitas todavía)
+## 11. Energía (DIFERIDA — no la necesitas todavía)
 
 La RPi 5 no tiene sensor de potencia, así que la energía se mide con el **mismo
 medidor externo** (INA226 + CP2112) que la Jetson, pero con un shunt **R010 (0.01 Ω)**
