@@ -7,7 +7,7 @@ si salió bien antes de continuar.
 ## Dónde estamos y qué te toca
 
 El proyecto compara **GPU vs CPU** en el borde con dos modelos: **MobileNetV2** y
-**ResNet-50**. Orlando ya midió ambos en la Jetson (latencia, precisión y energía).
+**ResNet-50**. Ya medí ambos en la Jetson (latencia, precisión y energía).
 **Tu parte es la condición `rpi-cpu`**: correr los dos modelos en la Raspberry Pi 5
 (que no tiene GPU para ML) con el **mismo arnés y los mismos parámetros**, para que
 las cifras sean comparables.
@@ -20,7 +20,7 @@ Tiempo aproximado: ~30–40 min de configuración + las mediciones (la precisió
 
 ### Antes de empezar, ten a la mano
 - Raspberry Pi 5 con Raspberry Pi OS de 64 bits, encendida, con internet y un disipador/ventilador (la RPi 5 baja la frecuencia si se calienta).
-- Una cuenta de GitHub. **Pídele a Orlando que te agregue como colaborador** del repositorio `ODuqueDvise/edge-ai-benchmark` (sin eso no podrás hacer `push`).
+- Una cuenta de GitHub. **Pídeme que te agregue como colaborador** del repositorio `ODuqueDvise/edge-ai-benchmark` (sin eso no podrás hacer `push`).
 - **Git LFS instalado** (los modelos `.onnx` se versionan con LFS): `sudo apt install -y git-lfs && git lfs install`.
 
 ---
@@ -42,7 +42,7 @@ Esto evita el error `GH007` (que aparece si tu correo de GitHub es privado) y de
 el `push` por SSH.
 
 ```bash
-# 2.1 Tu identidad. Usa TU correo noreply de GitHub (NO el de Orlando):
+# 2.1 Tu identidad. Usa TU correo noreply de GitHub (NO el mío):
 #     GitHub -> Settings -> Emails -> "Keep my email private" -> copia el correo
 #     con forma  12345678+tuusuario@users.noreply.github.com
 git config --global user.name  "Luis David Lenes"
@@ -59,7 +59,7 @@ git remote set-url origin git@github.com:ODuqueDvise/edge-ai-benchmark.git
 ssh -T git@github.com
 ```
 **Qué deberías ver:** al final, un saludo tipo `Hi tuusuario! You've successfully authenticated...`.
-Si dice *permission denied*, la llave no quedó registrada (repite 2.2) o Orlando aún no te agregó como colaborador.
+Si dice *permission denied*, la llave no quedó registrada (repite 2.2) o aún no te he agregado como colaborador.
 
 ## 3. Preparar el entorno de Python
 
@@ -77,7 +77,7 @@ python -c "import onnxruntime as ort; print(ort.get_available_providers())"
 ## 4. Tener los dos modelos y verificarlos
 
 Ambos modelos ya vinieron con el clon (se versionan en el repo vía Git LFS), así que
-no tienes que recibir ResNet-50 por aparte. Verifica que son idénticos a los de Orlando
+no tienes que recibir ResNet-50 por aparte. Verifica que son idénticos a los míos
 —si un solo byte difiere, las mediciones no son comparables—:
 
 ```bash
@@ -147,7 +147,7 @@ python -m bench.run_accuracy --model models/cnn_baseline.onnx --backend ort \
   --provider cpu --device-tag rpi-cpu --dataset datasets/imagenetv2-matched-frequency-format-val --limit 2000
 ```
 **Qué deberías ver:** un `top-1` alrededor de **0.59** para MobileNetV2 (y ~**0.69** para ResNet-50).
-Si sale cerca de **0.001** (lo aleatorio), algo está mal en el dataset; **detente** y avísale a Orlando — no es degradación real.
+Si sale cerca de **0.001** (lo aleatorio), algo está mal en el dataset; **detente** y avísame — no es degradación real.
 
 Si el número es sano, corre las dos completas (sin `--limit`):
 
@@ -222,8 +222,8 @@ bash scripts/sync_results.sh "rpi-cpu baseline V0 (MobileNetV2 + ResNet-50)"
 ```
 **Qué deberías ver:** al final, `Listo: resultados y RESULTS_LOG sincronizados.`
 - Si dice **GH007 / email privado**: tu `user.email` del paso 2.1 no es el noreply; corrígelo y repite.
-- Si dice **permission denied / authentication**: falta la llave SSH (paso 2.2) o que Orlando te agregue como colaborador.
-- Si dice **conflicto en el pull**: avísale a Orlando antes de forzar nada.
+- Si dice **permission denied / authentication**: falta la llave SSH (paso 2.2) o que aún no te haya agregado como colaborador (avísame).
+- Si dice **conflicto en el pull**: avísame antes de forzar nada.
 
 ## 11. Energía (DIFERIDA — no la necesitas todavía)
 
@@ -243,7 +243,7 @@ En `results/` deberías terminar con, al menos:
 - 5 JSON `rpi-cpu_resnet50_baseline_ort_cpu_*.json` (latencia ResNet-50)
 - 2 JSON `acc_rpi-cpu_*_ort_cpu_*.json` (precisión, uno por modelo)
 
-Cuando estén subidos, avísale a Orlando para consolidar la comparación de dispositivo.
+Cuando estén subidos, avísame para consolidar la comparación de dispositivo.
 
 ## Si algo se rompe (lo más común)
 
