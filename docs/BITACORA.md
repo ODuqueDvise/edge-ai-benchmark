@@ -194,3 +194,22 @@ REFERENCIAS: repo DECISIONS D15 (parámetros poda) y D16 (problema de recuperaci
 ## 2026-06-22 — Conciliación de guías RPi + voz unificada
 - Se eliminó la duplicación entre `GUIA_LUIS_RPI.md` (guía completa, única fuente del setup) y `QUICKSTART_RPI.md`, reducida a tarjeta de comandos (V0/INT8/poda + constantes), que remite a la guía para clonar/entorno/gobernador. Evita que diverjan.
 - Voz unificada: la documentación (README, RUNBOOK, QUICKSTART, POWER, bitácora, guía de Luis) habla en primera persona; "Orlando" en tercera persona se quitó salvo identificadores literales (git user.name, llave SSH, host de ejemplo).
+
+## 2026-06-22 — Cierre de sesión: estado y próximos pasos
+HECHO esta sesión:
+- Poda (OE1 técnica 2) cerrada en la Jetson: latencia/energía/brecha definitivas; precisión recuperada parcialmente por destilación (KD). Consolidada en la matriz y en el Word (retos 4.x, secciones 7 y 8).
+- Análisis OE3: `scripts/analyze_oe3.py` (tendencia central log, tamaños de efecto + IC, cola), reporte `results/OE3_ANALISIS.md`, figura `results/oe3_brecha_gpu_cpu.{png,pdf}`, sección 8 del Word. Hallazgo: el INT8 ensancha la brecha GPU-CPU, la poda la estrecha (IC estrechos).
+- Git LFS: todos los ONNX versionados (D17).
+- rpi-cpu V0 (Luis) validado (precisión = Jetson) + análisis de despliegue: brecha Jetson-GPU vs RPi-CPU 22.9× (ResNet) / 9.9× (MobileNet); descompone en GPU (13.7×/4.9×) × mejor CPU del SoC (1.67×/2.0×).
+- Docs: orquestador generalizado a cualquier host + `SETUP_HOST_WINDOWS.md`; voz en primera persona; guías RPi conciliadas (GUIA_LUIS completa, QUICKSTART_RPI = tarjeta de comandos).
+PRÓXIMOS PASOS (orden):
+  1. Subir desde el Mac la tanda de docs sin commitear: `git add README.md docs/` → commit → `pull --rebase` → push.
+  2. Pedirle a Luis INT8 + poda en rpi-cpu (latencia + precisión, SIN energía; guía §9). Energía sigue diferida (medidor + shunt R010).
+  3. Cuando Luis suba: consolidar rpi-cpu como 3ª columna en `analyze_oe3.py` + cerrar la referencia de despliegue; correr el ART factorial (diseño completo).
+  4. Técnica 3: destilación (estudiante compacto) — última del OE1, sin empezar.
+  5. Decisión del director sobre la precisión de la poda (nota `Nota_Director_Avance_Poda.md`).
+  6. Redacción de capítulos de tesis.
+
+## 2026-06-22 — Autodetección de dirección del INA226 + validación del medidor de Luis
+- `ina226_cp2112_logger.py` ahora AUTODETECTA la dirección I2C del INA226: prueba la preferida (0x40) y, si no responde, escanea 0x40-0x4F validando los DOS registros de identidad del INA226 (fabricante y dispositivo), no solo un ACK; si varias direcciones responden (strap A0/A1 marginal) lo avisa. `--addr` pasa a ser solo preferencia. El orquestador lo hereda (llama al logger para autotest y registro), así que el dongle de Luis (que quedó estable en 0x44) funciona sin `--addr`, igual que el de la Jetson (0x40), sin tocar guías. Verificado con py_compile + test lógico con dispositivo simulado.
+- Medidor de Luis validado funcionalmente: 17 min @ ~19 Hz, bus ~5.43 V, P=V·I consistente, sin valores no finitos. PENDIENTE físico antes de enviarlo: invertir IN+/IN− (la corriente salía negativa) y confirmar el valor real del shunt (`--rshunt`; cruce con multímetro).

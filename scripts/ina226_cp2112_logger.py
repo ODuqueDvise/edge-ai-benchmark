@@ -18,6 +18,7 @@ Requisitos (en el host de registro, NO el equipo bajo prueba):
 Uso:
   python scripts/ina226_cp2112_logger.py --rshunt 0.002 --addr 0x40 --interval 0.05 --out power_log.csv
   python scripts/ina226_cp2112_logger.py --selftest            # solo verifica el enlace
+  # La direccion I2C se autodetecta en 0x40-0x4F; --addr solo fija la preferencia.
 """
 import argparse, time, csv
 
@@ -84,10 +85,37 @@ def selftest(dev, addr):
     return ok
 
 
+def _is_ina226(dev, addr):
+    """True solo si en addr responde un INA226 valido: verifica AMBOS registros de
+    identidad (fabricante 0x5449 Y dispositivo 0x226x). Un ACK suelto que solo eche un
+    valor no pasa los dos, asi que esto descarta falsos positivos de direcciones espurias."""
+    try:
+        return (dev.read_word(addr, REG_MFR_ID) == 0x5449
+                and (dev.read_word(addr, REG_DIE_ID) >> 4) == 0x226)
+    except Exception:
+        return False
+
+
+def find_ina226(dev, preferred):
+    """Direccion de un INA226 VALIDADA por sus dos registros de identidad (no solo por un
+    ACK). Escanea 0x40-0x4F. Si varias direcciones pasan la validacion (sintoma de un strap
+    A0/A1 marginal), lo avisa y usa la preferida si esta entre ellas, o la primera. Hace el
+    medidor plug-and-play sin --addr. Devuelve la direccion o None si ninguna es un INA226."""
+    hits = [addr for addr in range(0x40, 0x50) if _is_ina226(dev, addr)]
+    if not hits:
+        return None
+    chosen = preferred if preferred in hits else hits[0]
+    if len(hits) > 1:
+        print("Aviso: el INA226 responde en varias direcciones (%s): strap A0/A1 marginal, "
+              "conviene fijarlo en hardware. Usando 0x%02X."
+              % (", ".join("0x%02X" % h for h in hits), chosen))
+    return chosen
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rshunt", type=float, default=None, help="resistencia del shunt en ohmios (p.ej. 0.002)")
-    ap.add_argument("--addr", type=lambda x: int(x, 0), default=0x40, help="direccion I2C del INA226 (def 0x40)")
+    ap.add_argument("--addr", type=lambda x: int(x, 0), default=0x40, help="direccion I2C preferida; si no responde, se autodetecta en 0x40-0x4F (def 0x40)")
     ap.add_argument("--serial", default=None, help="numero de serie del CP2112 (si hay varios)")
     ap.add_argument("--interval", type=float, default=0.05, help="periodo de muestreo en s (def 0.05 = 20 Hz)")
     ap.add_argument("--out", default="power_log.csv")
@@ -95,6 +123,14 @@ def main():
     a = ap.parse_args()
 
     dev = CP2112(a.serial)
+    addr = find_ina226(dev, a.addr)
+    if addr is None:
+        print("Detente: no se detecto ningun INA226 (MFR=0x5449) en 0x40-0x4F. Revisa enlace, alimentacion (VS) y cableado SDA/SCL/GND.")
+        dev.close()
+        return
+    if addr != a.addr:
+        print("Aviso: INA226 autodetectado en 0x%02X (no en la 0x%02X por defecto); usando 0x%02X." % (addr, a.addr, addr))
+    a.addr = addr
     if not selftest(dev, a.addr):
         print("Detente: el autotest fallo. No registres datos hasta resolverlo.")
         dev.close()
