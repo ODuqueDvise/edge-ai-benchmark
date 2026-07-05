@@ -225,3 +225,17 @@ PRÓXIMOS PASOS (orden):
   4. Commitear el logger INA226 de dirección fija (tras confirmar prueba en 0x44) y conciliar RUNBOOK/POWER_MEASUREMENT/bitácora con el cambio.
   5. En paralelo: INT8 + poda en rpi-cpu con Luis (guía §9); al subir, 3ª columna en `analyze_oe3.py` + ART factorial.
   6. Después: técnica 3 (destilación, estudiante compacto) y redacción de capítulos.
+
+## 2026-07-05 — Chequeo ImageNet-val CUMPLIDO (condición 2 de D18); correo enviado al director
+- Montaje en el Legion (WSL): descarga de la validación completa de ImageNet-1k (50k, streaming HF a carpetas por índice de clase, formato compatible con el cargador del arnés) + `onnxruntime-gpu` (requirió exportar LD_LIBRARY_PATH a las libs CUDA de torch: el wheel 1.27 pide libcudart.so.13, que solo vive en los paquetes pip de torch cu130). Sanidad con `--limit 2000`: 0.806 ≈ referencia. Seis corridas completas (V0/FT/KD × 2 modelos), JSON `acc_legion-gpu_*` en `results/` (push desde el Legion).
+- RESULTADO (top-1 val 50k): ResNet-50 0.802 (V0) / 0.633 (FT) / 0.704 (KD); MobileNetV2 0.720 / 0.578 / 0.640. Baselines ≈ torchvision (0.809/0.722; la décima es el re-encode JPG q95).
+- LECTURA: la brecha natural val→V2 (~11-12 pts en V0) se mantiene casi constante en los podados (amplificación 0.8-1.7 pts) → la hipótesis de que parte de los 14-18 pts fuera brecha del conjunto de prueba queda DESCARTADA con datos: la caída es costo real del presupuesto de recuperación. KD recupera +7.1/+6.2 pts reales sobre val; residual 8-10 pts = presupuesto de datos (100/clase). Esto FORTALECE el camino 1: hallazgo real, no artefacto de evaluación, parcialmente recuperable y cuantificado.
+- Estatus de las corridas: diagnóstico de D18 (device-tag legion-gpu), NO condición de la matriz; las cifras oficiales siguen siendo Jetson/V2. La precisión es propiedad del artefacto+dataset (equivalencia entre dispositivos ya demostrada en V2 sobre 3 plataformas); opcional para reproducibilidad: repetir solo los 2 baselines val en la Jetson (adorno, no necesidad).
+- Correo enviado al director (5 jul): cifras, redacción acordada, pregunta explícita de si las condiciones quedan cumplidas o abre camino 2; se mantiene sin invertir en recuperación completa.
+PRÓXIMOS PASOS (orden):
+  1. Mac: `git pull --rebase` (el Legion pushó los 7 JSON) y commit de esta bitácora + DECISIONS.
+  2. Sin esperar al director (él ya dictó la redacción): aplicar los matices en el Word — "poda a esta tasa exigió presupuesto de recuperación no previsto" y "recuperación poda+destilación combinada" (retos 4.x, §7-8) — y marcar el eje de precisión de la poda como CONDICIONAL en la matriz.
+  3. Con su respuesta: cerrar (o abrir camino 2) y consolidar las cifras val como anexo del capítulo de poda.
+  4. Luis: INT8 + poda en rpi-cpu (guía §9); al subir, 3ª columna en analyze_oe3.py + ART factorial.
+  5. Conciliar RUNBOOK/POWER_MEASUREMENT con el logger de dirección fija (docs aún describen autodetección).
+  6. Técnica 3 (destilación, estudiante compacto) y redacción de capítulos.
