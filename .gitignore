@@ -23,3 +23,5 @@ models/*-inferred.onnx
 # RESULTS_LOG.md es un resumen GENERADO (scripts/build_results_log.py) desde los JSON.
 # No se versiona: evita conflictos entre maquinas. Se regenera localmente cuando se quiera ver.
 results/RESULTS_LOG.md
+.DS_Store
+test_power.csv
