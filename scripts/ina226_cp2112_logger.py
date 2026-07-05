@@ -16,9 +16,12 @@ Requisitos (en el host de registro, NO el equipo bajo prueba):
   # macOS: si pide permisos de HID, autorizar. Windows: funciona sin driver.
 
 Uso:
-  python scripts/ina226_cp2112_logger.py --rshunt 0.002 --addr 0x40 --interval 0.05 --out power_log.csv
-  python scripts/ina226_cp2112_logger.py --selftest            # solo verifica el enlace
-  # La direccion I2C se autodetecta en 0x40-0x4F; --addr solo fija la preferencia.
+  python scripts/ina226_cp2112_logger.py --selftest               # verifica el enlace en 0x40 (def)
+  python scripts/ina226_cp2112_logger.py --selftest --addr 0x44   # modulo de Luis (direccion 0x44)
+  python scripts/ina226_cp2112_logger.py --rshunt 0.01 --addr 0x44 --out power_rpi.csv
+  python scripts/ina226_cp2112_logger.py --scan                   # diagnostico: descubre la direccion
+  # La direccion es FIJA (--addr, def 0x40). NO hay autodeteccion en el camino de medicion: el
+  # barrido del CP2112 sobre direcciones muertas lo desincroniza y elige direcciones falsas.
 """
 import argparse, time, csv
 
@@ -77,8 +80,15 @@ def _s16(x):
 
 
 def selftest(dev, addr):
-    mfr = dev.read_word(addr, REG_MFR_ID)
-    die = dev.read_word(addr, REG_DIE_ID)
+    try:
+        mfr = dev.read_word(addr, REG_MFR_ID)
+        die = dev.read_word(addr, REG_DIE_ID)
+    except IOError as e:
+        print("Autotest INA226: sin respuesta en 0x%02X. %s" % (addr, e))
+        print("  Si forzaste --addr, el chip no esta en esa direccion en este momento. Una "
+              "direccion que aparece y se cae entre lecturas = strap A0/A1 marginal (hardware): "
+              "mide A0/A1 a GND y fijalos en firme.")
+        return False
     ok = (mfr == 0x5449) and ((die >> 4) == 0x226)
     print("Autotest INA226: MFR=0x%04X (esp 0x5449), DIE=0x%04X (esp 0x2260) -> %s"
           % (mfr, die, "OK" if ok else "FALLA"))
@@ -98,9 +108,10 @@ def _is_ina226(dev, addr):
 
 def find_ina226(dev, preferred):
     """Direccion de un INA226 VALIDADA por sus dos registros de identidad (no solo por un
-    ACK). Escanea 0x40-0x4F. Si varias direcciones pasan la validacion (sintoma de un strap
-    A0/A1 marginal), lo avisa y usa la preferida si esta entre ellas, o la primera. Hace el
-    medidor plug-and-play sin --addr. Devuelve la direccion o None si ninguna es un INA226."""
+    ACK). Escanea 0x40-0x4F. Si varias direcciones pasan la validacion, avisa y usa la
+    preferida si esta entre ellas, o la primera. SOLO se usa en modo --scan (diagnostico):
+    el barrido sobre direcciones muertas puede desincronizar el CP2112, por eso NO va en el
+    camino de medicion. Devuelve la direccion o None si ninguna es un INA226."""
     hits = [addr for addr in range(0x40, 0x50) if _is_ina226(dev, addr)]
     if not hits:
         return None
@@ -115,7 +126,8 @@ def find_ina226(dev, preferred):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--rshunt", type=float, default=None, help="resistencia del shunt en ohmios (p.ej. 0.002)")
-    ap.add_argument("--addr", type=lambda x: int(x, 0), default=0x40, help="direccion I2C preferida; si no responde, se autodetecta en 0x40-0x4F (def 0x40)")
+    ap.add_argument("--addr", type=lambda x: int(x, 0), default=0x40, help="direccion I2C del INA226 (def 0x40, fija). Es la que se usa SIEMPRE; el modulo de Luis va en 0x44")
+    ap.add_argument("--scan", action="store_true", help="diagnostico: barre 0x40-0x4F buscando el INA226 y sale (sonda burda, puede desincronizar el CP2112 en direcciones muertas; NO la uses para medir)")
     ap.add_argument("--serial", default=None, help="numero de serie del CP2112 (si hay varios)")
     ap.add_argument("--interval", type=float, default=0.05, help="periodo de muestreo en s (def 0.05 = 20 Hz)")
     ap.add_argument("--out", default="power_log.csv")
@@ -123,14 +135,19 @@ def main():
     a = ap.parse_args()
 
     dev = CP2112(a.serial)
-    addr = find_ina226(dev, a.addr)
-    if addr is None:
-        print("Detente: no se detecto ningun INA226 (MFR=0x5449) en 0x40-0x4F. Revisa enlace, alimentacion (VS) y cableado SDA/SCL/GND.")
+    if a.scan:
+        # Diagnostico opcional: NO es el camino de medicion. El barrido sondea direcciones
+        # muertas y puede desincronizar el CP2112 (lee respuestas corridas y reporta direcciones
+        # falsas); usalo solo para descubrir una direccion desconocida y luego fijala con --addr.
+        found = find_ina226(dev, a.addr)
+        if found is None:
+            print("Barrido: no respondio ningun INA226 (MFR=0x5449 + DIE=0x226x) en 0x40-0x4F. Revisa enlace, alimentacion (VS) y cableado SDA/SCL/GND.")
+        else:
+            print("Barrido: INA226 en 0x%02X. Fijalo con --addr 0x%02X (y re-verifica con --selftest --addr 0x%02X)." % (found, found, found))
         dev.close()
         return
-    if addr != a.addr:
-        print("Aviso: INA226 autodetectado en 0x%02X (no en la 0x%02X por defecto); usando 0x%02X." % (addr, a.addr, addr))
-    a.addr = addr
+    # Direccion FIJA (sin autodeteccion): determinista y sin sorpresas de barrido.
+    print("Usando direccion I2C 0x%02X." % a.addr)
     if not selftest(dev, a.addr):
         print("Detente: el autotest fallo. No registres datos hasta resolverlo.")
         dev.close()
