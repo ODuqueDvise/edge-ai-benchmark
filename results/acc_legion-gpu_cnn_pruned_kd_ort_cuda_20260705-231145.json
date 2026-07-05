@@ -1,0 +1,38 @@
+{
+  "metadata": {
+    "timestamp_utc": "2026-07-05T23:11:45Z",
+    "device_tag": "legion-gpu",
+    "power_mode_declared": null,
+    "nvpmodel": "",
+    "platform": {
+      "node": "ODLEGION",
+      "machine": "x86_64",
+      "system": "Linux",
+      "release": "6.18.33.1-microsoft-standard-WSL2",
+      "python": "3.14.4"
+    },
+    "backend": {
+      "name": "onnxruntime",
+      "version": "1.27.0"
+    },
+    "model": {
+      "name": "cnn_pruned_kd",
+      "path": "models/cnn_pruned_kd.onnx",
+      "sha256": "8a6cdf8c639c5f8baf5d1450cacbd09910b2a8efda1904ec8defccda17afdddc"
+    },
+    "thermal_c_start": {},
+    "dataset": "/home/orlando/imagenet_val_full",
+    "n_images": 50000,
+    "variant": null,
+    "active_providers": [
+      "CUDAExecutionProvider",
+      "CPUExecutionProvider"
+    ]
+  },
+  "accuracy": {
+    "top1": 0.64024,
+    "top5": 0.86224,
+    "n_images": 50000,
+    "eval_seconds": 365.41940212249756
+  }
+}
