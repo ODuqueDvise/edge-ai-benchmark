@@ -19,7 +19,9 @@ Luis (RPi) y yo (Jetson) trabajemos igual y de forma trazable.
 4. **Línea base de PRECISIÓN** — `docs/QUICKSTART_ACCURACY.md` (descarga ImageNet-V2,
    verifica preprocesamiento, corre el set completo en las 3 condiciones).
 5. **ENERGÍA** — `docs/POWER_MEASUREMENT.md` (cuando llegue el INA226 + CP2112;
-   validar con `--selftest` antes de confiar).
+   validar con `--selftest` antes de confiar). La dirección I2C va SIEMPRE fija
+   con `--addr` (Jetson 0x40, RPi/Luis 0x44); `--scan` es solo diagnóstico, no
+   se usa en el camino de medición.
 6. **Fase 2 / OE1** — aplicar las técnicas en orden **INT8 → poda estructurada → destilación
    (al final, por su costo)**, sobre los dos modelos, y llenar la matriz. En la Orin la poda
    solo baja latencia si es estructurada (ver `docs/DECISIONS.md` D10). El INT8 se hace con

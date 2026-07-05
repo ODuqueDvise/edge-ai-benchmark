@@ -229,9 +229,14 @@ bash scripts/sync_results.sh "rpi-cpu baseline V0 (MobileNetV2 + ResNet-50)"
 
 La RPi 5 no tiene sensor de potencia, así que la energía se mide con el **mismo
 medidor externo** (INA226 + CP2112) que la Jetson, pero con un shunt **R010 (0.01 Ω)**
-en vez del R100. Cuando tengas ese hardware, el procedimiento está en
+en vez del R100. Dos datos de TU módulo: (1) responde en la dirección I2C **0x44**
+(el de la Jetson usa 0x40), así que pásala siempre explícita — `--selftest --addr 0x44`
+para verificar el enlace, y `--addr 0x44` al registrar o al usar el orquestador—;
+(2) antes del primer registro hay que **invertir IN+ e IN−** (en la validación la
+corriente salía negativa) y confirmar el valor real del shunt con multímetro.
+Cuando tengas ese hardware, el procedimiento está en
 `docs/POWER_MEASUREMENT.md`, y se puede automatizar con el orquestador desde tu portátil:
-`python3 scripts/measure_remote.py --host <tu_usuario@tu_rpi> --device-tag rpi-cpu --provider cpu --model models/<modelo>.onnx --shunt 0.01`.
+`python3 scripts/measure_remote.py --host <tu_usuario@tu_rpi> --device-tag rpi-cpu --provider cpu --model models/<modelo>.onnx --shunt 0.01 --addr 0x44`.
 Por ahora, déjala pendiente. Tu portátil puede ser Windows o Mac; si es Windows, prepara primero el entorno anfitrión (lo más simple es WSL2): ver `docs/SETUP_HOST_WINDOWS.md`.
 
 ---

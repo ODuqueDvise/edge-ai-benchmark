@@ -27,6 +27,12 @@ equipo y el host de registro; solo las lineas I2C van al host.
 - **Verifica en TU modulo:** el valor real del shunt (suele ser 0.002 o 0.1 ohm),
   la direccion I2C (0x40 por defecto; cambia con A0/A1) y que no excedes la
   corriente maxima del shunt/pistas.
+- **La direccion I2C se pasa SIEMPRE fija con `--addr`** (modulo de la Jetson:
+  0x40; modulo de la RPi/Luis: 0x44). Si no la conoces, descubrela UNA vez con
+  `--scan` y anotala: el escaneo es solo diagnostico y no forma parte del camino
+  de medicion — el barrido del CP2112 sobre direcciones muertas lo desincroniza
+  y puede reportar direcciones falsas. El orquestador (`measure_remote.py`)
+  tambien acepta `--addr` y lo propaga al logger.
 - El INA226 admite hasta 36V de bus, asi que el mismo sensor sirve para los ~19V
   de la Jetson y los 5V de la RPi.
 
@@ -88,12 +94,16 @@ pip install hidapi
 **Uso (identico en Mac y Windows):**
 
 ```bash
+# 0. Solo si NO conoces la direccion I2C de tu modulo (diagnostico, una sola vez):
+python scripts/ina226_cp2112_logger.py --scan
+
 # 1. Verificar el enlace (lee el ID del INA226; NO registra)
-python scripts/ina226_cp2112_logger.py --selftest
+python scripts/ina226_cp2112_logger.py --selftest               # modulo en 0x40 (Jetson)
+python scripts/ina226_cp2112_logger.py --selftest --addr 0x44   # modulo de la RPi (Luis)
 #    Debe mostrar MFR=0x5449 y DIE=0x2260. Si no coincide: revisa cableado,
 #    direccion I2C y el valor del shunt ANTES de registrar.
 
-# 2. Registrar (ajusta --rshunt al valor real de tu modulo)
+# 2. Registrar (ajusta --rshunt al valor real de tu modulo y --addr al de TU modulo)
 python scripts/ina226_cp2112_logger.py --rshunt 0.002 --addr 0x40 --interval 0.05 --out power_log.csv
 ```
 
