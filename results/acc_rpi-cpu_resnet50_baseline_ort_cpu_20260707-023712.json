@@ -1,0 +1,39 @@
+{
+  "metadata": {
+    "timestamp_utc": "2026-07-07T02:37:11Z",
+    "device_tag": "rpi-cpu",
+    "power_mode_declared": null,
+    "nvpmodel": "",
+    "platform": {
+      "node": "luisdavid53",
+      "machine": "aarch64",
+      "system": "Linux",
+      "release": "7.0.0-1009-raspi",
+      "python": "3.14.4"
+    },
+    "backend": {
+      "name": "onnxruntime",
+      "version": "1.27.0"
+    },
+    "model": {
+      "name": "resnet50_baseline",
+      "path": "models/resnet50_baseline.onnx",
+      "sha256": "05e5bc14444e89b9b47b36c663bc40e061db8d20389d833dcde3c7da667290dc"
+    },
+    "thermal_c_start": {
+      "cpu-thermal": 75.45
+    },
+    "dataset": "datasets/imagenetv2-matched-frequency-format-val",
+    "n_images": 2000,
+    "variant": null,
+    "active_providers": [
+      "CPUExecutionProvider"
+    ]
+  },
+  "accuracy": {
+    "top1": 0.704,
+    "top5": 0.881,
+    "n_images": 2000,
+    "eval_seconds": 350.5849051475525
+  }
+}
