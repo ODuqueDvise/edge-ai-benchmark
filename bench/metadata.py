@@ -39,6 +39,28 @@ def nvpmodel_mode():
     return _run("nvpmodel -q 2>/dev/null | tr '\\n' ' '")
 
 
+def cpu_state():
+    """Gobernador y frecuencia actual por politica cpufreq + throttling (RPi).
+
+    Deja auditables en el JSON condiciones que antes solo se afirmaban por
+    correo (governor=performance, get_throttled=0x0). En Jetson 'rpi_throttled'
+    queda None (vcgencmd no existe); en Mac todo queda None.
+    """
+    policies = {}
+    for pp in sorted(glob.glob("/sys/devices/system/cpu/cpufreq/policy*")):
+        try:
+            policies[os.path.basename(pp)] = {
+                "governor": open(os.path.join(pp, "scaling_governor")).read().strip(),
+                "cur_khz": int(open(os.path.join(pp, "scaling_cur_freq")).read().strip()),
+            }
+        except Exception:
+            pass
+    return {
+        "cpufreq": policies or None,
+        "rpi_throttled": _run("vcgencmd get_throttled"),  # p.ej. 'throttled=0x0'
+    }
+
+
 def collect(model_path=None, backend_name=None, backend_version=None,
             device_tag=None, power_mode=None, extra=None):
     md = {
@@ -56,6 +78,8 @@ def collect(model_path=None, backend_name=None, backend_version=None,
         "backend": {"name": backend_name, "version": backend_version},
         "model": {"name": (os.path.splitext(os.path.basename(model_path))[0] if model_path else None),
                   "path": model_path, "sha256": sha256_file(model_path)},
+        # Fallback: capturada al momento de collect(). run_benchmark la
+        # SOBREESCRIBE via 'extra' con la lectura previa al warmup (la real).
         "thermal_c_start": thermal_zones_c(),
     }
     if extra:

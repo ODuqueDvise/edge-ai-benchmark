@@ -50,6 +50,19 @@ def parse_args():
 
 def main():
     a = parse_args()
+
+    # Estado PRE-corrida, antes de cargar el modelo y del warmup: temperatura
+    # real de arranque + gobernador/frecuencia/throttling auditables en el JSON
+    # (antes 'thermal_c_start' se capturaba post-corrida dentro de collect()).
+    thermal_start = metadata.thermal_zones_c()
+    cpu_start = metadata.cpu_state()
+    govs = sorted({p["governor"] for p in (cpu_start["cpufreq"] or {}).values()})
+    print("Estado inicial: temp=%s  governor=%s  %s" % (
+        thermal_start or "n/d", ",".join(govs) or "n/d",
+        cpu_start["rpi_throttled"] or ""))
+    if govs and govs != ["performance"]:
+        print("  AVISO: gobernador != performance; la latencia puede variar entre corridas.")
+
     backend = make_backend(a.backend, provider=a.provider, intra_op_threads=a.threads,
                            trt_int8_table=a.trt_int8_table)
     backend.load(a.model, input_name=a.input_name)
@@ -78,7 +91,10 @@ def main():
         backend_version=str(backend.version), device_tag=a.device_tag,
         power_mode=a.power_mode,
         extra={"active_providers": getattr(backend, "active_providers", None),
+               "thermal_c_start": thermal_start,          # pre-warmup (sobreescribe el fallback)
                "thermal_c_end": metadata.thermal_zones_c(),
+               "cpu_state_start": cpu_start,
+               "cpu_state_end": metadata.cpu_state(),
                "input_shape": list(shape), "dtype": a.dtype,
                "warmup": a.warmup, "iters": a.iters, "variant": a.variant or None,
                "window": {"start_epoch_s": win_start, "end_epoch_s": win_end}})
