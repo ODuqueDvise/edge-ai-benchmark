@@ -249,6 +249,18 @@ PRÓXIMOS PASOS (orden):
 - PENDIENTE DE COMMIT: docs/POWER_MEASUREMENT.md, docs/RUNBOOK.md, docs/GUIA_LUIS_RPI.md y esta bitácora.
 PRÓXIMO ARRANQUE sugerido: redacción del capítulo de resultados con lo ya firme (V0, INT8, latencia/energía/brecha de la poda); insertar el cierre de precisión cuando el director responda.
 
+## 2026-07-10 — Respuesta del director: D18 CERRADO (implícito) y paper ARTIIS aprobado (D19)
+- Correo 1 (~9 jul): "el tema de la latencia lo podemos dejar allí", seguir con los demás objetivos, y propuesta de paper corto para ARTIIS 2026 (deadline 15 ago). Cierre implícito del eje de precisión de la poda: no se publica un resultado en disputa. D18 pasa a CERRADO con la redacción acordada.
+- Correo 2 (~10 jul): aprueba el alcance congelado que propusimos (intra-Jetson, 2 modelos × 2 técnicas × 3 métricas, nada depende de rpi-cpu ni destilación), acepta coautoría como asesor académico (Orlando y Luis autores principales), y confirma financiación: la universidad cubre COP 600.000 por ponencia con publicación ISSN/ISBN (CCIS cumple). Participación virtual abarata (sin viaje).
+- Verificado en el sitio del congreso: deadline 15 ago (extendido, no habrá otro), notificación 10 sep, versión final e inscripción 30 sep, evento 11-13 nov (Lisboa + Zoom), Springer CCIS (Scopus), revisión DOUBLE-BLIND (→ anonimizar el envío, incluido el enlace al repo), CFP en inglés.
+- Registrado como D19. Técnica 3 pospuesta formalmente hasta después del 15 ago.
+PRÓXIMOS PASOS (orden):
+  1. Esquema del paper (secciones + qué va en cada una, en inglés) → enviarlo al director esta semana para visto bueno.
+  2. Verificar tarifa real de inscripción de ARTIIS vs el tope de COP 600.000 (página de registro no publica monto; escribir a info@artiis.org si hace falta) y el límite de páginas del short paper (página de submission).
+  3. Con el visto bueno: redactar sobre la plantilla LNCS/CCIS de Springer; versión anonimizada para el envío.
+  4. Luis: siguen pendientes INT8+poda en rpi-cpu (entrarían al paper solo como referencia de despliegue si llegan antes del corte interno).
+  5. Después del 15 ago: técnica 3 (destilación) y capítulos de tesis (el paper ES el borrador del capítulo de resultados).
+
 ## 2026-07-07 — rpi-cpu INT8 + poda: Luis subió; validación (precisión OK, latencia provisional por térmica)
 - Luis subió el commit `d253972` (rpi-cpu: latencia R=5 + precisión de INT8 y poda, ambos modelos; sin energía). Bajado con `git pull --rebase` y validado contra la Jetson.
 - INTEGRIDAD y PRECISIÓN: firmes. Los 4 sha256 de los JSON coinciden con el HEAD del repo (modelos correctos, no copias). Top-1 V2 = Jetson al tercer decimal: MobileNet INT8 0.5893 (Jetson 0.589), ResNet-50 INT8 0.6744 (=), MobileNet poda 0.4536 (0.453), ResNet-50 poda 0.5106 (0.510). Confirma la equivalencia de dispositivo en la 3ª plataforma → el eje de precisión de la RPi queda VALIDADO; no se re-mide (propiedad de modelo+dataset). La poda sale baja a propósito (esperado).
