@@ -117,6 +117,39 @@ bash scripts/collect_env.sh      # guarda versiones y estado del equipo (queda c
 ```
 **Qué deberías ver:** la palabra `performance` repetida (una por núcleo). Asegúrate de tener el ventilador/disipador puesto.
 
+**OJO — esto NO sobrevive un reinicio (visto el 18 jul 2026):** al reiniciar, la Pi vuelve
+al gobernador `ondemand` y el acceso a `vcgencmd` (permisos de `/dev/vcio`) también puede
+perderse. **Después de CADA reinicio y ANTES de medir**, repite el comando de arriba y
+verifica las dos cosas:
+
+```bash
+cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor   # debe decir performance ×4
+vcgencmd get_throttled                                       # debe responder throttled=0x0
+```
+
+Si `vcgencmd` da error de permisos: `sudo usermod -aG video $USER` y volver a iniciar
+sesión (o anteponer `sudo`). Desde el arreglo del arnés (jul 2026) el JSON registra
+gobernador y `get_throttled` en cada corrida, así que si se te olvida, el dato lo delata:
+la corrida se descarta y se repite. Opcional para no depender de la memoria — dejarlo
+fijo con un servicio de systemd:
+
+```bash
+sudo tee /etc/systemd/system/cpufreq-performance.service > /dev/null <<'EOF'
+[Unit]
+Description=Gobernador performance para benchmark
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'for g in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do echo performance > $g; done'
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl enable --now cpufreq-performance.service
+```
+
+**Regla de la campaña:** no actualices el sistema operativo (kernel) mientras una tanda
+de mediciones esté abierta — el cambio de kernel 1009→1014 movió el ResNet sin podar
+un 8-10% y obligó a re-medir. El kernel se congela hasta que Orlando confirme el cierre.
+
 ## 7. Medir LATENCIA (los dos modelos, R = 5)
 
 R = 5 significa **cinco corridas por modelo**. El bucle las hace solo:

@@ -32,6 +32,13 @@ Luis (RPi) y yo (Jetson) trabajemos igual y de forma trazable.
 - Mismo modelo (verificar checksum), mismo dataset (variante + nº de imágenes),
   mismos parámetros (`--input-shape 1,3,224,224`, `--warmup`, `--iters`, `--limit`).
 - Versiones del stack congeladas (registrar con `scripts/collect_env.sh`).
+- ENTORNO ÚNICO POR COLUMNA: el sistema operativo (kernel) y el runtime NO se actualizan
+  mientras una campaña esté abierta, y las razones de mejora solo se calculan entre
+  corridas del MISMO kernel (`metadata.platform.release` en cada JSON; la matriz lo cita
+  por campaña). Evidencia: el salto 7.0.0-1009→1014-raspi en la RPi 5 movió el ResNet-50
+  sin podar +8-10% (FP32 140.3→151.5 ms, INT8 67.8→74.4) sin tocar poda ni MobileNetV2,
+  y obligó a re-medir media columna (jul 2026). En la RPi, gobernador y permisos de
+  `/dev/vcio` se pierden al reiniciar: re-aplicar antes de medir (GUIA_LUIS §6).
 - Resultados crudos (`results/*.json`) y el `RESULTS_LOG.md` se versionan en el repo.
 - El medidor de energía debe ser el mismo método/instrumento en ambos equipos.
 
