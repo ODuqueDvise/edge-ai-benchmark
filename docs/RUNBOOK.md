@@ -54,7 +54,9 @@ de ser comparables.
 - Modo de potencia: Jetson **15 W = `nvpmodel` modo 0** (`sudo nvpmodel -m 0`, verificar con `nvpmodel -q`); RPi gobernador **performance**.
   - CORREGIDO 31 jul 2026 (D22). Esta línea decía "MAXN (`nvpmodel -m 0`)", que es contradictorio: en esta placa el modo 0 es **15 W**, no MAXN. El comando siempre fue el correcto; el nombre estaba mal, y de aquí se propagó la etiqueta MAXN a D6, a las guías y al valor por defecto de `--power-mode`. El modo real de las 67 corridas de la Jetson, leído por `nvpmodel -q`, fue 15 W modo 0.
   - NO pasar `--power-mode` al arnés: es declarativo y no cambia nada. El modo se fija en el sistema ANTES de medir; el arnés lo lee solo.
-  - `jetson_clocks`: su uso NO queda registrado en los metadatos, así que no es auditable a posteriori. Si se usa, debe anotarse en la bitácora de la campaña; de lo contrario, no afirmarlo en la redacción.
+  - Modos definidos en esta placa (Orin Nano **Super**): `0 = 15W` (por defecto, el del protocolo), `1 = 25W`, `2 = MAXN_SUPER`, `3 = 7W`. En el modo 0 el reloj de GPU está limitado a 612 MHz. Al reportar, decir siempre que se midió en 15 W y NO en el máximo disponible.
+  - `jetson_clocks` (D23): **NO persiste entre reinicios** —mismo problema que el gobernador y los permisos de `/dev/vcio` en la RPi—. Verificado el 31 jul: tras un arranque, `jetson_clocks --show` reporta gobernador `schedutil` y GPU en su mínimo. Si se usa: reaplicar tras cada reinicio, comprobar con `sudo jetson_clocks --show` ANTES de medir (mínimo, máximo y actual deben coincidir) y dejarlo registrado en los metadatos, no solo en la bitácora.
+  - Su uso en la campaña de junio 2026 NO es auditable: esos resultados no registran frecuencia (el campo `cpu_state_start/end` es posterior) y el historial no tiene marca de tiempo. Por eso el artículo NO afirma que el escalado dinámico estuviera desactivado; reporta en su lugar el CV entre corridas (0.09–0.71 %), que sí es verificable por archivo.
 - Forma de entrada: **1,3,224,224**.
 - Precision: set **completo (10000)**, sin `--limit`, para cifras oficiales.
 
