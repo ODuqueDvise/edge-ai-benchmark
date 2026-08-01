@@ -55,16 +55,23 @@ Constantes congeladas: `--warmup 100 --iters 2000`. Repite cada bloque por model
 cambiando `--model` (`models/cnn_baseline.onnx` y `models/resnet50_baseline.onnx`);
 el nombre del JSON incluye el modelo, así que no se pisan.
 
+> **Modo de potencia (D22).** Se fija en el SISTEMA antes de medir, no con una bandera:
+> `sudo nvpmodel -m 0` y comprobar con `nvpmodel -q`. En esta placa el modo 0 es **15 W**
+> (el protocolo congelado, D6). No pasar `--power-mode` al arnés: esa opción solo escribe
+> una etiqueta en los metadatos y no cambia el modo — así fue como las corridas de junio
+> quedaron rotuladas "MAXN" corriendo en realidad a 15 W. El modo real se registra solo,
+> en el campo `nvpmodel` de cada resultado.
+
 ```bash
 # GPU (TensorRT EP)
 python -m bench.run_benchmark --model models/cnn_baseline.onnx --backend ort \
     --provider tensorrt --device-tag jetson-gpu --input-shape 1,3,224,224 \
-    --warmup 100 --iters 2000 --power-mode MAXN
+    --warmup 100 --iters 2000
 
 # CPU en la MISMA Jetson (aísla el aporte de la GPU)
 python -m bench.run_benchmark --model models/cnn_baseline.onnx --backend ort \
     --provider cpu --device-tag jetson-cpu --input-shape 1,3,224,224 \
-    --warmup 100 --iters 2000 --power-mode MAXN
+    --warmup 100 --iters 2000
 ```
 
 Cada corrida deja un JSON en `results/`. Súbelos al repositorio. Si en el paso 4

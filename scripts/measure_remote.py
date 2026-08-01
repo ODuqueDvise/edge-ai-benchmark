@@ -87,7 +87,14 @@ def parse_args():
     p.add_argument("--warmup", type=int, default=100)
     p.add_argument("--iters", type=int, default=2000)
     p.add_argument("--input-shape", default="1,3,224,224")
-    p.add_argument("--power-mode", default="MAXN")
+    # OJO (D22): esta bandera NO cambia el modo de potencia, solo lo etiqueta. Su valor
+    # por defecto era "MAXN" y nadie lo pasaba nunca, así que las 67 corridas de la Jetson
+    # quedaron rotuladas MAXN mientras `nvpmodel -q` registraba "15W 0". Ahora por defecto
+    # va vacío: si no se declara, el campo queda nulo y manda la lectura de nvpmodel.
+    p.add_argument("--power-mode", default=None,
+                   help="etiqueta informativa; NO cambia el modo. El modo real lo lee "
+                        "metadata.nvpmodel_mode() con `nvpmodel -q`. Dejar vacío salvo "
+                        "que se haya fijado el modo a mano ANTES de medir.")
     p.add_argument("--addr", default="0x40", help="dirección I2C del INA226")
     p.add_argument("--interval", type=float, default=0.05, help="periodo de muestreo del logger (s)")
     p.add_argument("--accuracy", action="store_true", help="además, corre precisión (set completo; lenta, sin logger)")

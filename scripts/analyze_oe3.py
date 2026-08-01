@@ -14,7 +14,7 @@ Lee results/*.json (latencia con 2000 muestras crudas × R corridas, precisión,
 limpia los runs de prueba/gate, y escribe results/OE3_ANALISIS.md + results/oe3_tidy_runs.csv.
 Unidad de réplica para los IC: la corrida independiente (R), no la inferencia individual.
 """
-import json, glob, os, math, csv
+import json, glob, os, math, csv, datetime as dt
 from collections import defaultdict
 import numpy as np
 from scipy import stats
@@ -30,6 +30,11 @@ DEVLAB = {"jetson-gpu": "GPU", "jetson-cpu": "CPU", "rpi-cpu": "RPi-CPU"}
 # (BITACORA 14/19 jul 2026). Las corridas rpi con kernel 1009 (22 jun / 7 jul) quedan fuera:
 # el salto 1009→1014 movió el ResNet-50 sin podar +8-10% y no se mezclan entornos en razones.
 RPI_RELEASE = "7.0.0-1014-raspi"
+# Separación entre campañas (D21). Dentro de una misma sesión de medición las corridas van
+# seguidas (10 s a 2 min entre ellas); un hueco mayor a esto indica OTRA sesión, con otro
+# estado del equipo. La política de ENTORNO ÚNICO POR COLUMNA se aplica ahora también a la
+# Jetson, no solo a la RPi: una condición se estima con UNA campaña, nunca con una mezcla.
+SESSION_GAP_S = 30 * 60
 
 
 def classify(md):
@@ -63,22 +68,64 @@ def load():
             a = d["accuracy"]; acc[(model, tech, dev)] = (a.get("top1"), a.get("top5"))
         if "energy" in d:
             ene[(model, tech, dev)] = d["energy"].get("per_inf_net_mj")
-    # Jetson: R=5 estricto (5 más recientes). RPi: TODAS las corridas del kernel oficial —
-    # la multimodalidad entre procesos (BITACORA 14 jul) se absorbe con R alto, no se recorta.
-    kept = {}
+    # Jetson: UNA campaña por condición, R=5 (ver pick_campaign). RPi: TODAS las corridas del
+    # kernel oficial — la multimodalidad entre procesos (BITACORA 14 jul) se absorbe con R alto.
+    kept = {}; camp = {}
     for k, v in lat.items():
-        runs = [r for _, r in sorted(v, key=lambda x: x[0])]
-        kept[k] = runs if k[2] == "rpi-cpu" else runs[-5:]
-    return kept, acc, ene
+        if k[2] == "rpi-cpu":
+            kept[k] = [r for _, r in sorted(v, key=lambda x: x[0])]
+            camp[k] = "kernel %s (todas las corridas oficiales)" % RPI_RELEASE
+        else:
+            kept[k], camp[k] = pick_campaign(v)
+    return kept, acc, ene, camp
+
+
+def pick_campaign(v):
+    """Selecciona UNA campaña de medición por condición — política de ENTORNO ÚNICO (D21).
+
+    Agrupa las corridas por cercanía temporal (hueco > SESSION_GAP_S ⇒ sesión distinta) y
+    devuelve el grupo más numeroso, desempatando por el más reciente, recortado a 5 corridas.
+
+    Motivo: la regla anterior ("las 5 más recientes") podía mezclar sesiones. En MobileNetV2
+    sin optimizar tomaba cuatro corridas de la campaña del 15 jun más una recomprobación
+    suelta del 20 jun, y descartaba una del 15 para hacerle sitio. Esa corrida aislada
+    (gm 2.908 ms frente a 2.460-2.482 de la campaña) subía el CV de 0.35 % a 7.66 % y era la
+    causa completa del IC anómalo [4.58, 5.33] de esa condición. El criterio selecciona
+    CAMPAÑAS, no valores: no mira la latencia, solo la estructura temporal.
+
+    Devuelve (lista de arrays de latencia, etiqueta de la campaña elegida).
+    """
+    ts = [dt.datetime.strptime(t, "%Y-%m-%dT%H:%M:%SZ") for t, _ in v]
+    order = sorted(range(len(v)), key=lambda i: ts[i])
+    groups = [[order[0]]]
+    for prev, cur in zip(order, order[1:]):
+        if (ts[cur] - ts[prev]).total_seconds() > SESSION_GAP_S:
+            groups.append([])
+        groups[-1].append(cur)
+    best = max(groups, key=lambda g: (len(g), ts[g[-1]]))[-5:]
+    label = "%s UTC" % ts[best[0]].strftime("%Y-%m-%d %H:%M")
+    if len(groups) > 1:
+        label += " (%d campañas disponibles; se descartan %d corrida(s) de otras sesiones)" % (
+            len(groups), len(v) - len(best))
+    return [v[i][1] for i in best], label
 
 
 def geomean(x): return float(np.exp(np.mean(np.log(x))))
 
 
 def summarize(runs):
+    """Resume una condición. Distingue explícitamente las dos familias de estadístico:
+
+      gm_runs  — TENDENCIA CENTRAL: media geométrica de las medias geométricas por corrida.
+                 Es la única base de las razones y de sus IC (unidad de réplica = corrida).
+      p50/95/99 — DISTRIBUCIÓN: percentiles sobre las muestras crudas combinadas. Describen
+                 la cola; NO reproducen las razones (la asimetría hace gm ≠ p50).
+    """
     pooled = np.concatenate(runs)
-    run_log = np.log([geomean(r) for r in runs])
-    return dict(R=len(runs), gm=geomean(pooled),
+    per_run = np.array([geomean(r) for r in runs])
+    run_log = np.log(per_run)
+    return dict(R=len(runs), gm_runs=float(np.exp(run_log.mean())), gm_pooled=geomean(pooled),
+                cv_runs=float(per_run.std(ddof=1) / per_run.mean() * 100) if len(runs) > 1 else 0.0,
                 p50=float(np.percentile(pooled, 50)), p95=float(np.percentile(pooled, 95)),
                 p99=float(np.percentile(pooled, 99)), run_log=run_log)
 
@@ -214,19 +261,30 @@ def make_figure_despliegue(S):
 
 
 def main():
-    lat, acc, ene = load()
+    lat, acc, ene, camp = load()
     S = {k: summarize(v) for k, v in lat.items()}
     out = []
     def w(s=""): out.append(s); print(s)
 
     w("# Análisis OE3 — GPU vs CPU a través de las técnicas (Jetson y RPi 5)\n")
-    w("> Tendencia central = media geométrica (escala log). IC al 95% sobre las R corridas")
-    w("> independientes (t de Student). Cola = percentiles de las muestras crudas combinadas.")
-    w("> rpi-cpu: campaña oficial fría y auditada de ENTORNO ÚNICO (kernel %s);" % RPI_RELEASE)
-    w("> R alto en RPi absorbe la multimodalidad entre procesos (BITACORA 14/19 jul 2026).")
+    w("> **Cadena de cálculo (una sola, para todo el reporte).** Cada corrida produce 2000")
+    w("> latencias crudas. (1) Por corrida se calcula su media geométrica. (2) La tendencia")
+    w("> central de una condición es la media geométrica de esas R medias por corrida —")
+    w("> equivalentemente, exp(media de los log). (3) Toda RAZÓN entre dos condiciones es el")
+    w("> cociente de esas tendencias centrales, y su IC95 sale de la t de Student sobre la")
+    w("> diferencia de log-medias, con la CORRIDA como unidad de réplica (nunca la inferencia")
+    w("> individual). (4) Los percentiles p50/p95/p99 describen la DISTRIBUCIÓN y se calculan")
+    w("> sobre las muestras crudas combinadas; NO son la base de ninguna razón. Un cociente de")
+    w("> p50 no reproduce la brecha y no debe usarse para reconstruirla.")
+    w("> Directriz de origen: DECISIONS D11 (log para tendencia central; cola con p50/p95/p99;")
+    w("> conclusiones por tamaño de efecto e IC, no por p-valores).")
+    w("> **Selección de corridas:** una sola campaña por condición (D21). rpi-cpu: campaña")
+    w("> oficial fría y auditada de entorno único (kernel %s), con R alto para" % RPI_RELEASE)
+    w("> absorber la multimodalidad entre procesos (BITACORA 14/19 jul 2026).")
     w("> Generado por `scripts/analyze_oe3.py`.\n")
 
     w("## 1. Resumen por condición\n")
+    w("> La media geométrica es la tendencia central; p50/p95/p99 describen la distribución.\n")
     w("| Modelo | Técnica | Disp. | R | Media geom. (ms) | p50 | p95 | p99 | top-1 | E. neta (mJ) |")
     w("|---|---|---|--:|--:|--:|--:|--:|--:|--:|")
     for model in ["ResNet-50", "MobileNetV2"]:
@@ -237,19 +295,37 @@ def main():
                 t1 = acc.get((model, tech, dev), (None, None))[0]
                 ej = ene.get((model, tech, dev))
                 w("| %s | %s | %s | %d | %.3f | %.3f | %.3f | %.3f | %s | %s |" % (
-                    model, tech, DEVLAB[dev], s["R"], s["gm"], s["p50"], s["p95"], s["p99"],
+                    model, tech, DEVLAB[dev], s["R"], s["gm_runs"], s["p50"], s["p95"], s["p99"],
                     "%.3f" % t1 if t1 else "—", "%.1f" % ej if ej else "—"))
 
+    w("\n### 1b. Campaña usada y dispersión entre corridas (auditoría de selección)\n")
+    w("> CV = desviación estándar relativa de las medias geométricas POR CORRIDA. Es la")
+    w("> dispersión que alimenta los IC; valores <1 % indican una campaña homogénea.\n")
+    w("| Modelo | Técnica | Disp. | R | CV entre corridas | Campaña |")
+    w("|---|---|---|--:|--:|---|")
+    for model in ["ResNet-50", "MobileNetV2"]:
+        for tech in TECH:
+            for dev in DEV:
+                s = S.get((model, tech, dev))
+                if not s: continue
+                w("| %s | %s | %s | %d | %s | %s |" % (
+                    model, tech, DEVLAB[dev], s["R"],
+                    "%.2f %%" % s["cv_runs"] if s["R"] > 1 else "—",
+                    camp.get((model, tech, dev), "—")))
+
     w("\n## 2. Brecha GPU↔CPU por técnica (tamaño de efecto e IC95)\n")
-    w("> Razón = latencia(CPU) / latencia(GPU). Cuánto más rápida es la GPU.\n")
-    w("| Modelo | Técnica | Brecha GPU↔CPU | IC95 |")
-    w("|---|---|--:|--:|")
+    w("> Razón = latencia(CPU) / latencia(GPU). Cuánto más rápida es la GPU.")
+    w("> Las dos columnas de medias geométricas son las de la sección 1: la brecha es su")
+    w("> cociente exacto, de modo que cualquiera puede reconstruirla desde esta tabla.\n")
+    w("| Modelo | Técnica | gm CPU (ms) | gm GPU (ms) | Brecha GPU↔CPU | IC95 |")
+    w("|---|---|--:|--:|--:|--:|")
     for model in ["ResNet-50", "MobileNetV2"]:
         for tech in ["V0", "INT8", "Poda"]:
             g = S.get((model, tech, "jetson-gpu")); c = S.get((model, tech, "jetson-cpu"))
             if not (g and c): continue
             r, lo, hi = ratio_ci(c["run_log"], g["run_log"])
-            w("| %s | %s | %.2f× | [%.2f, %.2f] |" % (model, tech, r, lo, hi))
+            w("| %s | %s | %.3f | %.3f | %.2f× | [%.2f, %.2f] |" % (
+                model, tech, c["gm_runs"], g["gm_runs"], r, lo, hi))
 
     w("\n### 2b. Brecha de despliegue Jetson-GPU ↔ RPi-CPU (tamaño de efecto e IC95)\n")
     w("> Razón = latencia(RPi-CPU) / latencia(Jetson-GPU): acelerador embebido frente a la CPU")

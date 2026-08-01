@@ -65,7 +65,8 @@ def main():
     o += ["# Registro de resultados (GENERADO)", "",
           "> Generado por `scripts/build_results_log.py` desde `results/*.json`. **No editar a mano.**",
           "> Re-generar tras nuevas corridas (idealmente despues de `git pull`).",
-          "> Constantes congeladas: warmup 100, iters 2000, R 5, MAXN (Jetson) / governor performance (RPi), entrada 1,3,224,224.",
+          "> Constantes congeladas: warmup 100, iters 2000, R 5, modo de potencia 15 W = nvpmodel modo 0 (Jetson) / governor performance (RPi), entrada 1,3,224,224.",
+          "> (D22: antes decia MAXN aqui; era el valor por defecto de una bandera declarativa. El modo real, leido por `nvpmodel -q` en cada corrida, es 15 W modo 0.)",
           "", "## Latencia", "",
           "| Condicion | Modelo | R | p50 media±desv (ms) | p95 (ms) | p99 (ms) | thr (ips) |",
           "|---|---|---|---|---|---|---|"]

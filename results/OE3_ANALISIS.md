@@ -1,12 +1,24 @@
 # Análisis OE3 — GPU vs CPU a través de las técnicas (Jetson y RPi 5)
 
-> Tendencia central = media geométrica (escala log). IC al 95% sobre las R corridas
-> independientes (t de Student). Cola = percentiles de las muestras crudas combinadas.
-> rpi-cpu: campaña oficial fría y auditada de ENTORNO ÚNICO (kernel 7.0.0-1014-raspi);
-> R alto en RPi absorbe la multimodalidad entre procesos (BITACORA 14/19 jul 2026).
+> **Cadena de cálculo (una sola, para todo el reporte).** Cada corrida produce 2000
+> latencias crudas. (1) Por corrida se calcula su media geométrica. (2) La tendencia
+> central de una condición es la media geométrica de esas R medias por corrida —
+> equivalentemente, exp(media de los log). (3) Toda RAZÓN entre dos condiciones es el
+> cociente de esas tendencias centrales, y su IC95 sale de la t de Student sobre la
+> diferencia de log-medias, con la CORRIDA como unidad de réplica (nunca la inferencia
+> individual). (4) Los percentiles p50/p95/p99 describen la DISTRIBUCIÓN y se calculan
+> sobre las muestras crudas combinadas; NO son la base de ninguna razón. Un cociente de
+> p50 no reproduce la brecha y no debe usarse para reconstruirla.
+> Directriz de origen: DECISIONS D11 (log para tendencia central; cola con p50/p95/p99;
+> conclusiones por tamaño de efecto e IC, no por p-valores).
+> **Selección de corridas:** una sola campaña por condición (D21). rpi-cpu: campaña
+> oficial fría y auditada de entorno único (kernel 7.0.0-1014-raspi), con R alto para
+> absorber la multimodalidad entre procesos (BITACORA 14/19 jul 2026).
 > Generado por `scripts/analyze_oe3.py`.
 
 ## 1. Resumen por condición
+
+> La media geométrica es la tendencia central; p50/p95/p99 describen la distribución.
 
 | Modelo | Técnica | Disp. | R | Media geom. (ms) | p50 | p95 | p99 | top-1 | E. neta (mJ) |
 |---|---|---|--:|--:|--:|--:|--:|--:|--:|
@@ -20,8 +32,8 @@
 | ResNet-50 | Poda | CPU | 5 | 47.905 | 47.539 | 50.103 | 53.242 | 0.511 | 202.4 |
 | ResNet-50 | Poda | RPi-CPU | 5 | 63.131 | 62.142 | 65.939 | 85.656 | 0.511 | — |
 | ResNet-50 | Poda+KD | GPU | 1 | 5.107 | 5.099 | 5.168 | 5.250 | 0.579 | — |
-| MobileNetV2 | V0 | GPU | 5 | 2.552 | 2.472 | 2.842 | 3.776 | 0.596 | 12.1 |
-| MobileNetV2 | V0 | CPU | 5 | 12.611 | 12.329 | 14.300 | 16.250 | 0.596 | 52.3 |
+| MobileNetV2 | V0 | GPU | 5 | 2.471 | 2.468 | 2.499 | 2.520 | 0.596 | 12.1 |
+| MobileNetV2 | V0 | CPU | 5 | 12.581 | 12.283 | 14.282 | 16.182 | 0.596 | 52.3 |
 | MobileNetV2 | V0 | RPi-CPU | 21 | 22.830 | 22.611 | 26.552 | 41.293 | 0.596 | — |
 | MobileNetV2 | INT8 | GPU | 5 | 1.857 | 1.805 | 2.544 | 2.591 | 0.591 | 3.0 |
 | MobileNetV2 | INT8 | CPU | 5 | 12.509 | 12.349 | 13.584 | 14.218 | 0.589 | 48.3 |
@@ -31,18 +43,48 @@
 | MobileNetV2 | Poda | RPi-CPU | 10 | 11.472 | 11.094 | 12.690 | 15.739 | 0.454 | — |
 | MobileNetV2 | Poda+KD | GPU | 1 | 2.475 | 2.344 | 3.185 | 3.848 | 0.508 | — |
 
+### 1b. Campaña usada y dispersión entre corridas (auditoría de selección)
+
+> CV = desviación estándar relativa de las medias geométricas POR CORRIDA. Es la
+> dispersión que alimenta los IC; valores <1 % indican una campaña homogénea.
+
+| Modelo | Técnica | Disp. | R | CV entre corridas | Campaña |
+|---|---|---|--:|--:|---|
+| ResNet-50 | V0 | GPU | 5 | 0.09 % | 2026-06-20 17:54 UTC |
+| ResNet-50 | V0 | CPU | 5 | 0.37 % | 2026-06-20 18:03 UTC |
+| ResNet-50 | V0 | RPi-CPU | 10 | 2.33 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| ResNet-50 | INT8 | GPU | 5 | 0.36 % | 2026-06-20 22:11 UTC (2 campañas disponibles; se descartan 1 corrida(s) de otras sesiones) |
+| ResNet-50 | INT8 | CPU | 5 | 0.46 % | 2026-06-20 22:15 UTC (2 campañas disponibles; se descartan 1 corrida(s) de otras sesiones) |
+| ResNet-50 | INT8 | RPi-CPU | 5 | 9.33 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| ResNet-50 | Poda | GPU | 5 | 0.39 % | 2026-06-21 04:38 UTC |
+| ResNet-50 | Poda | CPU | 5 | 0.13 % | 2026-06-21 04:56 UTC |
+| ResNet-50 | Poda | RPi-CPU | 5 | 2.19 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| ResNet-50 | Poda+KD | GPU | 1 | — | 2026-06-21 17:35 UTC |
+| MobileNetV2 | V0 | GPU | 5 | 0.36 % | 2026-06-15 23:03 UTC (2 campañas disponibles; se descartan 1 corrida(s) de otras sesiones) |
+| MobileNetV2 | V0 | CPU | 5 | 0.26 % | 2026-06-15 23:07 UTC (2 campañas disponibles; se descartan 1 corrida(s) de otras sesiones) |
+| MobileNetV2 | V0 | RPi-CPU | 21 | 9.12 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| MobileNetV2 | INT8 | GPU | 5 | 0.71 % | 2026-06-20 22:28 UTC |
+| MobileNetV2 | INT8 | CPU | 5 | 0.44 % | 2026-06-20 22:31 UTC |
+| MobileNetV2 | INT8 | RPi-CPU | 10 | 11.95 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| MobileNetV2 | Poda | GPU | 5 | 0.39 % | 2026-06-21 05:15 UTC |
+| MobileNetV2 | Poda | CPU | 5 | 0.43 % | 2026-06-21 05:26 UTC |
+| MobileNetV2 | Poda | RPi-CPU | 10 | 4.52 % | kernel 7.0.0-1014-raspi (todas las corridas oficiales) |
+| MobileNetV2 | Poda+KD | GPU | 1 | — | 2026-06-21 18:32 UTC |
+
 ## 2. Brecha GPU↔CPU por técnica (tamaño de efecto e IC95)
 
 > Razón = latencia(CPU) / latencia(GPU). Cuánto más rápida es la GPU.
+> Las dos columnas de medias geométricas son las de la sección 1: la brecha es su
+> cociente exacto, de modo que cualquiera puede reconstruirla desde esta tabla.
 
-| Modelo | Técnica | Brecha GPU↔CPU | IC95 |
-|---|---|--:|--:|
-| ResNet-50 | V0 | 13.68× | [13.63, 13.73] |
-| ResNet-50 | INT8 | 14.12× | [14.03, 14.20] |
-| ResNet-50 | Poda | 9.37× | [9.33, 9.41] |
-| MobileNetV2 | V0 | 4.94× | [4.58, 5.33] |
-| MobileNetV2 | INT8 | 6.74× | [6.68, 6.79] |
-| MobileNetV2 | Poda | 3.57× | [3.55, 3.59] |
+| Modelo | Técnica | gm CPU (ms) | gm GPU (ms) | Brecha GPU↔CPU | IC95 |
+|---|---|--:|--:|--:|--:|
+| ResNet-50 | V0 | 90.094 | 6.586 | 13.68× | [13.63, 13.73] |
+| ResNet-50 | INT8 | 36.013 | 2.551 | 14.12× | [14.03, 14.20] |
+| ResNet-50 | Poda | 47.905 | 5.113 | 9.37× | [9.33, 9.41] |
+| MobileNetV2 | V0 | 12.581 | 2.471 | 5.09× | [5.07, 5.12] |
+| MobileNetV2 | INT8 | 12.509 | 1.857 | 6.74× | [6.68, 6.79] |
+| MobileNetV2 | Poda | 8.796 | 2.466 | 3.57× | [3.55, 3.59] |
 
 ### 2b. Brecha de despliegue Jetson-GPU ↔ RPi-CPU (tamaño de efecto e IC95)
 
@@ -54,7 +96,7 @@
 | ResNet-50 | V0 | 22.99× | [22.62, 23.37] |
 | ResNet-50 | INT8 | 30.77× | [28.04, 33.76] |
 | ResNet-50 | Poda | 12.35× | [12.07, 12.63] |
-| MobileNetV2 | V0 | 8.94× | [8.27, 9.68] |
+| MobileNetV2 | V0 | 9.24× | [8.87, 9.63] |
 | MobileNetV2 | INT8 | 14.42× | [13.25, 15.69] |
 | MobileNetV2 | Poda | 4.65× | [4.51, 4.80] |
 
@@ -70,9 +112,9 @@
 | ResNet-50 | CPU | Poda | 1.88× | [1.87, 1.89] |
 | ResNet-50 | RPi-CPU | INT8 | 1.93× | [1.77, 2.11] |
 | ResNet-50 | RPi-CPU | Poda | 2.40× | [2.34, 2.46] |
-| MobileNetV2 | GPU | INT8 | 1.37× | [1.27, 1.48] |
-| MobileNetV2 | GPU | Poda | 1.03× | [0.96, 1.12] |
-| MobileNetV2 | CPU | INT8 | 1.01× | [1.00, 1.02] |
+| MobileNetV2 | GPU | INT8 | 1.33× | [1.32, 1.34] |
+| MobileNetV2 | GPU | Poda | 1.00× | [1.00, 1.01] |
+| MobileNetV2 | CPU | INT8 | 1.01× | [1.00, 1.01] |
 | MobileNetV2 | CPU | Poda | 1.43× | [1.42, 1.44] |
 | MobileNetV2 | RPi-CPU | INT8 | 0.85× | [0.78, 0.93] |
 | MobileNetV2 | RPi-CPU | Poda | 1.99× | [1.89, 2.09] |
@@ -99,12 +141,12 @@
 | ResNet-50 | 3 dispositivos | dispositivo | 149.8 | 2, 41 | <0.001 | 0.88 |
 | ResNet-50 | 3 dispositivos | técnica | 152.1 | 2, 41 | <0.001 | 0.88 |
 | ResNet-50 | 3 dispositivos | disp×téc | 203.4 | 4, 41 | <0.001 | 0.95 |
-| MobileNetV2 | Jetson: GPU vs CPU | dispositivo | 82.7 | 1, 24 | <0.001 | 0.77 |
-| MobileNetV2 | Jetson: GPU vs CPU | técnica | 107.5 | 2, 24 | <0.001 | 0.90 |
-| MobileNetV2 | Jetson: GPU vs CPU | disp×téc | 117.6 | 2, 24 | <0.001 | 0.91 |
-| MobileNetV2 | 3 dispositivos | dispositivo | 112.1 | 2, 62 | <0.001 | 0.78 |
-| MobileNetV2 | 3 dispositivos | técnica | 47.7 | 2, 62 | <0.001 | 0.61 |
-| MobileNetV2 | 3 dispositivos | disp×téc | 53.6 | 4, 62 | <0.001 | 0.78 |
+| MobileNetV2 | Jetson: GPU vs CPU | dispositivo | 73.4 | 1, 24 | <0.001 | 0.75 |
+| MobileNetV2 | Jetson: GPU vs CPU | técnica | 97.7 | 2, 24 | <0.001 | 0.89 |
+| MobileNetV2 | Jetson: GPU vs CPU | disp×téc | 433.3 | 2, 24 | <0.001 | 0.97 |
+| MobileNetV2 | 3 dispositivos | dispositivo | 111.0 | 2, 62 | <0.001 | 0.78 |
+| MobileNetV2 | 3 dispositivos | técnica | 43.9 | 2, 62 | <0.001 | 0.59 |
+| MobileNetV2 | 3 dispositivos | disp×téc | 59.3 | 4, 62 | <0.001 | 0.79 |
 
 ---
 CSV ordenado por corrida para ART/R: `results/oe3_tidy_runs.csv` (123 filas).

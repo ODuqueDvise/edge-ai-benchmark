@@ -35,7 +35,10 @@ def parse_args():
     p.add_argument("--backend", default="ort", choices=["ort", "tflite"])
     p.add_argument("--provider", default="cpu", help="ort: tensorrt|cuda|cpu ; tflite: cpu")
     p.add_argument("--device-tag", required=True, help="jetson-gpu | jetson-cpu | rpi-cpu")
-    p.add_argument("--power-mode", default=None, help="etiqueta informativa (p.ej. MAXN)")
+    p.add_argument("--power-mode", default=None,
+                   help="etiqueta informativa: NO cambia el modo de potencia de la placa. "
+                        "El modo REAL se lee de `nvpmodel -q` y se guarda en metadata.nvpmodel; "
+                        "ante discrepancia, manda ese campo, no este (D22).")
     p.add_argument("--input-name", default=None)
     p.add_argument("--input-shape", default=None, help="coma-separado, p.ej. 1,3,224,224")
     p.add_argument("--dtype", default="float32")

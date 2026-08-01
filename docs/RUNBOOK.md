@@ -51,7 +51,10 @@ de ser comparables.
 - Calentamiento (K): **100** inferencias descartadas.
 - Inferencias por serie (M): **2000**.
 - Ejecuciones independientes (R): **5** (idealmente con reinicio entre ellas).
-- Modo de potencia: Jetson **MAXN** (`nvpmodel -m 0` + `jetson_clocks`); RPi gobernador **performance**.
+- Modo de potencia: Jetson **15 W = `nvpmodel` modo 0** (`sudo nvpmodel -m 0`, verificar con `nvpmodel -q`); RPi gobernador **performance**.
+  - CORREGIDO 31 jul 2026 (D22). Esta línea decía "MAXN (`nvpmodel -m 0`)", que es contradictorio: en esta placa el modo 0 es **15 W**, no MAXN. El comando siempre fue el correcto; el nombre estaba mal, y de aquí se propagó la etiqueta MAXN a D6, a las guías y al valor por defecto de `--power-mode`. El modo real de las 67 corridas de la Jetson, leído por `nvpmodel -q`, fue 15 W modo 0.
+  - NO pasar `--power-mode` al arnés: es declarativo y no cambia nada. El modo se fija en el sistema ANTES de medir; el arnés lo lee solo.
+  - `jetson_clocks`: su uso NO queda registrado en los metadatos, así que no es auditable a posteriori. Si se usa, debe anotarse en la bitácora de la campaña; de lo contrario, no afirmarlo en la redacción.
 - Forma de entrada: **1,3,224,224**.
 - Precision: set **completo (10000)**, sin `--limit`, para cifras oficiales.
 
