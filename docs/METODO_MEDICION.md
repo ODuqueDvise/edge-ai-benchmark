@@ -1,4 +1,4 @@
-# Método de medición y análisis — especificación completa
+# Método de medición y análisis: especificación completa
 
 Documento de referencia del arnés `edge-ai-benchmark`. Contiene el detalle que el
 artículo de ARTIIS 2026 resume por límite de espacio: la cadena completa que va de una
@@ -11,9 +11,9 @@ Es también el borrador del capítulo de metodología de la tesis.
 > criterio; este documento aporta los parámetros exactos. Ante cualquier discrepancia
 > entre ambos, mandan los archivos de `results/`, que registran cada valor por corrida.
 >
-> **Regla transversal (D22, D23).** Se distingue entre campos MEDIDOS —leídos del sistema
-> y guardados en los metadatos de cada corrida— y campos DECLARADOS —etiquetas escritas
-> por el operador—. Ninguna afirmación de este documento se apoya en un campo declarativo.
+> **Regla transversal (D22, D23).** Se distingue entre campos MEDIDOS, leídos del sistema
+> y guardados en los metadatos de cada corrida, y campos DECLARADOS, que son etiquetas
+> escritas por el operador. Ninguna afirmación de este documento se apoya en un campo declarativo.
 
 ---
 
@@ -39,8 +39,8 @@ una etiqueta del operador y **no debe usarse**: ver D22.
 
 **Frecuencias.** No se afirma que el escalado dinámico estuviera desactivado. `jetson_clocks`
 figuraba en el procedimiento y el historial de la placa muestra que se ejecutó, pero no
-persiste entre reinicios, los archivos de junio no registran gobernador ni frecuencia
-—esos campos se añadieron al arnés en julio— y las entradas del historial no llevan marca
+persiste entre reinicios, los archivos de junio no registran gobernador ni frecuencia,
+porque esos campos se añadieron al arnés en julio, y las entradas del historial no llevan marca
 de tiempo. La evidencia de estabilidad que sí es auditable es la dispersión entre corridas
 (sección 6.4). Ver D23.
 
@@ -65,7 +65,7 @@ de cómputo, no de entrada/salida.
 Fijadas a partir de una corrida piloto con CV del p50 de 0,56 % y no modificadas después.
 
 **Orden de ejecución.** Las condiciones se ejecutaron **por bloques, no intercaladas**: las
-cinco corridas de una condición son consecutivas —separadas por segundos o pocos minutos—
+cinco corridas de una condición son consecutivas, separadas por segundos o pocos minutos,
 y al terminar se pasa a la siguiente. Es una limitación reconocida: en una placa de
 refrigeración pasiva el estado térmico podría confundirse con la condición. Acotación
 empírica: en toda la campaña de la Jetson las seis zonas térmicas del SoC se mantuvieron
@@ -73,14 +73,14 @@ entre 48 y 52 °C, con deriva menor a 1,5 °C por corrida.
 
 > **Matiz de instrumentación.** En la campaña de junio el arnés capturaba
 > `thermal_c_start` al cerrar la corrida, de modo que ambas lecturas son posteriores a la
-> ejecución. El arreglo —captura antes de cargar el modelo, más `cpu_state_start/end` con
-> gobernador, frecuencia por política de `cpufreq` y `vcgencmd get_throttled`— es de julio
+> ejecución. El arreglo, que captura antes de cargar el modelo y añade `cpu_state_start/end` con
+> gobernador, frecuencia por política de `cpufreq` y `vcgencmd get_throttled`, es de julio
 > y no cubre estos archivos.
 
 **Selección de campañas (D21).** Cada condición se estima con **una sola sesión de
 medición**. `pick_campaign()` en `scripts/analyze_oe3.py` agrupa las corridas por cercanía
-temporal (hueco superior a 30 minutos ⇒ sesión distinta), toma el grupo más numeroso
-—desempate por el más reciente— y lo recorta a cinco. El criterio opera sobre la
+temporal (hueco superior a 30 minutos ⇒ sesión distinta), toma el grupo más numeroso,
+con desempate por el más reciente, y lo recorta a cinco. El criterio opera sobre la
 estructura temporal, **no sobre los valores**.
 
 Motivo: la regla anterior, "las cinco más recientes", mezclaba sesiones. En MobileNetV2
@@ -204,8 +204,8 @@ borde por costo de cómputo y cubre los artefactos no cuantizados.
 ## 6. Energía
 
 **Instrumento.** INA226 externo, sensado en **lado alto** sobre la entrada de continua de
-la placa, shunt de **0,1 Ω** (R100). Registro desde un **host independiente** —no el equipo
-medido— a través de un puente USB-I2C CP2112, a **20 muestras por segundo** (`--interval
+la placa, shunt de **0,1 Ω** (R100). Registro desde un **host independiente**, que no es el equipo
+medido, a través de un puente USB-I2C CP2112, a **20 muestras por segundo** (`--interval
 0.05`). Dirección I2C fija (`--addr`, 0x40 en la Jetson): la autodetección desincroniza el
 bus. Los sensores internos del SoC se conservan solo como referencia cruzada.
 
@@ -281,14 +281,14 @@ CV de las medias geométricas por corrida, publicado por condición en la secci�
 ### 7.5 Contraste no paramétrico (ART)
 
 Transformación de rangos alineados sobre el diseño factorial dispositivo × técnica.
-**Unidades: las medias geométricas por corrida en escala logarítmica** —30 observaciones en
-el diseño de dos dispositivos (2 × 3 × 5)—, las mismas que alimentan los intervalos. Los
+**Unidades: las medias geométricas por corrida en escala logarítmica**, con 30 observaciones en
+el diseño de dos dispositivos (2 × 3 × 5), las mismas que alimentan los intervalos. Los
 grados de libertad reportados lo confirman: (2, 24) = 30 − 6 parámetros. Implementado en
 `art_anova()`; el CSV `results/oe3_tidy_runs.csv` permite verificarlo en R/ARTool.
 
 > **Limitación: el estadístico está saturado.** El alineamiento de la interacción separa
-> las seis celdas en bloques de rango **contiguos y disjuntos** —cada celda ocupa cinco
-> rangos consecutivos—, de modo que F y η²p dependen solo de esa estructura y resultan
+> las seis celdas en bloques de rango **contiguos y disjuntos**, ya que cada celda ocupa cinco
+> rangos consecutivos, de modo que F y η²p dependen solo de esa estructura y resultan
 > **idénticos entre modelos** (F = 433,3; η²p = 0,97). Confirma que la separación es
 > completa, no cuánto lo es. Citar η²p como tamaño de efecto sería engañoso.
 
@@ -308,8 +308,8 @@ git lfs install && git lfs pull          # trae los 8 ONNX reales
 python scripts/analyze_oe3.py            # regenera OE3_ANALISIS.md, el CSV y las figuras
 ```
 
-`scripts/analyze_oe3.py` parte de `results/*.json` —los datos crudos de cada corrida, con
-sus 2000 latencias, metadatos y checksums— y reproduce todas las tablas y figuras
+`scripts/analyze_oe3.py` parte de `results/*.json`, los datos crudos de cada corrida con
+sus 2000 latencias, metadatos y checksums, y reproduce todas las tablas y figuras
 publicadas. No hay pasos manuales entre los archivos y los números.
 
 **Referencias cruzadas:** `docs/DECISIONS.md` (por qué de cada decisión),
