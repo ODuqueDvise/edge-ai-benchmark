@@ -1,0 +1,856 @@
+[0;93m2026-09-29 13:43:30.886061428 [W:onnxruntime:Default, device_discovery.cc:211 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:91 ReadFileContents Failed to open file: "/sys/class/drm/card1/device/vendor"[m
+onnxruntime 1.24.0 | proveedores disponibles: ['TensorrtExecutionProvider', 'CUDAExecutionProvider', 'CPUExecutionProvider']
+
+==============================================================================
+FP32  models/resnet50_baseline.onnx
+==============================================================================
+2026-09-29 13:43:30.901992403 [I:onnxruntime:, inference_session.cc:606 TraceSessionOptions] Session Options {  execution_mode:0 execution_order:DEFAULT enable_profiling:0 optimized_model_filepath:"" enable_mem_pattern:1 enable_mem_reuse:1 enable_cpu_mem_arena:1 profile_file_prefix:onnxruntime_profile_ session_logid: session_log_severity_level:1 session_log_verbosity_level:0 max_num_graph_transformation_steps:10 graph_optimization_level:4 intra_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } inter_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } use_per_session_threads:1 thread_pool_allow_spinning:1 use_deterministic_compute:0 ep_selection_policy:0 config_options: {  } }
+2026-09-29 13:43:30.902363460 [I:onnxruntime:, inference_session.cc:414 operator()] Flush-to-zero and denormal-as-zero are off
+2026-09-29 13:43:30.902383556 [I:onnxruntime:, inference_session.cc:422 ConstructorCommon] Creating and using per session threadpools since use_per_session_threads_ is true
+2026-09-29 13:43:30.902397314 [I:onnxruntime:, inference_session.cc:446 ConstructorCommon] Dynamic block base set to 0
+2026-09-29 13:43:31.360864586 [I:onnxruntime:, inference_session.cc:2085 Initialize] Initializing session.
+2026-09-29 13:43:31.385033822 [I:onnxruntime:, graph_partitioner.cc:1220 InlineFunctionsAOT] This model does not have any local functions defined. AOT Inlining is not performed
+2026-09-29 13:43:31.439057034 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:31.439210740 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.439258429 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:31.439443959 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantSharing modified: 0 with status: OK
+2026-09-29 13:43:31.439754685 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:31.439831267 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:31.439872107 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:31.439911640 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:31.439924064 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.439931837 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:31.439971179 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:31.440012433 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.440373459 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:31.440428794 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:31.440477342 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:31.440728019 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer modified: 0 with status: OK
+2026-09-29 13:43:31.443860822 [I:onnxruntime:, inference_session.cc:1508 TransformGraph] Running graph optimizations in loop 1 time/s (Graph Optimizations Loop Level : 1)
+2026-09-29 13:43:31.443930746 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level2_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.444044409 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer_CPUExecutionProvider modified: 0 with status: OK
+2026-09-29 13:43:31.444130261 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQSelectorActionTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.444175879 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GemmActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444222007 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulIntegerToFloatFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444265013 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DynamicQuantizeMatMulFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444307955 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444351343 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:31.444358925 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:31.444395369 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SimplifiedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444433309 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer AttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444469530 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EmbedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444594151 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherSliceToSplitFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444633621 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherToSliceFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444672677 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatmulTransposeFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444718932 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444756522 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GroupQueryAttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444792138 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444828008 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SkipLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444867541 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FastGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444904208 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QuickGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444944315 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasSoftmaxFusion modified: 0 with status: OK
+2026-09-29 13:43:31.444990315 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasDropoutFusion modified: 0 with status: OK
+2026-09-29 13:43:31.445033512 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulScaleFusion modified: 0 with status: OK
+2026-09-29 13:43:31.445070210 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:31.445106622 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulNBitsFusion modified: 0 with status: OK
+2026-09-29 13:43:31.445146124 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQFinalCleanupTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.445222292 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer NhwcTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.445262112 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvAddActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:31.445332482 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer RemoveDuplicateCastTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.445343537 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CastFloat16Transformer modified: 0 with status: OK
+2026-09-29 13:43:31.445383675 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FuseFp16InitializerToFp32NodeTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.447982982 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MemcpyTransformer modified: 0 with status: OK
+2026-09-29 13:43:31.492976108 [I:onnxruntime:, allocation_planner.cc:2658 CreateGraphPartitioner] Use DeviceBasedPartition as default
+2026-09-29 13:43:31.494757825 [I:onnxruntime:, session_state_utils.cc:249 SaveInitializedTensors] Saving initialized tensors.
+2026-09-29 13:43:31.569571031 [I:onnxruntime:, session_state_utils.cc:445 SaveInitializedTensors] Done saving initialized tensors
+2026-09-29 13:43:31.575120955 [I:onnxruntime:, inference_session.cc:2567 Initialize] Session successfully initialized.
+proveedores activos en la sesion: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+latencia p50 18.108 ms | p95 18.165 ms (warmup 20, iters 200; diagnostico, no oficial)
+
+==============================================================================
+QDQ INT8  models/resnet50_baseline_int8.onnx
+==============================================================================
+2026-09-29 13:43:36.273563844 [I:onnxruntime:, inference_session.cc:606 TraceSessionOptions] Session Options {  execution_mode:0 execution_order:DEFAULT enable_profiling:0 optimized_model_filepath:"" enable_mem_pattern:1 enable_mem_reuse:1 enable_cpu_mem_arena:1 profile_file_prefix:onnxruntime_profile_ session_logid: session_log_severity_level:1 session_log_verbosity_level:0 max_num_graph_transformation_steps:10 graph_optimization_level:4 intra_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } inter_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } use_per_session_threads:1 thread_pool_allow_spinning:1 use_deterministic_compute:0 ep_selection_policy:0 config_options: {  } }
+2026-09-29 13:43:36.273613754 [I:onnxruntime:, inference_session.cc:422 ConstructorCommon] Creating and using per session threadpools since use_per_session_threads_ is true
+2026-09-29 13:43:36.273639012 [I:onnxruntime:, inference_session.cc:446 ConstructorCommon] Dynamic block base set to 0
+2026-09-29 13:43:36.313937015 [I:onnxruntime:, inference_session.cc:2085 Initialize] Initializing session.
+2026-09-29 13:43:36.314625902 [I:onnxruntime:, graph_partitioner.cc:1220 InlineFunctionsAOT] This model does not have any local functions defined. AOT Inlining is not performed
+2026-09-29 13:43:36.325266452 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 1 with status: OK
+2026-09-29 13:43:36.331781875 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.332559963 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:36.333754553 [I:onnxruntime:, constant_sharing.cc:248 ApplyImpl] Total shared scalar initializer count: 51
+2026-09-29 13:43:36.333810937 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantSharing modified: 1 with status: OK
+2026-09-29 13:43:36.339593973 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:36.340014047 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:36.340180903 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:36.340336278 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:36.340349577 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.340357039 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.340505653 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.340984121 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 1 with status: OK
+2026-09-29 13:43:36.347209459 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 1 with status: OK
+2026-09-29 13:43:36.355135218 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:36.355566007 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:36.357937360 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer modified: 0 with status: OK
+2026-09-29 13:43:36.358510481 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.359428955 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:36.361149754 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:36.376330530 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 1 with status: OK
+2026-09-29 13:43:36.382077656 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_853_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382107219 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_853_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382116404 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_855_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382122176 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_855_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382127151 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_857_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382132828 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_849_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382137835 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_851_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382142906 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_851_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382147945 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_845_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382152728 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_845_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382157927 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_835_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382163093 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_827_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382168291 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_827_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382173681 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_829_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382178497 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_831_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382183408 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_821_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382188734 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_823_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382193709 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_823_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382198556 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_825_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382203850 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_817_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382208953 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_819_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382213864 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_809_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382218871 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_809_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382223846 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_811_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382235678 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_775_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382241323 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_815_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382247063 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_837_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382252963 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_805_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382258991 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_833_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382264125 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.0.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382268686 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_777_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382273756 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.1.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382279114 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.0.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382285811 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.5.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382292891 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.1.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382300162 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_815_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382305552 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_789_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382311261 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.0.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382317001 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.2.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382322837 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.0.downsample.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382327812 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.2.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382333266 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_781_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382338177 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.0.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382343343 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.0.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382348510 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.4.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382353262 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_837_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382358428 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_783_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382363658 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.1.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382368346 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'fc.bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382374310 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.0.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382379253 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_787_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382384069 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.1.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382389108 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_769_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382394083 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_843_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382400939 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.1.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382411081 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.2.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382424348 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_841_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382429833 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.4.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382434936 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.0.downsample.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382439975 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.0.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382445524 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.0.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382450722 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.0.downsample.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382455569 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_793_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382460289 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.4.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382465169 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.2.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382472153 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.1.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382478276 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_813_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382483028 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.2.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382487939 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.2.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382492691 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_linear_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382497889 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.1.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382503566 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.3.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382509211 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.1.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382514569 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.3.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382520660 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.2.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382525444 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.0.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382531088 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.3.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382536000 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.0.downsample.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382542601 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_779_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382547927 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_799_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382552583 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.3.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382558579 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.2.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382563299 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_857_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382569805 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382575258 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_761_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382584634 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_811_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382589801 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.5.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382596211 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_847_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382602430 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.2.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382607181 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.1.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382613049 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_781_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382617961 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.0.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382622744 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_819_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382630877 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_759_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382636139 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.5.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382641210 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_847_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382646535 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_821_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382651957 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_757_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382657123 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.2.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382662609 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_755_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382669529 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.1.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382674472 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.3.conv1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382679798 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_linear_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382684550 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_805_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382689429 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.1.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382695553 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_795_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382701899 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_829_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382708405 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_817_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382714624 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_795_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382722150 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_785_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382728815 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_831_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382734396 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_849_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382740615 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_833_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382746770 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_769_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382752638 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_773_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382762110 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer1.0.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382769094 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.1.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382775186 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_807_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382781883 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_783_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382787910 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_803_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382793013 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_785_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382801081 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_793_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382805865 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_825_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382811319 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_797_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382816581 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_843_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382821460 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer4.2.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382827137 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_839_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382832176 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_841_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382836864 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_839_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382845506 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_803_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382850992 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_835_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382856094 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_801_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382860846 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_801_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382866108 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_779_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382871083 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_777_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382875899 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_775_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382880842 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_757_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382885913 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer3.2.conv3.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382891143 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_755_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382896628 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_753_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382901412 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_753_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382907599 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_761_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382913148 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_767_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382918187 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.3.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382922939 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_767_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382928073 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_765_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382932857 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_765_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382938119 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_763_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382942935 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_763_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382947655 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_799_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382952247 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_773_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382957286 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_771_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382962101 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_771_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382967587 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_787_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382972275 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'layer2.0.conv2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:36.382977760 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_791_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.382982448 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_791_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382988093 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_789_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382992717 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_759_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.382997533 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_797_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.383002859 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_807_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:36.383007610 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_813_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:36.384315064 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:36.384624826 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:36.384639177 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.384646512 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.384959335 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.385654186 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.386049066 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:36.386427075 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:36.386753708 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:36.387054444 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.387844555 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:36.389250872 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:36.389967823 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:36.390257462 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:36.390539382 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:36.390552075 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.390559091 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.390845157 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:36.391416524 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.391764046 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:36.392104997 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:36.392415333 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:36.392785784 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_linear_bias_dq
+2026-09-29 13:43:36.392833398 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_843_bias_dq
+2026-09-29 13:43:36.392871604 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_841_bias_dq
+2026-09-29 13:43:36.392907641 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_839_bias_dq
+2026-09-29 13:43:36.392943232 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_805_bias_dq
+2026-09-29 13:43:36.392978057 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_803_bias_dq
+2026-09-29 13:43:36.393012883 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_801_bias_dq
+2026-09-29 13:43:36.393047485 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_779_bias_dq
+2026-09-29 13:43:36.393082087 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_777_bias_dq
+2026-09-29 13:43:36.393116721 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_775_bias_dq
+2026-09-29 13:43:36.393151834 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_759_bias_dq
+2026-09-29 13:43:36.393185894 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_757_bias_dq
+2026-09-29 13:43:36.393220719 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_755_bias_dq
+2026-09-29 13:43:36.393255896 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_753_bias_dq
+2026-09-29 13:43:36.393457258 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_761_bias_dq
+2026-09-29 13:43:36.393592701 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_767_bias_dq
+2026-09-29 13:43:36.393630556 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_765_bias_dq
+2026-09-29 13:43:36.393665764 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_763_bias_dq
+2026-09-29 13:43:36.393828889 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_773_bias_dq
+2026-09-29 13:43:36.393870795 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_771_bias_dq
+2026-09-29 13:43:36.393923033 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_769_bias_dq
+2026-09-29 13:43:36.394153225 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_781_bias_dq
+2026-09-29 13:43:36.394263378 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_787_bias_dq
+2026-09-29 13:43:36.394300309 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_785_bias_dq
+2026-09-29 13:43:36.394335453 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_783_bias_dq
+2026-09-29 13:43:36.394495293 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_793_bias_dq
+2026-09-29 13:43:36.394531745 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_791_bias_dq
+2026-09-29 13:43:36.394567049 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_789_bias_dq
+2026-09-29 13:43:36.394727750 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_799_bias_dq
+2026-09-29 13:43:36.394764202 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_797_bias_dq
+2026-09-29 13:43:36.394799123 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_795_bias_dq
+2026-09-29 13:43:36.395025807 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_807_bias_dq
+2026-09-29 13:43:36.395133887 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_813_bias_dq
+2026-09-29 13:43:36.395170881 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_811_bias_dq
+2026-09-29 13:43:36.395206855 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_809_bias_dq
+2026-09-29 13:43:36.395366025 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_819_bias_dq
+2026-09-29 13:43:36.395402413 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_817_bias_dq
+2026-09-29 13:43:36.395437303 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_815_bias_dq
+2026-09-29 13:43:36.395594432 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_825_bias_dq
+2026-09-29 13:43:36.395630916 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_823_bias_dq
+2026-09-29 13:43:36.395665932 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_821_bias_dq
+2026-09-29 13:43:36.395825071 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_831_bias_dq
+2026-09-29 13:43:36.395861427 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_829_bias_dq
+2026-09-29 13:43:36.395896348 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_827_bias_dq
+2026-09-29 13:43:36.396053573 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_837_bias_dq
+2026-09-29 13:43:36.396090121 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_835_bias_dq
+2026-09-29 13:43:36.396125233 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_833_bias_dq
+2026-09-29 13:43:36.396348505 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_845_bias_dq
+2026-09-29 13:43:36.396455469 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_851_bias_dq
+2026-09-29 13:43:36.396491634 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_849_bias_dq
+2026-09-29 13:43:36.396526587 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_847_bias_dq
+2026-09-29 13:43:36.396688500 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_857_bias_dq
+2026-09-29 13:43:36.396725111 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_855_bias_dq
+2026-09-29 13:43:36.396760319 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_853_bias_dq
+2026-09-29 13:43:36.400294562 [I:onnxruntime:, inference_session.cc:1508 TransformGraph] Running graph optimizations in loop 1 time/s (Graph Optimizations Loop Level : 1)
+2026-09-29 13:43:36.400623618 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level2_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.402075540 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer_CPUExecutionProvider modified: 0 with status: OK
+2026-09-29 13:43:36.402478679 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQSelectorActionTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.402764395 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GemmActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:36.403065131 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulIntegerToFloatFusion modified: 0 with status: OK
+2026-09-29 13:43:36.403351293 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DynamicQuantizeMatMulFusion modified: 0 with status: OK
+2026-09-29 13:43:36.403668804 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:36.403956242 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:36.403965618 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:36.404245880 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SimplifiedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:36.404520912 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer AttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:36.404797283 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EmbedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:36.405435782 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherSliceToSplitFusion modified: 0 with status: OK
+2026-09-29 13:43:36.405721147 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherToSliceFusion modified: 0 with status: OK
+2026-09-29 13:43:36.406036266 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatmulTransposeFusion modified: 0 with status: OK
+2026-09-29 13:43:36.406325936 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:36.406615734 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GroupQueryAttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:36.406897399 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:36.407172814 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SkipLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:36.407466342 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FastGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:36.407749188 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QuickGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:36.408046065 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasSoftmaxFusion modified: 0 with status: OK
+2026-09-29 13:43:36.408331366 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasDropoutFusion modified: 0 with status: OK
+2026-09-29 13:43:36.408647538 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulScaleFusion modified: 0 with status: OK
+2026-09-29 13:43:36.408927035 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:36.409214121 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulNBitsFusion modified: 0 with status: OK
+2026-09-29 13:43:36.409543273 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQFinalCleanupTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.410185025 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer NhwcTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.410505693 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvAddActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:36.410849866 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer RemoveDuplicateCastTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.410860868 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CastFloat16Transformer modified: 0 with status: OK
+2026-09-29 13:43:36.411151846 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FuseFp16InitializerToFp32NodeTransformer modified: 0 with status: OK
+2026-09-29 13:43:36.422318413 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_753_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422362200 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_755_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422381973 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_757_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422397536 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_759_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422411568 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_761_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422425505 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_763_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422439091 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_765_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422454335 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_767_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422468877 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_769_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422482016 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_771_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422496910 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_773_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422511771 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_775_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422525867 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_777_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422541175 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_779_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422557248 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_781_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422571600 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_783_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422585664 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_785_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422600334 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_787_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422614111 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_789_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422627729 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_791_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422641856 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_793_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422655474 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_795_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422669187 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_797_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422681721 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_799_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422695498 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_801_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422708573 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_803_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422721968 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_805_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422735904 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_807_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422749681 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_809_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422763586 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_811_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422777969 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_813_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422791364 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_815_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422805300 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_817_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422819875 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_819_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422833971 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_821_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422848130 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_823_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422862226 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_825_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422876386 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_827_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422890482 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_829_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422905694 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_831_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422919759 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_833_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422935545 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_835_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422950534 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_837_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422965778 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_839_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422980544 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_841_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.422994225 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_843_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423008002 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_845_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423021428 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_847_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423035078 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_849_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423048281 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_851_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423063493 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_853_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423077972 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_855_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423092451 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_857_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:36.423106005 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_linear_bias_dq for CUDAExecutionProvider
+[0;93m2026-09-29 13:43:36.423236281 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 54 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+2026-09-29 13:43:36.423358840 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MemcpyTransformer modified: 1 with status: OK
+2026-09-29 13:43:36.437782481 [I:onnxruntime:, allocation_planner.cc:2658 CreateGraphPartitioner] Use DeviceBasedPartition as default
+2026-09-29 13:43:36.449303522 [I:onnxruntime:, session_state_utils.cc:249 SaveInitializedTensors] Saving initialized tensors.
+2026-09-29 13:43:36.479214895 [I:onnxruntime:, session_state_utils.cc:445 SaveInitializedTensors] Done saving initialized tensors
+2026-09-29 13:43:36.481594922 [I:onnxruntime:, inference_session.cc:2567 Initialize] Session successfully initialized.
+proveedores activos en la sesion: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+latencia p50 32.357 ms | p95 32.438 ms (warmup 20, iters 200; diagnostico, no oficial)
+
+==============================================================================
+FP32  models/cnn_baseline.onnx
+==============================================================================
+2026-09-29 13:43:43.788850895 [I:onnxruntime:, inference_session.cc:606 TraceSessionOptions] Session Options {  execution_mode:0 execution_order:DEFAULT enable_profiling:0 optimized_model_filepath:"" enable_mem_pattern:1 enable_mem_reuse:1 enable_cpu_mem_arena:1 profile_file_prefix:onnxruntime_profile_ session_logid: session_log_severity_level:1 session_log_verbosity_level:0 max_num_graph_transformation_steps:10 graph_optimization_level:4 intra_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } inter_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } use_per_session_threads:1 thread_pool_allow_spinning:1 use_deterministic_compute:0 ep_selection_policy:0 config_options: {  } }
+2026-09-29 13:43:43.788904019 [I:onnxruntime:, inference_session.cc:422 ConstructorCommon] Creating and using per session threadpools since use_per_session_threads_ is true
+2026-09-29 13:43:43.788930612 [I:onnxruntime:, inference_session.cc:446 ConstructorCommon] Dynamic block base set to 0
+2026-09-29 13:43:43.800247163 [I:onnxruntime:, inference_session.cc:2085 Initialize] Initializing session.
+2026-09-29 13:43:43.800732584 [I:onnxruntime:, graph_partitioner.cc:1220 InlineFunctionsAOT] This model does not have any local functions defined. AOT Inlining is not performed
+2026-09-29 13:43:43.805088922 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:43.805243312 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.805302501 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:43.805554454 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantSharing modified: 0 with status: OK
+2026-09-29 13:43:43.805971077 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:43.806080292 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:43.806131181 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:43.806177568 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:43.806193084 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.806202821 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:43.806248601 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:43.806297830 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.806396510 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:43.806444079 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:43.806489987 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:43.806712856 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer modified: 0 with status: OK
+2026-09-29 13:43:43.809001119 [I:onnxruntime:, inference_session.cc:1508 TransformGraph] Running graph optimizations in loop 1 time/s (Graph Optimizations Loop Level : 1)
+2026-09-29 13:43:43.809076015 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level2_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.809200108 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer_CPUExecutionProvider modified: 0 with status: OK
+2026-09-29 13:43:43.809288349 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQSelectorActionTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.809336556 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GemmActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809384986 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulIntegerToFloatFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809429043 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DynamicQuantizeMatMulFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809474281 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809521466 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:43.809531586 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:43.809573663 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SimplifiedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809615964 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer AttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809663916 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EmbedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809816901 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherSliceToSplitFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809909771 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherToSliceFusion modified: 0 with status: OK
+2026-09-29 13:43:43.809968832 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatmulTransposeFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810024605 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810072174 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GroupQueryAttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810117827 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810164182 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SkipLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810215166 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FastGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810263469 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QuickGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810313400 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasSoftmaxFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810365917 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasDropoutFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810421722 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulScaleFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810469290 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810515549 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulNBitsFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810565736 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQFinalCleanupTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.810662373 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer NhwcTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.810712368 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvAddActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:43.810782635 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer RemoveDuplicateCastTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.810796809 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CastFloat16Transformer modified: 0 with status: OK
+2026-09-29 13:43:43.810846357 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FuseFp16InitializerToFp32NodeTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.813487903 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MemcpyTransformer modified: 0 with status: OK
+2026-09-29 13:43:43.816251339 [I:onnxruntime:, allocation_planner.cc:2658 CreateGraphPartitioner] Use DeviceBasedPartition as default
+2026-09-29 13:43:43.819599068 [I:onnxruntime:, session_state_utils.cc:249 SaveInitializedTensors] Saving initialized tensors.
+2026-09-29 13:43:43.829114309 [I:onnxruntime:, session_state_utils.cc:445 SaveInitializedTensors] Done saving initialized tensors
+2026-09-29 13:43:43.829721078 [I:onnxruntime:, inference_session.cc:2567 Initialize] Session successfully initialized.
+proveedores activos en la sesion: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+latencia p50 6.333 ms | p95 6.378 ms (warmup 20, iters 200; diagnostico, no oficial)
+
+==============================================================================
+QDQ INT8  models/cnn_baseline_int8.onnx
+==============================================================================
+2026-09-29 13:43:45.417340553 [I:onnxruntime:, inference_session.cc:606 TraceSessionOptions] Session Options {  execution_mode:0 execution_order:DEFAULT enable_profiling:0 optimized_model_filepath:"" enable_mem_pattern:1 enable_mem_reuse:1 enable_cpu_mem_arena:1 profile_file_prefix:onnxruntime_profile_ session_logid: session_log_severity_level:1 session_log_verbosity_level:0 max_num_graph_transformation_steps:10 graph_optimization_level:4 intra_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } inter_op_param:OrtThreadPoolParams { thread_pool_size: 0 auto_set_affinity: 0 allow_spinning: 1 dynamic_block_base_: 0 stack_size: 0 affinity_str:  set_denormal_as_zero: 0 } use_per_session_threads:1 thread_pool_allow_spinning:1 use_deterministic_compute:0 ep_selection_policy:0 config_options: {  } }
+2026-09-29 13:43:45.417381139 [I:onnxruntime:, inference_session.cc:422 ConstructorCommon] Creating and using per session threadpools since use_per_session_threads_ is true
+2026-09-29 13:43:45.417399883 [I:onnxruntime:, inference_session.cc:446 ConstructorCommon] Dynamic block base set to 0
+2026-09-29 13:43:45.435322706 [I:onnxruntime:, inference_session.cc:2085 Initialize] Initializing session.
+2026-09-29 13:43:45.435685105 [I:onnxruntime:, graph_partitioner.cc:1220 InlineFunctionsAOT] This model does not have any local functions defined. AOT Inlining is not performed
+2026-09-29 13:43:45.438221833 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 1 with status: OK
+2026-09-29 13:43:45.443703350 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.444401516 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:45.445557112 [I:onnxruntime:, constant_sharing.cc:248 ApplyImpl] Total shared scalar initializer count: 69
+2026-09-29 13:43:45.445603797 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantSharing modified: 1 with status: OK
+2026-09-29 13:43:45.451000087 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:45.451399144 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:45.451546575 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:45.451681393 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:45.451694389 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.451701766 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.451832049 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.452220760 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 1 with status: OK
+2026-09-29 13:43:45.457956746 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 1 with status: OK
+2026-09-29 13:43:45.465249587 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:45.465641810 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:45.467793148 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer modified: 0 with status: OK
+2026-09-29 13:43:45.468312526 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.469123093 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:45.470538521 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:45.482314679 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 1 with status: OK
+2026-09-29 13:43:45.487314850 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_899_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487350901 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_903_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487360034 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_893_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487365877 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_893_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487371913 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_819_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487382099 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_811_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487388517 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.3.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487397331 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_879_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487402983 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.15.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487411381 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.12.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487416937 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_829_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487422813 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_887_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487427794 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.1.conv.1.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487434883 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_883_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487439833 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_875_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487446027 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.16.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487451775 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_821_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487458449 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_895_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487463622 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.7.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487469529 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_875_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487475054 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.15.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487480003 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.17.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487485591 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.9.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487490796 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_909_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487496289 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.15.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487501238 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_863_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487506794 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.16.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487512542 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.14.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487517907 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.12.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487522824 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_855_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487527646 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.11.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487533075 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.4.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487537992 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_869_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487544155 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.10.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487549871 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'classifier.1.bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487554757 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.11.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487559546 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.3.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487564368 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.2.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487569637 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.16.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487574714 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.17.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487579376 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.9.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487585284 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.13.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487591351 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.5.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487596109 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.6.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487600963 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.2.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487605688 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.10.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487610989 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.4.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487616162 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_889_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487620952 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.18.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487626317 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.1.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487631362 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_899_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487636280 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_901_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487641676 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.7.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487646562 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487651511 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_877_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487657993 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_851_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487662815 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.13.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487668180 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_887_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487674630 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_873_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487681943 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_815_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487687084 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.7.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487691969 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.6.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487696951 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.6.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487702156 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.9.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487707680 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.17.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487715567 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.8.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487722592 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.11.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487728404 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_881_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487734184 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.5.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487741496 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_891_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487752545 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.14.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487759634 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_901_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487765158 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_869_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487770012 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_817_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487775855 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_845_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487781252 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_895_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487787574 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_827_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487792652 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_853_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487799166 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_879_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487803860 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_871_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487809256 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_867_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487816441 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_889_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487821295 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.8.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487826659 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_853_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487833525 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_859_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487839305 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.2.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487844063 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_841_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487849970 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.12.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487855526 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_837_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487860795 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_905_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487866096 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_831_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487872386 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_897_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487878006 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_833_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487883052 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_857_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487888863 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_871_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487895441 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_linear_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487901157 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_833_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487906618 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_809_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487912429 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_891_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487917219 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_815_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487922201 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_829_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487928012 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.14.conv.1.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487933792 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_841_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487939636 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.13.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487945256 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_847_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487950652 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_835_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487955921 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.8.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.487960775 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_911_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487965629 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_881_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487970738 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_811_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487976198 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_809_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487980988 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_909_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.487986001 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_843_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487990919 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_831_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.487995709 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_907_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488003724 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_905_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488008929 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.5.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.488013718 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_873_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488019115 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_839_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488024384 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_849_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488030100 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_845_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488035752 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_847_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488040893 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_827_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488046289 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_819_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488052676 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_817_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488058583 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_813_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488063501 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_813_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488068514 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_907_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488074198 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_825_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488080968 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_825_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488086907 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_865_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488091825 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_823_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488097509 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_823_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488102394 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.4.conv.2.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.488108110 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_837_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488113347 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_835_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488118488 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_843_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488124427 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_839_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488130207 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_821_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488135189 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_911_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488140457 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_855_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488147291 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_851_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488152400 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_861_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488157222 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_861_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488162267 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.10.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.488167728 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_859_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488173028 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_857_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488177818 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_867_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488183055 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_865_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488188484 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_863_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488193241 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_849_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488198127 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_linear_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488203364 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_903_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488209623 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_877_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488215722 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'features.3.conv.0.0.weight_bias'. It is no longer used by any node.
+2026-09-29 13:43:45.488220480 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_897_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488225206 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_885_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.488230634 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_885_bias_div_round'. It is no longer used by any node.
+2026-09-29 13:43:45.488235360 [I:onnxruntime:, graph.cc:5244 CleanUnusedInitializersAndNodeArgs] Removing initializer 'node_Conv_883_bias_div'. It is no longer used by any node.
+2026-09-29 13:43:45.489360268 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:45.489639675 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:45.489655482 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.489663050 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.489956092 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.490466560 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.490810119 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:45.491131389 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:45.491408753 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:45.491698410 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level1_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.492375565 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DoubleQDQPairsRemover modified: 0 with status: OK
+2026-09-29 13:43:45.493587552 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CommonSubexpressionElimination modified: 0 with status: OK
+2026-09-29 13:43:45.494222556 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConstantFolding modified: 0 with status: OK
+2026-09-29 13:43:45.494511990 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:45.494779710 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ReshapeFusion modified: 0 with status: OK
+2026-09-29 13:43:45.494792962 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FreeDimensionOverrideTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.494799731 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.495066333 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL1 modified: 0 with status: OK
+2026-09-29 13:43:45.495546403 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQPropagationTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.495892133 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WeightBiasQuantization modified: 0 with status: OK
+2026-09-29 13:43:45.496209443 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EnsureUniqueDQForNodeUnit modified: 0 with status: OK
+2026-09-29 13:43:45.496492522 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer WhereDummyDq modified: 0 with status: OK
+2026-09-29 13:43:45.496858657 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_linear_bias_dq
+2026-09-29 13:43:45.496911665 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_911_bias_dq
+2026-09-29 13:43:45.496951452 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_909_bias_dq
+2026-09-29 13:43:45.496989420 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_907_bias_dq
+2026-09-29 13:43:45.497026206 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_905_bias_dq
+2026-09-29 13:43:45.497062864 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_891_bias_dq
+2026-09-29 13:43:45.497099714 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_889_bias_dq
+2026-09-29 13:43:45.497136244 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_887_bias_dq
+2026-09-29 13:43:45.497172359 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_873_bias_dq
+2026-09-29 13:43:45.497208539 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_871_bias_dq
+2026-09-29 13:43:45.497244335 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_869_bias_dq
+2026-09-29 13:43:45.497280226 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_849_bias_dq
+2026-09-29 13:43:45.497316118 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_847_bias_dq
+2026-09-29 13:43:45.497352266 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_845_bias_dq
+2026-09-29 13:43:45.497387870 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_831_bias_dq
+2026-09-29 13:43:45.497423985 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_829_bias_dq
+2026-09-29 13:43:45.497460324 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_827_bias_dq
+2026-09-29 13:43:45.497496663 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_819_bias_dq
+2026-09-29 13:43:45.497532842 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_817_bias_dq
+2026-09-29 13:43:45.497568766 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_815_bias_dq
+2026-09-29 13:43:45.497605169 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_813_bias_dq
+2026-09-29 13:43:45.497641667 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_811_bias_dq
+2026-09-29 13:43:45.497677910 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_809_bias_dq
+2026-09-29 13:43:45.497902266 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_825_bias_dq
+2026-09-29 13:43:45.497948823 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_823_bias_dq
+2026-09-29 13:43:45.497986440 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_821_bias_dq
+2026-09-29 13:43:45.498215617 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_837_bias_dq
+2026-09-29 13:43:45.498255500 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_835_bias_dq
+2026-09-29 13:43:45.498292670 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_833_bias_dq
+2026-09-29 13:43:45.498435439 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_843_bias_dq
+2026-09-29 13:43:45.498473598 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_841_bias_dq
+2026-09-29 13:43:45.498510831 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_839_bias_dq
+2026-09-29 13:43:45.498705362 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_855_bias_dq
+2026-09-29 13:43:45.498744159 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_853_bias_dq
+2026-09-29 13:43:45.498780849 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_851_bias_dq
+2026-09-29 13:43:45.498919435 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_861_bias_dq
+2026-09-29 13:43:45.498957594 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_859_bias_dq
+2026-09-29 13:43:45.498994412 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_857_bias_dq
+2026-09-29 13:43:45.499133477 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_867_bias_dq
+2026-09-29 13:43:45.499171285 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_865_bias_dq
+2026-09-29 13:43:45.499207528 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_863_bias_dq
+2026-09-29 13:43:45.499404997 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_879_bias_dq
+2026-09-29 13:43:45.499443954 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_877_bias_dq
+2026-09-29 13:43:45.499480708 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_875_bias_dq
+2026-09-29 13:43:45.499618240 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_885_bias_dq
+2026-09-29 13:43:45.499656048 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_883_bias_dq
+2026-09-29 13:43:45.499692355 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_881_bias_dq
+2026-09-29 13:43:45.499884842 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_897_bias_dq
+2026-09-29 13:43:45.499922650 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_895_bias_dq
+2026-09-29 13:43:45.499959117 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_893_bias_dq
+2026-09-29 13:43:45.500097319 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_903_bias_dq
+2026-09-29 13:43:45.500134904 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_901_bias_dq
+2026-09-29 13:43:45.500171945 [I:onnxruntime:, cuda_execution_provider.cc:2974 GetCapability] CUDA kernel not found in registries for Op type: DequantizeLinear node name: node_Conv_899_bias_dq
+2026-09-29 13:43:45.503085409 [I:onnxruntime:, inference_session.cc:1508 TransformGraph] Running graph optimizations in loop 1 time/s (Graph Optimizations Loop Level : 1)
+2026-09-29 13:43:45.503391799 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer Level2_RuleBasedTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.504668545 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer TransposeOptimizer_CPUExecutionProvider modified: 0 with status: OK
+2026-09-29 13:43:45.505041098 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQSelectorActionTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.505321367 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GemmActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:45.505605628 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulIntegerToFloatFusion modified: 0 with status: OK
+2026-09-29 13:43:45.505892699 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer DynamicQuantizeMatMulFusion modified: 0 with status: OK
+2026-09-29 13:43:45.506184176 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:45.506460070 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GeluFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:45.506470959 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer LayerNormFusionL2 modified: 0 with status: OK
+2026-09-29 13:43:45.506737530 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SimplifiedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:45.507003078 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer AttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:45.507267924 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer EmbedLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:45.507823481 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherSliceToSplitFusion modified: 0 with status: OK
+2026-09-29 13:43:45.508091839 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GatherToSliceFusion modified: 0 with status: OK
+2026-09-29 13:43:45.508354961 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatmulTransposeFusion modified: 0 with status: OK
+2026-09-29 13:43:45.508636411 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:45.508903013 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer GroupQueryAttentionFusion modified: 0 with status: OK
+2026-09-29 13:43:45.509168466 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulAddFusion modified: 0 with status: OK
+2026-09-29 13:43:45.509434461 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer SkipLayerNormFusion modified: 0 with status: OK
+2026-09-29 13:43:45.509709973 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FastGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:45.509989220 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QuickGeluFusion modified: 0 with status: OK
+2026-09-29 13:43:45.510263805 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasSoftmaxFusion modified: 0 with status: OK
+2026-09-29 13:43:45.510525426 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer BiasDropoutFusion modified: 0 with status: OK
+2026-09-29 13:43:45.510818979 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulScaleFusion modified: 0 with status: OK
+2026-09-29 13:43:45.511088167 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:45.511368947 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MatMulNBitsFusion modified: 0 with status: OK
+2026-09-29 13:43:45.511668568 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer QDQFinalCleanupTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.512251490 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer NhwcTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.512546480 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer ConvAddActivationFusion modified: 0 with status: OK
+2026-09-29 13:43:45.512865132 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer RemoveDuplicateCastTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.512877170 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer CastFloat16Transformer modified: 0 with status: OK
+2026-09-29 13:43:45.513150063 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer FuseFp16InitializerToFp32NodeTransformer modified: 0 with status: OK
+2026-09-29 13:43:45.521947870 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_809_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.521982868 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_811_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522002474 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_813_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522018376 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_815_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522032842 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_817_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522046764 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_819_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522060112 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_821_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522074417 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_823_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522088052 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_825_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522101177 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_827_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522113981 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_829_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522127648 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_831_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522140549 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_833_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522154727 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_835_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522167819 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_837_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522181390 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_839_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522195025 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_841_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522210449 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_843_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522224339 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_845_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522237910 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_847_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522251354 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_849_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522265180 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_851_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522279997 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_853_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522294590 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_855_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522308225 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_857_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522321541 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_859_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522335559 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_861_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522348715 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_863_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522362127 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_865_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522376177 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_867_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522389525 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_869_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522404597 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_871_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522418136 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_873_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522431867 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_875_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522444608 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_877_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522457764 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_879_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522471590 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_881_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522486024 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_883_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522499563 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_885_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522513134 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_887_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522525875 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_889_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522538967 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_891_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522551740 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_893_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522566716 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_895_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522580607 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_897_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522594114 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_899_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522606855 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_901_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522620426 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_903_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522633998 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_905_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522648271 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_907_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522663407 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_909_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522676755 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_Conv_911_bias_dq for CUDAExecutionProvider
+2026-09-29 13:43:45.522690294 [I:onnxruntime:, transformer_memcpy.cc:393 AddCopyNode] Add MemcpyFromHost after node_linear_bias_dq for CUDAExecutionProvider
+[0;93m2026-09-29 13:43:45.522789731 [W:onnxruntime:, transformer_memcpy.cc:111 ApplyImpl] 53 Memcpy nodes are added to the graph main_graph for CUDAExecutionProvider. It might have negative impact on performance (including unable to run CUDA graph). Set session_options.log_severity_level=1 to see the detail logs before this message.[m
+2026-09-29 13:43:45.522891659 [I:onnxruntime:, graph_transformer.cc:15 Apply] GraphTransformer MemcpyTransformer modified: 1 with status: OK
+2026-09-29 13:43:45.532473114 [I:onnxruntime:, allocation_planner.cc:2658 CreateGraphPartitioner] Use DeviceBasedPartition as default
+2026-09-29 13:43:45.548030558 [I:onnxruntime:, session_state_utils.cc:249 SaveInitializedTensors] Saving initialized tensors.
+2026-09-29 13:43:45.559333033 [I:onnxruntime:, session_state_utils.cc:445 SaveInitializedTensors] Done saving initialized tensors
+2026-09-29 13:43:45.561065963 [I:onnxruntime:, inference_session.cc:2567 Initialize] Session successfully initialized.
+proveedores activos en la sesion: ['CUDAExecutionProvider', 'CPUExecutionProvider']
+latencia p50 12.249 ms | p95 12.315 ms (warmup 20, iters 200; diagnostico, no oficial)
+
+Interpretar con los tres criterios del encabezado. Registrar en BITACORA antes de escribir nada en el articulo.
