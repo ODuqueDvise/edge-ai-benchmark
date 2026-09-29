@@ -67,13 +67,48 @@ Fijadas a partir de una corrida piloto con CV del p50 de 0,56 % y no modificadas
 **Orden de ejecución.** Las condiciones se ejecutaron **por bloques, no intercaladas**: las
 cinco corridas de una condición son consecutivas, separadas por segundos o pocos minutos,
 y al terminar se pasa a la siguiente. Es una limitación reconocida: en una placa de
-refrigeración pasiva el estado térmico podría confundirse con la condición. Acotación
-empírica: en toda la campaña de la Jetson las seis zonas térmicas del SoC se mantuvieron
-entre 48 y 52 °C, con deriva menor a 1,5 °C por corrida.
+refrigeración pasiva el estado térmico podría confundirse con la condición.
+
+**Acotación empírica (corregida el 8 sep 2026, D26, y recalculada el 29 sep 2026, adenda a D26).**
+La versión anterior de este documento afirmaba que las seis zonas térmicas del SoC se
+mantuvieron *entre 48 y 52 °C*. Es falso. Sobre las 66 corridas de latencia de la campaña de
+junio de la Jetson que carga `analyze_oe3.py` (2000 iteraciones, sin la ruta QDQ fallida en
+GPU; 792 lecturas, 6 zonas × 2 marcas por corrida), el rango real es **48,2 a 57,3 °C**, y
+sobre las 62 corridas que `pick_campaign` selecciona para las cifras publicadas el rango es el
+mismo. El recálculo del 8 sep incluía los pilotos del 15 de junio de `results/pilot/`, que no
+forman parte de la campaña ni entran al análisis, y por eso llegaba a 60,0 °C; esa cifra se
+retira. La que publica el artículo (48,2 a 57,3) es correcta.
+
+Las lecturas **no se reparten por igual entre los niveles del Factor A**. Sobre las 62 corridas
+publicadas:
+
+| Nivel | Corridas | Mín. | Máx. | Media de las lecturas |
+|---|--:|--:|--:|--:|
+| `jetson-gpu` | 32 | 48,19 | 53,72 | **51,28** |
+| `jetson-cpu` | 30 | 51,28 | 57,25 | **54,32** |
+
+Las condiciones en CPU corren **3,0 °C por encima** de las aceleradas de forma sistemática
+(3,7 °C si se compara la media del máximo por corrida: 55,61 frente a 51,86). Es coherente
+con la mayor carga sostenida de la CPU, que trabaja más tiempo para el mismo número de
+inferencias, pero el diseño por bloques **no permite separar** ese efecto de carga de un
+efecto de orden. Se declara como confusor no resuelto, no como acotación tranquilizadora.
+
+Lo que la térmica sí acota: ninguna corrida se acercó al umbral de limitación térmica de la
+placa, de modo que ninguna medición está afectada por *throttling*.
+
+**Deriva.** Dentro de una sesión de cinco corridas consecutivas, que es la unidad con la que
+se estima cada condición (D21), la variación máxima de la temperatura posterior a la corrida
+es **1,97 °C** (MobileNetV2 INT8 en CPU). Cuatro condiciones tienen dos sesiones dentro de la
+campaña; entre ellas la diferencia de medias llega a **3,6 °C** (MobileNetV2 sin optimizar en
+CPU), lo que refuerza el criterio de campaña única. La cifra de 9,60 °C que este documento
+dio entre el 8 y el 29 sep comparaba pilotos del 15 de junio con la campaña y se retira.
 
 > **Matiz de instrumentación.** En la campaña de junio el arnés capturaba
 > `thermal_c_start` al cerrar la corrida, de modo que ambas lecturas son posteriores a la
-> ejecución. El arreglo, que captura antes de cargar el modelo y añade `cpu_state_start/end` con
+> ejecución. En consecuencia, la diferencia entre las dos lecturas de un mismo archivo
+> (máx. 1,40 °C, mediana 0,46 °C) mide **enfriamiento inmediato**, no deriva durante la
+> corrida; la cifra de "deriva menor a 1,5 °C por corrida" que este documento afirmaba
+> antes del 8 sep 2026 confundía ambas cosas. El arreglo, que captura antes de cargar el modelo y añade `cpu_state_start/end` con
 > gobernador, frecuencia por política de `cpufreq` y `vcgencmd get_throttled`, es de julio
 > y no cubre estos archivos.
 

@@ -26,8 +26,12 @@ Una sola base de código cubre las tres condiciones, eligiendo backend y proveed
 | `jetson-gpu` | Jetson Orin Nano  | GPU        | ONNX Runtime + TensorRT/CUDA EP |
 | `jetson-cpu` | Jetson Orin Nano  | CPU        | ONNX Runtime CPU EP             |
 | `rpi-cpu`    | Raspberry Pi 5    | CPU        | ONNX Runtime CPU EP             |
+| `jetson-cuda` *(oct 2026, D25)* | Jetson Orin Nano | GPU | ONNX Runtime CUDA EP |
 
 > **`jetson-cpu` no es opcional.** Aísla el aporte de la GPU sobre el mismo SoC y RAM.
+> **`jetson-cuda` separa hardware de motor.** `jetson-gpu` usa TensorRT y `jetson-cpu` el EP de CPU:
+> difieren en unidad de cómputo Y en compilador de grafo. El nivel CUDA mantiene el runtime y cambia
+> la unidad, de modo que la brecha total se descompone. Ver D25.
 > `jetson-gpu` vs `rpi-cpu` mezcla acelerador con microarquitectura de CPU; es comparación de dispositivo.
 
 ## Modelos canónicos
