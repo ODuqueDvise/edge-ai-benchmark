@@ -120,6 +120,8 @@ def main():
     vtag = ("_" + a.variant) if a.variant else ""
     gpu_expected = a.device_tag.endswith("-gpu") or a.provider in ("tensorrt", "cuda")
     measure_energy = a.shunt is not None
+    if measure_energy and a.idle_watts is None:
+        sys.exit("ERROR: con --shunt hay que pasar --idle-watts con el reposo MEDIDO y registrado (D28); ya no hay valor por defecto.")
     stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
     csv = "results/power_%s_%s_%s.csv" % (a.device_tag, stem, stamp)
 
