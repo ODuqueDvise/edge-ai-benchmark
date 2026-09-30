@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "device_tag": "jetson-gpu",
+    "model": {
+      "name": "cnn_baseline",
+      "sha256": "609015cbb6ed30c7c456a2911a79bd2d303953e269a2d901da138dfcd56eb0dd"
+    },
+    "variant": null,
+    "source_result": "jetson-gpu_cnn_baseline_ort_tensorrt_20260930-013454.json",
+    "idle_watts": 6.819,
+    "iters": 2000,
+    "timestamp_utc": "2026-09-30T01:35:06Z"
+  },
+  "energy": {
+    "window_s": 6.337260007858276,
+    "total_j": 71.38105526269658,
+    "avg_power_w": 11.263709422397572,
+    "per_inf_total_mj": 35.69052763134829,
+    "net_j": 28.167279269110992,
+    "per_inf_net_mj": 14.083639634555496
+  }
+}
