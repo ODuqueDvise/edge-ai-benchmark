@@ -82,7 +82,7 @@ def parse_args():
     p.add_argument("--model", required=True, help="ruta del .onnx (igual en ambas máquinas), p.ej. models/resnet50_baseline.onnx")
     p.add_argument("--expect-sha", default=None, help="SHA-256 esperado del modelo remoto (verifica antes de medir)")
     p.add_argument("--shunt", type=float, default=None, help="ohmios del shunt (p.ej. 0.1). Si se omite, NO se mide energía.")
-    p.add_argument("--idle-watts", type=float, default=7.8, help="potencia en reposo a restar para energía neta")
+    p.add_argument("--idle-watts", type=float, default=None, help="potencia en reposo a restar para energía neta (W). OBLIGATORIO si se mide energía: usar el valor MEDIDO y registrado (D28: 6.819 el 29 sep 2026); ya no hay valor por defecto")
     p.add_argument("--reps", type=int, default=5, help="R: corridas de latencia (def 5)")
     p.add_argument("--warmup", type=int, default=100)
     p.add_argument("--iters", type=int, default=2000)
